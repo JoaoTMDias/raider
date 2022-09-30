@@ -1,2 +1,3 @@
-# raider
-Spotify Artist Explorer written in Web Components
+# raider-element
+
+Spotify Artist Explorer using Web components
