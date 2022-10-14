@@ -2,29 +2,20 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { componentStyles } from './styles';
 import "../spotify-logo";
+import { emitEvent } from '../../../helpers';
 
-@customElement('raider-header-search')
-export class RaiderHeaderSearch extends LitElement {
+type SearchCategory = "artist" | "genre";
+
+@customElement('search-input')
+export class SearchInput extends LitElement {
   static styles = [componentStyles];
 
   @property({
     type: String
-  }) category: string = 'artist';
+  }) category: SearchCategory = 'artist';
   @property({
     type: String
   }) inputValue: string = "";
-
-  /**
-   * Handles the Submit event
-   */
-  onSubmitSearch(event: Event) {
-    event.preventDefault();
-
-    this.dispatchEvent(
-      new CustomEvent("raider-header-search:submit", {
-        detail: { event }
-      }));
-  }
 
   /**
    * Handles the input event
@@ -33,10 +24,11 @@ export class RaiderHeaderSearch extends LitElement {
     const target = event.target as HTMLInputElement;
 
     this.inputValue = target.value;
-
     this.dispatchEvent(
-      new CustomEvent("raider-header-search:input", {
-        detail: { value: target.value }
+      new CustomEvent("search-input:change", {
+        detail: {
+          value: this.inputValue
+        }
       }));
   }
 
@@ -45,8 +37,15 @@ export class RaiderHeaderSearch extends LitElement {
    */
   onSelectType(event: InputEvent) {
     const target = event.target as HTMLInputElement;
+    const value = target?.value;
 
-    this.category = target?.value;
+    this.category = value as SearchCategory;
+    this.dispatchEvent(
+      new CustomEvent("search-input:select-category", {
+        detail: {
+          value
+        }
+      }));
   }
 
   /**
@@ -54,11 +53,12 @@ export class RaiderHeaderSearch extends LitElement {
    */
   renderSearchInput() {
     const searchLabel = `Search for ${this.category}`;
+    const searchPlaceholder = this.category === "artist" ? `Eg. Black Sabbath` : `Eg. Rock`;
 
     return html`
       <div class="search__input">
         <label id="search-label" class="sr-only" for="search">${searchLabel}</label>
-        <input id="search" class="search__text" type="text" placeholder="Eg. Black Sabbath" @input=${this.onChangeInput}>
+        <input id="search" class="search__text" type="text" placeholder=${searchPlaceholder} @input=${this.onChangeInput}>
         ${this.renderRemoveButton()}
       </div>
     `;
@@ -85,6 +85,9 @@ export class RaiderHeaderSearch extends LitElement {
     `;
   }
 
+  /**
+   * Renders the category select html element
+   */
   renderCategoryType() {
     return html`
       <select name="search-type" id="search-type" class="search__type" @change=${this.onSelectType}>
@@ -96,8 +99,6 @@ export class RaiderHeaderSearch extends LitElement {
 
   render() {
     return html`
-        <form class="search" aria-labelledby="search-title" @submit=${this.onSubmitSearch}>
-          <h2 id="search-title" class="sr-only">Search Form</h2>
           <div class="search__container">
             <svg class="search__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25">
               <path fill="#fff"
@@ -107,7 +108,6 @@ export class RaiderHeaderSearch extends LitElement {
             ${this.renderCategoryType()}
             <input class="sr-only" type="submit" value="Search">
           </div>
-        </form>
     `;
   }
 }

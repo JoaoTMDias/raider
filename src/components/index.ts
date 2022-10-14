@@ -1,4 +1,4 @@
 export { RaiderHeader } from "./header";
-export { SpotifyLogo } from "./spotify-logo";
+export { SpotifyLogo } from "./header/spotify-logo";
+export { HeaderSearch } from "./header/header-search";
 export { MainContent } from "./main-content";
-export { RaiderHeaderSearch } from "./header-search";

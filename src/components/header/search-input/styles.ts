@@ -1,18 +1,6 @@
 import { css } from 'lit';
 
 export const componentStyles = css`
-:host,
-.search {
-  display: flex;
-  width: 100%;
-  background-color: var(--background-color);
-  font-size: 1rem;
-}
-
-.search {
-  flex-direction: column;
-}
-
 .search__container {
   display: flex;
   flex-direction: row;
@@ -20,9 +8,10 @@ export const componentStyles = css`
   align-items: center;
   height: 3rem;
   border-radius: 3rem;
-  padding: 0.5rem 1.5rem;
+  padding: 0 1.5rem;
   background-color: #2a2a2a;
   gap: 1rem;
+  overflow: hidden;
 }
 
 .search__container:focus-within {
@@ -46,6 +35,7 @@ export const componentStyles = css`
   appearance: none;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .search__input {

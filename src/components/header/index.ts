@@ -1,8 +1,9 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { componentStyles } from './styles';
-import '../header-search';
-import "../spotify-logo";
+import './header-search';
+import "./spotify-logo";
+import "./user";
 
 @customElement('raider-header')
 export class RaiderHeader extends LitElement {
@@ -16,7 +17,8 @@ export class RaiderHeader extends LitElement {
               <h1 class="header__title">
                 <spotify-logo></spotify-logo><span class="name">Raider App</span>
               </h1>
-              <raider-header-search></raider-header-search>
+              <header-search></header-search>
+              <raider-user></raider-user>
             </header>
         `;
   }

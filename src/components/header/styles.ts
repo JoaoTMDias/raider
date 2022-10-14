@@ -9,6 +9,7 @@ export const componentStyles = css`
   .header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     height: 3.75rem;
     padding-inline: 1rem;
@@ -23,7 +24,7 @@ export const componentStyles = css`
     margin: 0;
   }
 
-  raider-header-search {
+  header-search {
     height: 3rem;
   }
 
