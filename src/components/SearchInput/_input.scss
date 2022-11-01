@@ -1,0 +1,25 @@
+.search__text {
+  background-color: transparent;
+  outline-color: transparent;
+  border: none;
+  height: 2rem;
+  font-size: 1rem;
+  text-align: left;
+  color: var(--raider-text-color);
+  appearance: none;
+}
+
+.search__text:focus,
+.search__text:focus-visible {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.search__type {
+  width: auto;
+  height: 1.5rem;
+  background-color: white;
+  padding: 0 1rem;
+  border-radius: 1.5rem;
+}

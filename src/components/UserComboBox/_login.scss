@@ -1,0 +1,27 @@
+.user__button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  width: auto;
+  color: #ffffff;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  outline: 2px solid var(--raider-border-color);
+  border-radius: 2rem;
+  padding-inline: 1rem;
+  cursor: pointer;
+  transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+}
+
+.user__button:focus,
+.user__button:hover {
+  background-color: var(--raider-selected-item);
+  color: var(--raider-background-color);
+}
+
+.user__button:focus {
+  outline-color: var(--raider-text-color);
+}

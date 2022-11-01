@@ -1,0 +1,49 @@
+.search__category {
+  background-color: var(--raider-background-color);
+  border-radius: 1.5rem;
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: transparent;
+
+  &:focus-within {
+    outline-color: var(--raider-text-color);
+  }
+}
+
+.search__category,
+.search__category__label,
+.search__category__item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+}
+
+.search__category__label {
+  &:first-child .search__category__item {
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 1.5rem;
+    border-bottom-right-radius: 0;
+  }
+
+  &:last-child .search__category__item {
+    border-top-left-radius: 0;
+    border-top-right-radius: 1.5rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 1.5rem;
+  }
+}
+
+.search__category__item {
+  font-size: 0.875rem;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
+[data-checked="true"] .search__category__item {
+  background-color: var(--raider-text-color);
+  color: var(--raider-background-color);
+  font-weight: 600;
+}

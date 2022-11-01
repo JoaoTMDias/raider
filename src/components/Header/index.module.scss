@@ -1,0 +1,30 @@
+.header {
+  background-color: var(--raider-background-color);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 3.75rem;
+  padding-inline: 1rem;
+  position: sticky;
+  top: 0;
+  gap: 1.5rem;
+}
+
+.header__title {
+  display: flex;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.header__name {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: auto;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  white-space: nowrap;
+}

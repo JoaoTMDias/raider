@@ -1,0 +1,47 @@
+@import "./variables";
+@import "./reset";
+@import "./layout";
+
+body,
+.raider {
+  align-items: stretch;
+  background-color: var(--raider-background-color);
+  color: var(--raider-text-color);
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  justify-content: flex-start;
+  min-height: 100vh;
+  width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: auto;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  white-space: nowrap;
+}

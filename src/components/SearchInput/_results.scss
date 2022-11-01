@@ -1,0 +1,67 @@
+.search__results {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px;
+  background-color: var(--raider-main-background-color);
+  width: 23rem;
+  min-height: 3rem;
+  top: 3rem;
+  position: absolute;
+  content: "";
+  border: 1px solid var(--raider-border-color);
+  color: var(--raider-text-color);
+  border-radius: 0.5rem;
+  z-index: 50;
+  max-height: 19rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 0.5rem;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 0.75rem 1rem -3px, rgba(0, 0, 0, 0.1) 0 0.25rem 0.5rem -0.25rem;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.search__result {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: default;
+  scroll-margin: 0.5rem;
+  gap: 0.5rem;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: transparent;
+  outline-offset: -2px;
+  width: 100%;
+
+  &[aria-selected="true"],
+  &:focus {
+    background-color: var(--raider-selected-item);
+    color: var(--raider-text-color);
+  }
+
+  &:focus {
+    outline-color: var(--raider-text-color);
+  }
+
+  &:hover {
+    background-color: var(--raider-text-color-faded);
+    outline-color: var(--raider-text-color-faded);
+  }
+
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+}
