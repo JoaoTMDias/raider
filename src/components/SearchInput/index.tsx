@@ -1,4 +1,4 @@
-import { useSpotifySearch } from "@/hooks";
+import { useSpotifySearch, useOnlineStatus } from "@/hooks";
 import React, { useCallback, useState } from "react";
 import CategoryType from "./CategoryType";
 import styles from "./index.module.scss";
@@ -6,6 +6,7 @@ import SearchResults from "./SearchResults";
 import { Category } from "./types";
 
 function SearchInput() {
+  const isOnline = useOnlineStatus();
   const [category, setCategory] = useState<Category>("artist");
   const { results, searchTerm, setSpotifySearch } = useSpotifySearch(category);
 
@@ -13,11 +14,15 @@ function SearchInput() {
     setCategory(category);
   }, []);
 
+  console.log({ isOnline });
+
   const handleOnChangeInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSpotifySearch(event.target.value);
+      if (isOnline) {
+        setSpotifySearch(event.target.value);
+      }
     },
-    [setSpotifySearch]
+    [isOnline, setSpotifySearch]
   );
 
   /**
@@ -66,6 +71,8 @@ function SearchInput() {
             placeholder={searchPlaceholder}
             role="combobox"
             type="text"
+            aria-disabled={!isOnline}
+            disabled={!isOnline}
             onChange={handleOnChangeInput}
           />
           {hasTextWritten && hasResults ? <SearchResults /> : null}
