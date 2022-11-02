@@ -1,11 +1,21 @@
 import type { SearchCategory, SpotifyArtistItems, SpotifySearchResults } from "@/typings/spotify";
 import { useEffect, useState } from "react";
+import useDebounce from "./useDebounce";
 
-
+const DEBOUNCE_VALUE = 500;
 
 function useSpotifySearch(category: SearchCategory) {
+  const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<SpotifyArtistItems[]>([]);
+
+  useDebounce(
+    () => {
+      setSearchTerm(inputValue);
+    },
+    DEBOUNCE_VALUE,
+    [inputValue]
+  );
 
   useEffect(() => {
     async function getArtistsByName(name: string): Promise<SpotifySearchResults> {
@@ -34,7 +44,7 @@ function useSpotifySearch(category: SearchCategory) {
   return {
     results,
     searchTerm,
-    setSpotifySearch: setSearchTerm
+    setSpotifySearch: setInputValue
   }
 }
 
