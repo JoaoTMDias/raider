@@ -1,3 +1,5 @@
+export type SearchCategory = "artist" | "genre";
+
 interface SpotifySession {
   user: {
     name: string;
@@ -29,7 +31,7 @@ export interface SpotifySearchResponse {
 
 export interface Artists {
   href?: string;
-  items?: Item[];
+  items?: SpotifyArtistItems[];
   limit?: number;
   next?: string;
   offset?: number;
@@ -37,7 +39,7 @@ export interface Artists {
   total?: number;
 }
 
-export interface Item {
+export interface SpotifyArtistItems {
   external_urls?: ExternalUrls;
   followers?: Followers;
   genres?: string[];
@@ -69,3 +71,6 @@ export enum Type {
   Artist = "artist",
 }
 
+export interface SpotifySearchResults {
+  items: SpotifyArtistItems[]
+}

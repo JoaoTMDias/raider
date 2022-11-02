@@ -1,3 +1,4 @@
+import { useSpotifySearch } from "@/hooks";
 import React, { useCallback, useState } from "react";
 import CategoryType from "./CategoryType";
 import styles from "./index.module.scss";
@@ -6,26 +7,23 @@ import { Category } from "./types";
 
 function SearchInput() {
   const [category, setCategory] = useState<Category>("artist");
-  const [inputValue, setInputValue] = useState("");
+  const { results, searchTerm, setSpotifySearch } = useSpotifySearch(category);
 
   const handleOnChangeCategory = useCallback((category: Category) => {
     setCategory(category);
   }, []);
 
-  const handleOnChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  }, []);
+  const handleOnChangeInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSpotifySearch(event.target.value);
+    },
+    [setSpotifySearch]
+  );
 
   /**
    * Rendres the Clear button on the input
    */
   const renderRemoveButton = () => {
-    const hasValue = inputValue.length > 0;
-
-    if (!hasValue) {
-      return null;
-    }
-
     return (
       <button type="reset" className={styles.search__clear}>
         <span className="sr-only">Clear input</span>
@@ -45,7 +43,8 @@ function SearchInput() {
   };
 
   const renderSearchInput = () => {
-    const hasTextWritten = inputValue && inputValue.length >= 1;
+    const hasTextWritten = searchTerm && searchTerm.length >= 1;
+    const hasResults = results.length > 0;
     const searchLabel = `Search for ${category}`;
     const searchPlaceholder = category === "artist" ? `Eg. Black Sabbath` : `Eg. Rock`;
 
@@ -69,9 +68,9 @@ function SearchInput() {
             type="text"
             onChange={handleOnChangeInput}
           />
-          {hasTextWritten && <SearchResults />}
+          {hasTextWritten && hasResults ? <SearchResults /> : null}
         </div>
-        {renderRemoveButton()}
+        {hasTextWritten ? renderRemoveButton() : null}
       </div>
     );
   };
