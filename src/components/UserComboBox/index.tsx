@@ -6,20 +6,18 @@ import User from "./User";
 function UserComboBox() {
   const { data: response } = useSession();
 
+  let content = <LoginButton />;
+
   if (response) {
     const { session, token } = response as unknown as SpotifyResponse;
 
-    return (
-      <div className="user">
-        <User img={session.user.image} name={session.user.name} username={token.sub} />
-      </div>
-    );
+    content = <User img={session.user.image} name={session.user.name} username={token.sub} />;
   }
 
   return (
-    <div className="user">
-      <LoginButton />
-    </div>
+    <nav className="user" aria-label="User Session">
+      {content}
+    </nav>
   );
 }
 

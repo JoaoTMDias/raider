@@ -14,8 +14,6 @@ function SearchInput() {
     setCategory(category);
   }, []);
 
-  console.log({ isOnline });
-
   const handleOnChangeInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (isOnline) {

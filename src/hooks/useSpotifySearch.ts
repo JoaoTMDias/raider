@@ -22,13 +22,8 @@ function useSpotifySearch(category: SearchCategory) {
       const res = await fetch(encodeURI(`/api/artist-by-name/${name}`));
       const response: SpotifySearchResults = await res.json();
 
-      console.log(response);
-
       return response;
-
     };
-
-    console.log("category: ", category);
 
     const hasSearchTerm = searchTerm && searchTerm.length >= 2;
 
