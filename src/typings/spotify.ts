@@ -31,7 +31,7 @@ export interface SpotifySearchResponse {
 
 export interface Artists {
   href?: string;
-  items?: SpotifyArtistItems[];
+  items?: SpotifyArtistItem[];
   limit?: number;
   next?: string;
   offset?: number;
@@ -39,13 +39,13 @@ export interface Artists {
   total?: number;
 }
 
-export interface SpotifyArtistItems {
+export interface SpotifyArtistItem {
   external_urls?: ExternalUrls;
   followers?: Followers;
   genres?: string[];
   href?: string;
   id?: string;
-  images?: Image[];
+  images?: SpotifyArtistImage[];
   name?: string;
   popularity?: number;
   type?: Type;
@@ -61,7 +61,7 @@ export interface Followers {
   total?: number;
 }
 
-export interface Image {
+export interface SpotifyArtistImage {
   height?: number;
   url?: string;
   width?: number;
@@ -72,5 +72,5 @@ export enum Type {
 }
 
 export interface SpotifySearchResults {
-  items: SpotifyArtistItems[]
+  items: string[] | SpotifyArtistItem[]
 }

@@ -22,7 +22,7 @@ async function getAccessToken(refresh_token: string) {
   return response.json();
 };
 
-export async function searchForArtistByName(name: string, refresh_token: string) {
+export async function searchSpotifyByName(name: string, refresh_token: string) {
   const { access_token } = await getAccessToken(refresh_token);
   const requestURL = encodeURI(`${SPOTIFY_SEARCH_ENDPOINT}?q=${name}&type=artist&market=${SPOTIFY_SEARCH_MARKET}&limit=30&offset=0`);
   const requestOptions: RequestInit = {

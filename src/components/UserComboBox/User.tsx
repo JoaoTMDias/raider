@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { signOut } from "next-auth/react";
-import { Menu, MenuButton, MenuList, MenuItem } from "@reach/menu-button";
 import styles from "./index.module.scss";
 
 interface Props {
@@ -31,7 +30,7 @@ function User({ img, name }: Props): JSX.Element {
         </p>
       </div>
       <button type="button" className={styles["user__button"]} onClick={handleOnClick}>
-        Log out of Spotify
+        Log out <span className="sr-only">of Spotify</span>
       </button>
     </div>
   );

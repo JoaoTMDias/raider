@@ -1,5 +1,6 @@
 import Head from "next/head";
-import { Header } from "@/components";
+import { Header, VisualizationArea } from "@/components";
+import { SharedChosenResultsProvider } from "@/containers";
 
 function Home() {
   return (
@@ -10,9 +11,13 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
+      <SharedChosenResultsProvider>
+        <Header />
 
-      <main className="main">main content</main>
+        <main className="main">
+          <VisualizationArea />
+        </main>
+      </SharedChosenResultsProvider>
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { callIfExists } from "@feedzai/react-a11y-tools";
 import { signIn } from "next-auth/react";
 import { useCallback } from "react";
 import styles from "./index.module.scss";
@@ -8,13 +9,8 @@ interface Props {
 
 function LoginButton({ onSignIn }: Props): JSX.Element {
   const handleOnClick = useCallback(() => {
-    if (signIn) {
-      signIn();
-
-      if (onSignIn) {
-        onSignIn();
-      }
-    }
+    callIfExists(signIn);
+    callIfExists(onSignIn);
   }, [onSignIn]);
 
   return (

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { SearchInput } from "@/components";
+import { SearchField } from "@/components";
 import styles from "./index.module.scss";
 
 function SearchForm(): JSX.Element {
@@ -15,9 +15,9 @@ function SearchForm(): JSX.Element {
       onSubmit={onSubmitSearch}
     >
       <h2 id="search-form-title" className="sr-only">
-        Search Form
+        Music Search Form
       </h2>
-      <SearchInput />
+      <SearchField />
     </form>
   );
 }
