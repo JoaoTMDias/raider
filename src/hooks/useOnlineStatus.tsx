@@ -8,7 +8,7 @@ interface Props {
 
 const PING_RESOURCE = "/ping.txt";
 const TIMEOUT_TIME_MS = 3000;
-const ONLINE_POLLING_INTERVAL = 10000;
+const ONLINE_POLLING_INTERVAL = 60000;
 
 /**
  * Promisified-Timeout that throws an error after 3 seconds in.
