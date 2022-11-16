@@ -13,10 +13,11 @@ function reducer(state: ShareStateWithoutAction, action: Action): ShareStateWith
     case "CLEAR_ALL":
       return INITIAL_STATE.items;
     case "SET_CHOSEN_RESULT":
-      return {
-        ...state,
-        node: action.payload,
-      };
+      if (typeof action.payload === "string") {
+        return state;
+      }
+
+      return action.payload;
     default:
       throw new Error();
   }

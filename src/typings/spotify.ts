@@ -74,3 +74,7 @@ export enum Type {
 export interface SpotifySearchResults {
   items: string[] | SpotifyArtistItem[]
 }
+
+export interface SpotifyRelatedArtistsResults {
+  items: SpotifyArtistItem[]
+}

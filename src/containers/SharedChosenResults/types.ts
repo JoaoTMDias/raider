@@ -12,18 +12,8 @@ interface ActionSetChosen {
 
 export type Action = ActionClear | ActionSetChosen;
 
-export interface SharedStateArtists {
-  node?: SpotifyArtistItem;
-  relatedNodes?: SharedStateArtists[];
-}
-
-export interface SharedStateGenre {
-  node?: SpotifyArtistItem;
-  relatedNodes?: SharedStateGenre[];
-}
-
 export type SharedState = {
-  items: SharedStateArtists | SharedStateGenre;
+  items: SpotifyArtistItem;
   dispatch: React.Dispatch<Action>;
 };
 

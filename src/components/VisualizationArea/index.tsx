@@ -1,15 +1,16 @@
 import { useSharedChosenResults } from "@/containers";
+import { SharedResultsNetworkProvider } from "@/containers/SharedResultsNetwork";
+import ResultsNetwork from "./ResultsNetwork";
 
 function VisualizationArea() {
   const { items } = useSharedChosenResults();
+  const hasChosenItem = items && Object.keys(items).length > 0;
 
-  console.log(items);
-
-  return items ? (
-    <pre>
-      <strong>props</strong> = {JSON.stringify(items, null, 2)}
-    </pre>
-  ) : null;
+  return (
+    <SharedResultsNetworkProvider>
+      {hasChosenItem ? <ResultsNetwork artist={items} /> : null}
+    </SharedResultsNetworkProvider>
+  );
 }
 
 export default VisualizationArea;

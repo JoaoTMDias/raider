@@ -4,6 +4,7 @@ const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 const SPOTIFY_API_ENDPOINT = "https://api.spotify.com/v1";
 const SPOTIFY_SEARCH_ENDPOINT = `${SPOTIFY_API_ENDPOINT}/search`;
+const SPOTIFY_RELATED_ARTISTS_ENDPOINT = `${SPOTIFY_API_ENDPOINT}/artists/`;
 const SPOTIFY_SEARCH_MARKET = "US"
 
 async function getAccessToken(refresh_token: string) {
@@ -21,6 +22,21 @@ async function getAccessToken(refresh_token: string) {
 
   return response.json();
 };
+
+export async function getRelatedArtistsById(artistId: string, refresh_token: string) {
+  const { access_token } = await getAccessToken(refresh_token);
+  const requestOptions: RequestInit = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${access_token}`,
+    },
+  };
+
+  return fetch(`${SPOTIFY_API_ENDPOINT}/artists/${artistId}/related-artists`, requestOptions);
+};
+
+
 
 export async function searchSpotifyByName(name: string, refresh_token: string) {
   const { access_token } = await getAccessToken(refresh_token);
