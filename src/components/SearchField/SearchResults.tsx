@@ -1,23 +1,11 @@
-import { SpotifyArtistImage, SpotifyArtistItem } from "@/typings/spotify";
+import { FALLBACK_IMAGE, filterImagesBySize } from "@/helpers";
+import { SpotifyArtistItem } from "@/typings/spotify";
 import { makeId } from "@feedzai/react-a11y-tools";
 import { ComboboxItem } from "ariakit/combobox";
 
 import Image from "next/image";
 import styles from "./index.module.scss";
 import { SearchResultsProps } from "./types";
-
-const FALLBACK_IMAGE =
-  "data:image/svg+xml;base64,PHN2ZwogICAgICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgICAgIHdpZHRoPSIyNCIKICAgICAgaGVpZ2h0PSIyNCIKICAgICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICAgPgogICAgICA8Y2lyY2xlIGZpbGw9IiMyYTJhMmEiIGN4PSIxMiIgY3k9IjEyIiByPSIxMiIgLz4KICAgIDwvc3ZnPg==";
-
-function filterImagesBySize(images: SpotifyArtistImage[]) {
-  const smallestSize = Math.min.apply(
-    Math,
-    images.map((image) => image.height!)
-  );
-  const image = images.filter((image) => image.height! === smallestSize)[0].url;
-
-  return image || FALLBACK_IMAGE;
-}
 
 /**
  * Displays the results from the search performed on the input
@@ -51,10 +39,7 @@ function SearchResults({ category, results, onSelect }: SearchResultsProps): JSX
 
       const artistItem = item as SpotifyArtistItem;
 
-      const img =
-        Array.isArray(artistItem.images) && artistItem.images.length >= 1
-          ? filterImagesBySize(artistItem.images)
-          : FALLBACK_IMAGE;
+      const img = filterImagesBySize(artistItem.images);
 
       return (
         <ComboboxItem
