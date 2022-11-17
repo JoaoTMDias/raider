@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useMemo, useReducer } from "react";
 import { getRelatedArtists } from "./helpers";
 import { Action, SharedState, ShareStateWithoutAction } from "./types";
 
@@ -13,15 +13,13 @@ function reducer(state: ShareStateWithoutAction, action: Action): ShareStateWith
   switch (action.type) {
     case "CLEAR":
       return INITIAL_STATE.items;
-    case "FIRST_RESULT":
-      const artistId = action.payload?.id;
+    case "UPDATE_RELATED_ARTISTS":
+      const { node, relatedNodes } = action.payload;
 
-      if (artistId) {
-        const relatedNodes = getRelatedArtists(artistId);
-
+      if (node.id) {
         return {
           ...state,
-          node: action.payload,
+          node,
           isExpanded: true,
           relatedNodes,
         };
@@ -42,10 +40,12 @@ function reducer(state: ShareStateWithoutAction, action: Action): ShareStateWith
 function SharedResultsNetworkProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE.items);
 
-  const stateValue = {
-    items: state,
-    dispatch,
-  };
+  const stateValue = useMemo(() => {
+    return {
+      items: state,
+      dispatch,
+    };
+  }, [state]);
 
   return (
     <SharedResultsNetworkContext.Provider value={stateValue}>

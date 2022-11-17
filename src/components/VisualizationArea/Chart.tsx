@@ -1,9 +1,7 @@
 import { Group } from "@visx/group";
-import { hierarchy, Tree } from "@visx/hierarchy";
-import { pointRadial } from "d3-shape";
+import { Tree } from "@visx/hierarchy";
 import { useUpdate } from "react-use";
 import { LinkHorizontal } from "@visx/shape";
-import ArtistPicture from "./ArtistPicture";
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import styles from "./index.module.scss";
 import { makeId } from "@feedzai/react-a11y-tools";
@@ -11,7 +9,6 @@ import ChartNode from "./ChartNode";
 import { getRootHierarchy } from "./helpers";
 import CircleTemplate from "./CircleTemplate";
 import ChartBackground from "./ChartBackground";
-import { useSharedResultsNetwork } from "@/containers/SharedResultsNetwork";
 import { SharedStateArtists } from "@/containers/SharedResultsNetwork/types";
 
 export interface Props {

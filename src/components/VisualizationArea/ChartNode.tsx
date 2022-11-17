@@ -4,6 +4,7 @@ import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import styles from "./index.module.scss";
 import { TreeNode } from "./Chart";
 import { memo } from "react";
+import { filterImagesBySize } from "@/helpers";
 
 interface Props {
   id: string;
@@ -29,7 +30,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
     >
       {node.depth === 0 && (
         <ArtistPicture
-          imageUrl="https://i.scdn.co/image/ab6761610000f178860f260f475748db500f591a"
+          imageUrl={filterImagesBySize(node.data.node?.images)}
           width={width}
           height={height}
           onClick={() => {
@@ -40,17 +41,10 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
         />
       )}
       {node.depth !== 0 && (
-        <rect
-          height={height}
+        <ArtistPicture
+          imageUrl={filterImagesBySize(node.data.node?.images)}
           width={width}
-          y={-height / 2}
-          x={-width / 2}
-          fill="#272b4d"
-          stroke={node.data.relatedNodes ? "#03c0dc" : "#26deb0"}
-          strokeWidth={1}
-          strokeDasharray={node.data.relatedNodes ? "0" : "2,2"}
-          strokeOpacity={node.data.relatedNodes ? 1 : 0.6}
-          rx={node.data.relatedNodes ? 0 : 10}
+          height={height}
           onClick={() => {
             node.data.isExpanded = !node.data.isExpanded;
             console.log(node);

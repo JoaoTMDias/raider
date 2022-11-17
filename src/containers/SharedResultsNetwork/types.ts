@@ -6,8 +6,11 @@ interface ActionClear {
 }
 
 interface ActionFirstResult {
-  type: "FIRST_RESULT";
-  payload: SpotifyArtistItem;
+  type: "UPDATE_RELATED_ARTISTS";
+  payload: {
+    node: SpotifyArtistItem;
+    relatedNodes?: SharedStateArtists[];
+  };
 }
 
 interface ActionExpandNode {
