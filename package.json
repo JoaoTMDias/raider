@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@feedzai/react-a11y-tools": "1.4.0-rc.useAutoId",
+    "@tanstack/react-query": "^4.16.1",
+    "@tanstack/react-query-devtools": "^4.16.1",
     "@visx/group": "^2.10.0",
     "@visx/hierarchy": "^2.10.0",
     "@visx/responsive": "^2.10.0",
