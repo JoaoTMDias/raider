@@ -8,7 +8,6 @@ import { makeId } from "@feedzai/react-a11y-tools";
 import ChartNode from "./ChartNode";
 import { getRootHierarchy } from "./helpers";
 import CircleTemplate from "./CircleTemplate";
-import ChartBackground from "./ChartBackground";
 import { SharedStateArtists } from "@/containers/SharedResultsNetwork/types";
 
 export interface Props {
@@ -18,7 +17,7 @@ export interface Props {
   margin?: { top: number; right: number; bottom: number; left: number };
 }
 
-const defaultMargin = { top: 48, left: 48, right: 48, bottom: 72 };
+const defaultMargin = { top: 24, left: 64, right: 64, bottom: 24 };
 
 export type TreeNode = SharedStateArtists;
 
@@ -72,7 +71,6 @@ export default function Chart({
       height={totalHeight}
     >
       <CircleTemplate />
-      <ChartBackground width={totalWidth} height={totalHeight} />
       <Group id="node-group-wrapper" top={margin.top} left={margin.left}>
         <Tree
           root={getRootHierarchy(items, (stateEntry) => {

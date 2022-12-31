@@ -4,9 +4,7 @@ main {
   justify-content: center;
   align-items: center;
   padding: 1rem;
-}
-
-.main {
+  position: relative;
   background-color: var(--main-background-color);
   width: 100%;
   height: calc(100vh - 3.75rem);

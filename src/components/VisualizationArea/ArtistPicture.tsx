@@ -9,8 +9,8 @@ interface ArtistPictureProps {
 
 function ArtistPicture({
   imageUrl,
-  width = 48,
-  height = 48,
+  width = 32,
+  height = 32,
   onClick,
 }: ArtistPictureProps): JSX.Element {
   return (

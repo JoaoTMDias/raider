@@ -1,17 +1,16 @@
-interface Props {
-  width: number;
-  height: number;
-}
+import { useSharedChosenResults } from "@/containers";
+import styles from "./index.module.scss";
 
-function ChartBackground({ width, height }: Props): JSX.Element {
-  return (
-    <rect
-      width={width}
-      height={height}
-      rx={12}
-      fill="var(--raider-main-background-color, #121212)"
-    />
-  );
+function ChartBackground(): JSX.Element {
+  const { items } = useSharedChosenResults();
+
+  const image = items.images && items.images[0]?.url;
+
+  const style = {
+    "--chart-background-image": `url("${image}")`,
+  } as React.CSSProperties;
+
+  return <div className={styles.chart__background} style={style} />;
 }
 
 export default ChartBackground;

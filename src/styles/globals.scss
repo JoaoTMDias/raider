@@ -2,6 +2,11 @@
 @import "./reset";
 @import "./layout";
 
+:where(:root) {
+  display: grid;
+  height: 100%;
+}
+
 body,
 .raider {
   align-items: stretch;

@@ -1,5 +1,6 @@
 import { useSharedChosenResults } from "@/containers";
 import { SharedResultsNetworkProvider } from "@/containers/SharedResultsNetwork";
+import ChartBackground from "./ChartBackground";
 import ResultsNetwork from "./ResultsNetwork";
 
 function VisualizationArea() {
@@ -8,7 +9,12 @@ function VisualizationArea() {
 
   return (
     <SharedResultsNetworkProvider>
-      {hasChosenItem ? <ResultsNetwork artist={items} /> : null}
+      {hasChosenItem ? (
+        <>
+          <ChartBackground />
+          <ResultsNetwork artist={items} />
+        </>
+      ) : null}
     </SharedResultsNetworkProvider>
   );
 }

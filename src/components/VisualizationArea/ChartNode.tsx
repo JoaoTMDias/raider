@@ -3,7 +3,7 @@ import ArtistPicture from "./ArtistPicture";
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import styles from "./index.module.scss";
 import { TreeNode } from "./Chart";
-import { memo } from "react";
+import { KeyboardEvent, memo, useCallback } from "react";
 import { filterImagesBySize } from "@/helpers";
 
 interface Props {
@@ -13,10 +13,35 @@ interface Props {
 }
 
 function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
-  const width = 48;
-  const height = 48;
+  const width = 32;
+  const height = 32;
   const top = node.x;
   const left = node.y;
+
+  const handleOnKeyUp = useCallback(
+    (event: KeyboardEvent<SVGGElement>) => {
+      switch (event.key) {
+        case "Enter":
+        case " ":
+        case "ArrowLeft":
+        case "ArrowRight":
+          node.data.isExpanded = !node.data.isExpanded;
+          console.log(node);
+          forceUpdate();
+          break;
+
+        default:
+          break;
+      }
+    },
+    [forceUpdate, node]
+  );
+
+  const handleOnClick = useCallback(() => {
+    node.data.isExpanded = !node.data.isExpanded;
+    console.log(node);
+    forceUpdate();
+  }, [forceUpdate, node]);
 
   return (
     <Group
@@ -27,17 +52,15 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
       tabIndex={0}
       top={top}
       left={left}
+      onKeyUp={handleOnKeyUp}
+      onClick={handleOnClick}
     >
+      <circle className={styles.node__background} cx="0" cy="0" r="40" />
       {node.depth === 0 && (
         <ArtistPicture
           imageUrl={filterImagesBySize(node.data.node?.images)}
           width={width}
           height={height}
-          onClick={() => {
-            node.data.isExpanded = !node.data.isExpanded;
-            console.log(node);
-            forceUpdate();
-          }}
         />
       )}
       {node.depth !== 0 && (
@@ -55,7 +78,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
       <text
         id={id}
         className={styles.artist__text}
-        dy="3rem"
+        dy="2rem"
         fontSize={14}
         fontFamily="sans-serif"
         textAnchor="middle"

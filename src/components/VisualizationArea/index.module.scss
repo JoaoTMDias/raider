@@ -1,9 +1,70 @@
 .chart {
   transition: all 200ms ease-in-out;
+
+  &__background,
+  &__container {
+    border-radius: var(--raider-main-border-radius);
+  }
+
+  &__background {
+    --chart-background-image: ;
+
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--raider-main-background-color);
+    background-image: var(--chart-background-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 0;
+    opacity: 0.25;
+    filter: blur(10px);
+    transition: background-image 1000ms ease-in-out;
+  }
+
+  &__container {
+    position: relative;
+    z-index: 0;
+    display: grid;
+    place-items: center;
+  }
 }
 
 .node {
   position: relative;
+  outline: none;
+  border-radius: 0.5rem;
+
+  &__background {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 4rem;
+    stroke: hsl(142deg 67% 34% / 44%);
+    stroke-width: 2px;
+    fill: hsl(142deg 67% 34% / 53%);
+    opacity: 0;
+  }
+
+  &:hover {
+    .node__background {
+      opacity: 0.75;
+    }
+  }
+
+  &:focus {
+    .node__background {
+      opacity: 1;
+    }
+  }
+
+  &:focus-visible {
+    .node__background {
+      fill: rgba(29, 145, 72, 0.815);
+    }
+  }
 
   &[aria-expanded="false"] {
     cursor: zoom-in;
@@ -27,12 +88,9 @@
 }
 
 .artist__image {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 3rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2rem;
   stroke: var(--raider-border-color);
   stroke-width: 3px;
-
-  &:hover {
-  }
 }

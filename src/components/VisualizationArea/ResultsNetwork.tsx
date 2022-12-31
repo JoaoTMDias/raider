@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { usePrevious } from "react-use";
 import Chart from "./Chart";
 import { getRelatedArtists } from "./helpers";
+import styles from "./index.module.scss";
 
 interface Props {
   artist: SharedState["items"];
@@ -44,7 +45,7 @@ function ResultsNetwork({ artist }: Props) {
   }, [artist, data, dispatch, isSuccess, isPreviousData]);
 
   return hasItems ? (
-    <ParentSize>
+    <ParentSize className={styles.chart__container}>
       {({ width, height }) => {
         if (isFetching) {
           return <p>Fetching...</p>;
