@@ -2,37 +2,28 @@ import styles from "./index.module.scss";
 import { Combobox, ComboboxPopover, useComboboxState } from "ariakit/combobox";
 import SearchResults from "./SearchResults";
 import { SearchInputProps } from "./types";
-import { useSharedChosenResults } from "@/containers";
 import { useCallback } from "react";
-import { SpotifyArtistItem } from "@/typings/spotify";
 import { callIfExists } from "@feedzai/react-a11y-tools";
+import { useSpotifySearch } from "@/hooks";
 
-function SearchInput({
-  value,
-  results,
-  category,
-  onClear,
-  onChange,
-}: SearchInputProps): JSX.Element {
+function SearchInput({ category, onClear, onChange }: SearchInputProps): JSX.Element {
+  const { searchTerm, setSearchTerm, query } = useSpotifySearch(category);
   const combobox = useComboboxState({
     gutter: 4,
     sameWidth: true,
     animated: true,
   });
-  const { dispatch } = useSharedChosenResults();
 
   const searchLabel = `Search for ${category}`;
   const searchPlaceholder = category === "artist" ? `Eg. Black Sabbath` : `Eg. Rock`;
-  const hasTextWritten = value && value.length >= 1;
+  const hasTextWritten = searchTerm && searchTerm.length >= 1;
 
-  const onSelect = useCallback(
-    (item: string | SpotifyArtistItem) => {
-      dispatch({
-        type: "SET_CHOSEN_RESULT",
-        payload: item,
-      });
+  const handleOnChangeInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      callIfExists(onChange, event);
+      setSearchTerm(event.target.value.toString());
     },
-    [dispatch]
+    [onChange, setSearchTerm]
   );
 
   const handleOnClear = useCallback(() => {
@@ -70,11 +61,11 @@ function SearchInput({
           state={combobox}
           className={styles.search__text}
           placeholder={searchPlaceholder}
-          onChange={onChange}
+          onChange={handleOnChangeInput}
         />
-        {results && hasTextWritten ? (
+        {query && hasTextWritten ? (
           <ComboboxPopover state={combobox} className={styles["search-results"]}>
-            <SearchResults category={category} results={results} onSelect={onSelect} />
+            <SearchResults category={category} query={query} />
           </ComboboxPopover>
         ) : null}
       </div>

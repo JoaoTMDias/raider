@@ -1,14 +1,44 @@
 import type { SearchCategory, SpotifySearchResults } from "@/typings/spotify";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import useDebounce from "./useDebounce";
 
-const DEBOUNCE_VALUE = 500;
+const DEBOUNCE_VALUE = 250;
+
+/**
+ * Fetches Artists by their name
+ */
+async function getResultsByName(
+  name: string,
+  category: SearchCategory
+): Promise<SpotifySearchResults["items"]> {
+  let response = [];
+
+  const hasName = typeof name === "string" && name.length >= 1;
+  const hasCategory = typeof category === "string" && category.length >= 1;
+  const hasTerms = hasName && hasCategory;
+
+  if (hasTerms) {
+    const request = await fetch(encodeURI(`/api/search-by-name/${name}?type=${category}`));
+    const res = await request.json();
+
+    if (Array.isArray(res.items)) {
+      response = res.items;
+    }
+  }
+
+  return response;
+}
 
 function useSpotifySearch(category: SearchCategory) {
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [results, setResults] = useState<SpotifySearchResults["items"]>([]);
 
+  /**
+   * This enables a waiting period between the last keystroke
+   * of the user on the input and the actual fetch, thus
+   * avoiding multiple fetches to the API.
+   */
   useDebounce(
     () => {
       setSearchTerm(inputValue);
@@ -17,30 +47,16 @@ function useSpotifySearch(category: SearchCategory) {
     [inputValue]
   );
 
-  useEffect(() => {
-    async function getResultsByName(name: string): Promise<SpotifySearchResults> {
-      const res = await fetch(encodeURI(`/api/search-by-name/${name}?type=${category}`));
-      const response: SpotifySearchResults = await res.json();
-
-      return response;
-    };
-
-    const hasSearchTerm = searchTerm && searchTerm.length >= 2;
-
-    if (hasSearchTerm) {
-      getResultsByName(searchTerm).then((value) => {
-        if (Array.isArray(value.items)) {
-          setResults(value.items);
-        }
-      }).catch((error) => console.warn(error));
-    }
-  }, [searchTerm, category]);
+  const query = useQuery<SpotifySearchResults["items"]>(
+    ["search-artist-by-name", searchTerm],
+    () => getResultsByName(searchTerm, category),
+  );
 
   return {
-    results,
-    searchTerm,
-    setSpotifySearch: setInputValue
-  }
+    searchTerm: inputValue,
+    setSearchTerm: setInputValue,
+    query
+  };
 }
 
 export default useSpotifySearch;

@@ -1,23 +1,38 @@
+import { useSharedChosenResults } from "@/containers";
 import { FALLBACK_IMAGE, filterImagesBySize } from "@/helpers";
-import { SpotifyArtistItem } from "@/typings/spotify";
-import { makeId } from "@feedzai/react-a11y-tools";
+import { SpotifyArtistItem, SpotifySearchResults } from "@/typings/spotify";
+import { callIfExists, makeId } from "@feedzai/react-a11y-tools";
 import { ComboboxItem } from "ariakit/combobox";
 
 import Image from "next/image";
+import { useCallback } from "react";
 import styles from "./index.module.scss";
 import { SearchResultsProps } from "./types";
 
 /**
  * Displays the results from the search performed on the input
  */
-function SearchResults({ category, results, onSelect }: SearchResultsProps): JSX.Element {
-  const isGenre = category === "genre";
-  const hasResults = Array.isArray(results) && results.length > 0;
+function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.Element {
+  const { dispatch } = useSharedChosenResults();
 
-  const renderItems = () => {
+  const isGenre = category === "genre";
+  const hasData = Array.isArray(query.data);
+
+  const handleOnSelect = useCallback(
+    (item: string | SpotifyArtistItem) => {
+      callIfExists(onSelect, item);
+      dispatch({
+        type: "SET_CHOSEN_RESULT",
+        payload: item,
+      });
+    },
+    [dispatch, onSelect]
+  );
+
+  const renderItems = (results: SpotifySearchResults["items"]) => {
     const list = results.map((item, index) => {
       function onSelectItem() {
-        onSelect(results[index]);
+        handleOnSelect(results[index]);
       }
 
       const key = isGenre
@@ -57,11 +72,25 @@ function SearchResults({ category, results, onSelect }: SearchResultsProps): JSX
     return <>{list}</>;
   };
 
-  return hasResults ? (
-    renderItems()
-  ) : (
-    <span className={styles["search-result__empty"]}>No results found</span>
-  );
+  if (query.isError) {
+    return <span className={styles["search-result__empty"]}>Error fetching data</span>;
+  }
+
+  if (query.isFetching) {
+    return <span className={styles["search-result__empty"]}>Searching...</span>;
+  }
+
+  if (query.isLoading) {
+    return <span className={styles["search-result__empty"]}>Loading data...</span>;
+  }
+
+  const hasResults = hasData && query.data.length > 0;
+
+  if (!hasResults) {
+    return <span className={styles["search-result__empty"]}>No results to display</span>;
+  }
+
+  return renderItems(query.data as SpotifySearchResults["items"]);
 }
 
 SearchResults.displayName = "SearchResults";

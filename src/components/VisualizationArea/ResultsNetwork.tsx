@@ -25,6 +25,11 @@ function ResultsNetwork({ artist }: Props) {
   );
   const { items, dispatch } = useSharedResultsNetwork();
   const hasItems = items && Object.keys(items).length >= 0;
+  const hasSubItems =
+    hasItems &&
+    items.relatedNodes?.find(
+      (node) => Array.isArray(node.relatedNodes) && node.relatedNodes.length > 0
+    );
 
   useEffect(() => {
     if (hasNewArtist) {
@@ -33,7 +38,9 @@ function ResultsNetwork({ artist }: Props) {
   }, [hasNewArtist, refetch]);
 
   useEffect(() => {
-    if (data && !isPreviousData) {
+    const hasNewData = data && !isPreviousData;
+
+    if (hasNewData) {
       dispatch({
         type: "UPDATE_RELATED_ARTISTS",
         payload: {
@@ -59,7 +66,9 @@ function ResultsNetwork({ artist }: Props) {
           return <p>Error...</p>;
         }
 
-        return <Chart items={items} width={width} height={height} />;
+        const parentWidth = hasSubItems ? width : width * 0.25;
+
+        return <Chart items={items} width={parentWidth} height={height} />;
       }}
     </ParentSize>
   ) : null;
