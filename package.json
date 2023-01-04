@@ -16,7 +16,7 @@
     "@visx/hierarchy": "^2.10.0",
     "@visx/responsive": "^2.10.0",
     "@visx/shape": "^2.12.2",
-    "ariakit": "^2.0.0-next.41",
+    "ariakit": "^2.0.0-next.43",
     "next": "13.0.2",
     "next-auth": "^4.15.1",
     "react": "18.2.0",

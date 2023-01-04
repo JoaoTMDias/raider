@@ -26,7 +26,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
         case "ArrowLeft":
         case "ArrowRight":
           node.data.isExpanded = !node.data.isExpanded;
-          console.log(node);
+          console.log("keyboard on node: ", node);
           forceUpdate();
           break;
 
@@ -39,9 +39,15 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
 
   const handleOnClick = useCallback(() => {
     node.data.isExpanded = !node.data.isExpanded;
-    console.log(node);
+    console.log("clicked on node: ", node);
     forceUpdate();
   }, [forceUpdate, node]);
+
+  const pictureProps = {
+    imageUrl: filterImagesBySize(node.data.node?.images),
+    width,
+    height,
+  };
 
   return (
     <Group
@@ -56,25 +62,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
       onClick={handleOnClick}
     >
       <circle className={styles.node__background} cx="0" cy="0" r="40" />
-      {node.depth === 0 && (
-        <ArtistPicture
-          imageUrl={filterImagesBySize(node.data.node?.images)}
-          width={width}
-          height={height}
-        />
-      )}
-      {node.depth !== 0 && (
-        <ArtistPicture
-          imageUrl={filterImagesBySize(node.data.node?.images)}
-          width={width}
-          height={height}
-          onClick={() => {
-            node.data.isExpanded = !node.data.isExpanded;
-            console.log(node);
-            forceUpdate();
-          }}
-        />
-      )}
+      <ArtistPicture {...pictureProps} />
       <text
         id={id}
         className={styles.artist__text}
