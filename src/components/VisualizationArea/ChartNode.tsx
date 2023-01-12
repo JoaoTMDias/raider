@@ -15,6 +15,8 @@ interface Props {
 function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
   const width = 32;
   const height = 32;
+  const isRoot = node.depth === 0;
+  const isParent = !!node.children;
   const top = node.x;
   const left = node.y;
 
@@ -72,9 +74,9 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
         textAnchor="middle"
         style={{ pointerEvents: "none" }}
         fill={
-          node.depth === 0
+          isRoot
             ? "var(--raider-text-color)"
-            : node.children
+            : isParent
             ? "var(--raider-selected-item)"
             : "var(--raider-text-color)"
         }

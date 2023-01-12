@@ -1,7 +1,7 @@
 import { Group } from "@visx/group";
-import { Tree } from "@visx/hierarchy";
+import { Cluster, hierarchy, Tree } from "@visx/hierarchy";
 import { useUpdate } from "react-use";
-import { LinkHorizontal } from "@visx/shape";
+import { LinkVertical } from "@visx/shape";
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import styles from "./index.module.scss";
 import { makeId } from "@feedzai/react-a11y-tools";
@@ -28,13 +28,8 @@ export default function Chart({
   margin = defaultMargin,
 }: Props) {
   const forceUpdate = useUpdate();
-
-  const innerWidth = totalWidth - margin.left - margin.right;
-  const innerHeight = totalHeight - margin.top - margin.bottom;
-
-  const origin = { x: 0, y: 0 };
-  const sizeWidth = innerHeight;
-  const sizeHeight = innerWidth;
+  const sizeWidth = totalWidth - margin.left - margin.right;
+  const sizeHeight = totalHeight - margin.top - margin.bottom;
 
   /**
    * Renders the lines that connect each chart node
@@ -43,7 +38,7 @@ export default function Chart({
     return tree
       .links()
       .map((link, i) => (
-        <LinkHorizontal
+        <LinkVertical
           key={i}
           data={link}
           stroke="var(--raider-viz-stroke)"
@@ -71,28 +66,25 @@ export default function Chart({
       height={totalHeight}
     >
       <CircleTemplate />
-      <Group id="node-group-wrapper" top={margin.top} left={margin.left}>
-        <Tree
-          root={getRootHierarchy(items, (stateEntry) => {
-            if (stateEntry.isExpanded) {
-              return null;
-            }
+      <Cluster
+        root={getRootHierarchy(items, (stateEntry) => {
+          if (stateEntry.isExpanded) {
+            return null;
+          }
 
-            return stateEntry.relatedNodes;
-          })}
-          size={[sizeWidth, sizeHeight]}
-          separation={(a, b) => (a.parent === b.parent ? 1 : 0) / a.depth}
-        >
-          {(tree) => (
-            <Group id="node-group-tree" top={origin.y} left={origin.x}>
-              <>
-                {renderChartLines(tree)}
-                {renderChartNodes(tree)}
-              </>
-            </Group>
-          )}
-        </Tree>
-      </Group>
+          return stateEntry.relatedNodes;
+        })}
+        size={[sizeWidth, sizeHeight]}
+      >
+        {(tree) => (
+          <Group id="node-group-tree" top={margin.top} left={margin.left}>
+            <>
+              {renderChartLines(tree)}
+              {renderChartNodes(tree)}
+            </>
+          </Group>
+        )}
+      </Cluster>
     </svg>
   );
 }

@@ -66,9 +66,7 @@ function ResultsNetwork({ artist }: Props) {
           return <p>Error...</p>;
         }
 
-        const parentWidth = hasSubItems ? width : width * 0.25;
-
-        return <Chart items={items} width={parentWidth} height={height} />;
+        return <Chart items={items} width={width} height={height} />;
       }}
     </ParentSize>
   ) : null;

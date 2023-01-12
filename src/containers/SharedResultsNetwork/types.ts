@@ -37,6 +37,7 @@ export interface SharedStateArtists {
 
 export type SharedState = {
   items: SharedStateArtists;
+  highlightedItem?: string;
   dispatch: React.Dispatch<Action>;
 };
 

@@ -41,15 +41,15 @@
     outline-offset: -2px;
     width: 100%;
 
-    &[data-active-item] {
-      background-color: var(--raider-selected-item);
-      color: var(--raider-text-color);
-      outline-color: rgba(255, 255, 255, 0.25);
-    }
-
     &:hover {
       background-color: var(--raider-text-color-faded);
       outline-color: var(--raider-text-color-faded);
+    }
+
+    &[data-active-item] {
+      background-color: var(--raider-selected-item);
+      color: var(--raider-main-background-color);
+      outline-color: rgba(255, 255, 255, 0.25);
     }
 
     img {
