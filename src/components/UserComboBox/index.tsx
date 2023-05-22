@@ -2,6 +2,7 @@ import { SpotifyResponse } from "@/typings/spotify";
 import { useSession } from "next-auth/react";
 import LoginButton from "./LoginButton";
 import User from "./User";
+import styles from "./index.module.scss";
 
 function UserComboBox() {
   const { data: response } = useSession();
@@ -15,7 +16,7 @@ function UserComboBox() {
   }
 
   return (
-    <nav className="user" aria-label="User Session">
+    <nav className={styles.user} aria-label="User Session">
       {content}
     </nav>
   );
