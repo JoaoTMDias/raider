@@ -3,9 +3,15 @@
   --raider-viz-stroke: hsl(180, 1%, 38%);
   --raider-background-color: #000000;
   --raider-main-background-color: hsl(0, 0%, 10%);
+  --raider-content-gradient: linear-gradient(
+    to bottom,
+    rgba(40, 168, 192, 0.25),
+    var(--raider-main-background-color)
+  );
   --raider-main-border-radius: 1.5rem;
   --raider-title-color: #ffffff;
   --raider-text-color: #fcfcfc;
+  --raider-text-color-label: hsl(0, 0%, 80%);
   --raider-text-color-faded: #757575;
   --raider-border-color: #2a2a2a;
 }

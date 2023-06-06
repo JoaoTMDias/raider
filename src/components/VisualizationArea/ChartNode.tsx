@@ -1,10 +1,11 @@
 import { Group } from "@visx/group";
 import ArtistPicture from "./ArtistPicture";
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
-import styles from "./index.module.scss";
 import { TreeNode } from "./Chart";
 import { KeyboardEvent, memo, useCallback } from "react";
 import { filterImagesBySize } from "@/helpers";
+import { KEY } from "@jtmdias/js-utilities";
+import styles from "./index.module.scss";
 
 interface Props {
   id: string;
@@ -17,16 +18,16 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
   const height = 32;
   const isRoot = node.depth === 0;
   const isParent = !!node.children;
-  const top = node.x;
-  const left = node.y;
+  const top = node.y;
+  const left = node.x;
 
   const handleOnKeyUp = useCallback(
     (event: KeyboardEvent<SVGGElement>) => {
       switch (event.key) {
-        case "Enter":
-        case " ":
-        case "ArrowLeft":
-        case "ArrowRight":
+        case KEY.ENTER:
+        case KEY.SPACE:
+        case KEY.ARROW_LEFT:
+        case KEY.ARROW_RIGHT:
           node.data.isExpanded = !node.data.isExpanded;
           console.log("keyboard on node: ", node);
           forceUpdate();
