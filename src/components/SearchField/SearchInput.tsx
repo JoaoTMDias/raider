@@ -3,7 +3,7 @@ import { Combobox, ComboboxPopover, useComboboxState } from "ariakit/combobox";
 import SearchResults from "./SearchResults";
 import { SearchInputProps } from "./types";
 import { useCallback } from "react";
-import { callIfExists } from "@feedzai/react-a11y-tools";
+import { callIfExists } from "@jtmdias/js-utilities";
 import { useSpotifySearch } from "@/hooks";
 
 function SearchInput({ category, onClear, onChange }: SearchInputProps): JSX.Element {

@@ -7,6 +7,10 @@
   text-align: left;
   color: var(--raider-text-color);
   appearance: none;
+
+  &::placeholder {
+    color: var(--raider-text-color-faded);
+  }
 }
 
 .search__text:focus,

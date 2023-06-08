@@ -1,4 +1,4 @@
-import { callIfExists } from "@feedzai/react-a11y-tools";
+import { callIfExists } from "@jtmdias/js-utilities";
 import { signIn } from "next-auth/react";
 import { useCallback } from "react";
 import styles from "./index.module.scss";

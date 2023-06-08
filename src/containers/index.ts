@@ -1,1 +1,1 @@
-export * from "./SharedChosenResults";
+export * from "./store";

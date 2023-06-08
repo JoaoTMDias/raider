@@ -1,24 +1,19 @@
-import { useSharedChosenResults } from "@/containers";
-import { SharedResultsNetworkProvider } from "@/containers/SharedResultsNetwork";
 import ChartBackground from "./ChartBackground";
 import ResultsNetwork from "./ResultsNetwork";
-import ArtistDialogDetails from "./ArtistDialogDetails";
+import { useRaiderStore } from "@/containers/store";
+import { isEmpty, isNil, isObject } from "@jtmdias/js-utilities";
 
 function VisualizationArea() {
-  const { items } = useSharedChosenResults();
-  const hasChosenItem = items && Object.keys(items).length > 0;
+  const currentArtist = useRaiderStore((state) => state.currentArtist);
+  const hasCurrentArtist =
+    !isNil(currentArtist) && isObject(currentArtist) && !isEmpty(currentArtist);
 
-  return (
-    <SharedResultsNetworkProvider>
-      {hasChosenItem ? (
-        <>
-          <ChartBackground />
-          <ResultsNetwork artist={items} />
-          <ArtistDialogDetails />
-        </>
-      ) : null}
-    </SharedResultsNetworkProvider>
-  );
+  return hasCurrentArtist ? (
+    <>
+      <ChartBackground />
+      <ResultsNetwork artist={currentArtist} />
+    </>
+  ) : null;
 }
 
 export default VisualizationArea;

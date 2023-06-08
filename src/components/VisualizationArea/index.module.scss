@@ -1,13 +1,19 @@
 .chart {
   transition: all 200ms ease-in-out;
 
+  &__node {
+    --node-transform-zoom: matrix(1, 0, 0, 1, 0, 0);
+
+    transform: var(--node-transform-zoom);
+  }
+
   &__background,
   &__container {
     border-radius: var(--raider-main-border-radius);
   }
 
   &__background {
-    --chart-background-image: ;
+    --chart-background-image: none;
 
     content: "";
     position: absolute;
@@ -100,7 +106,3 @@
 .artist__text {
   font-size: 0.75rem;
 }
-
-@import "./artist-dialog";
-@import "./popular-tracks";
-@import "./toolbar";

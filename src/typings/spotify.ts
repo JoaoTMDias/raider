@@ -48,7 +48,7 @@ export interface SpotifyArtistItem {
   images?: SpotifyArtistImage[];
   name?: string;
   popularity?: number;
-  type?: Type;
+  type?: string;
   uri?: string;
 }
 

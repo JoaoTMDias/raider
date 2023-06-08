@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@feedzai/react-a11y-tools": "1.4.0-rc.useAutoId",
     "@jtmdias/js-utilities": "^1.2.0",
+    "@jtmdias/react-a11y-tools": "1.5.2",
     "@tanstack/react-query": "^4.16.1",
     "@tanstack/react-query-devtools": "^4.16.1",
     "@visx/group": "^2.10.0",
@@ -18,12 +18,13 @@
     "@visx/responsive": "^2.10.0",
     "@visx/shape": "^2.12.2",
     "@visx/zoom": "^3.1.1",
-    "ariakit": "^2.0.0-next.43",
+    "ariakit": "^2.0.0-next.44",
     "next": "13.0.2",
     "next-auth": "^4.15.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-use": "^17.4.0"
+    "react-use": "^17.4.0",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/node": "18.11.9",

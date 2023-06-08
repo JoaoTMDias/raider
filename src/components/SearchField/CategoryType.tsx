@@ -1,4 +1,4 @@
-import { callIfExists } from "@feedzai/react-a11y-tools";
+import { callIfExists } from "@jtmdias/js-utilities";
 import { useCallback } from "react";
 import styles from "./index.module.scss";
 import { Category } from "./types";

@@ -1,5 +1,3 @@
-import { SharedState } from "@/containers/SharedChosenResults/types";
-import { useSharedResultsNetwork } from "@/containers/SharedResultsNetwork";
 import { useQuery } from "@tanstack/react-query";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import { useEffect } from "react";
@@ -7,12 +5,19 @@ import { usePrevious } from "react-use";
 import Chart from "./Chart";
 import { getRelatedArtists } from "./helpers";
 import styles from "./index.module.scss";
+import { useRaiderStore } from "@/containers";
+import { isEmpty, isNil, isObject } from "@jtmdias/js-utilities";
+import { SpotifyArtistItem } from "@/typings/spotify";
 
 interface Props {
-  artist: SharedState["items"];
+  artist: SpotifyArtistItem;
 }
 
 function ResultsNetwork({ artist }: Props) {
+  const { items, updateRelatedArtists } = useRaiderStore((state) => ({
+    items: state.nodes,
+    updateRelatedArtists: state.updateRelatedArtists,
+  }));
   const previousArtistId = usePrevious(artist.id);
   const hasNewArtist = !!(artist.id !== previousArtistId);
 
@@ -23,8 +28,7 @@ function ResultsNetwork({ artist }: Props) {
       enabled: false,
     }
   );
-  const { items, dispatch } = useSharedResultsNetwork();
-  const hasItems = items && Object.keys(items).length >= 0;
+  const hasItems = !isNil(items) && isObject(items) && !isEmpty(items);
   const hasSubItems =
     hasItems &&
     items.relatedNodes?.find(
@@ -41,15 +45,10 @@ function ResultsNetwork({ artist }: Props) {
     const hasNewData = data && !isPreviousData;
 
     if (hasNewData) {
-      dispatch({
-        type: "UPDATE_RELATED_ARTISTS",
-        payload: {
-          node: artist,
-          relatedNodes: data,
-        },
-      });
+      console.log("passou");
+      updateRelatedArtists(artist, data);
     }
-  }, [artist, data, dispatch, isSuccess, isPreviousData]);
+  }, [artist, data, updateRelatedArtists, isSuccess, isPreviousData]);
 
   return hasItems ? (
     <ParentSize className={styles.chart__container}>

@@ -1,10 +1,10 @@
-import { useSharedChosenResults } from "@/containers";
 import styles from "./index.module.scss";
+import { useRaiderStore } from "@/containers/store";
 
 function ChartBackground(): JSX.Element {
-  const { items } = useSharedChosenResults();
+  const itemImage = useRaiderStore((state) => state.currentArtist.images);
 
-  const image = items.images && items.images[0]?.url;
+  const image = itemImage && itemImage[0]?.url;
 
   const style = {
     "--chart-background-image": `url("${image}")`,

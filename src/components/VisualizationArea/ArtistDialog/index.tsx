@@ -18,11 +18,7 @@ function ArtistBio() {
   return (
     <div className={styles.artistDialog__bio}>
       <h2 className="sr-only">Biography</h2>
-      <p
-        className={styles.artistDialog__bio__text}
-        data-testid="dialog-bio"
-        aria-expanded={expanded}
-      >
+      <p className={styles.artistDialog__bio__text} data-testid="dialog-bio">
         NOFX is a punk rock band from Los Angeles, California, United States, formed in 1983 and
         will officially permanently disband in 2023. The original lineup included singer/bassist Fat
         Mike, drummer Erik Sandin, and guitarist Eric Melvin. Since 1991, the lineup has remained
@@ -93,7 +89,12 @@ function ArtistSong() {
 
   return (
     <li className={styles.popularTracks__item}>
-      <button className={styles.popularTracks__action} type="button" onClick={handleOnClick}>
+      <button
+        className={styles.popularTracks__action}
+        type="button"
+        onClick={handleOnClick}
+        aria-label={playingStatus === "paused" ? "Play" : "Pause"}
+      >
         <svg role="img" height="24" width="24" aria-hidden="true" viewBox="0 0 24 24">
           {renderPlayingStatusIcon()}
         </svg>

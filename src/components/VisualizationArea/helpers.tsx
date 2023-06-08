@@ -2,7 +2,7 @@ import { hierarchy } from "@visx/hierarchy";
 import { HierarchyNode } from "@visx/hierarchy/lib/types";
 import { TreeNode } from "./Chart";
 import { SpotifyRelatedArtistsResults } from "@/typings/spotify";
-import { SharedStateArtists } from "@/containers/SharedResultsNetwork/types";
+import { ChartNodes } from "@/containers/store/types";
 
 type RootHierarchyCallback<T> = (item: T) => T[] | null | undefined;
 
@@ -15,9 +15,9 @@ export function getRootHierarchy<T extends TreeNode>(
 
 export async function getRelatedArtists(
   id?: string,
-  limit: number = 6
-): Promise<SharedStateArtists[] | undefined> {
-  let response: SharedStateArtists[] = [];
+  limit: number = 12
+): Promise<ChartNodes[] | undefined> {
+  let response: ChartNodes[] = [];
 
   try {
     if (id) {
@@ -29,9 +29,9 @@ export async function getRelatedArtists(
         ? items.slice(0, limit).map((artistItem) => {
             return {
               node: artistItem,
-              isExpanded: false,
+              isExpanded: true,
               relatedNodes: [],
-            } as SharedStateArtists;
+            } as ChartNodes;
           })
         : undefined;
 

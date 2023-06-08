@@ -31,11 +31,6 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@feedzai/react-a11y-tools@1.4.0-rc.useAutoId":
-  version "1.4.0-rc.useAutoId"
-  resolved "https://registry.yarnpkg.com/@feedzai/react-a11y-tools/-/react-a11y-tools-1.4.0-rc.useAutoId.tgz#1073652455481e2ca7816d0ddf119089cecd94cd"
-  integrity sha512-CvnAXk+/5dQhsnfoHsfugHUSnK/Fs4M3u999xNGBvtqIQPRnMofB7JthBJw5poV9Dg8XIMCfEZXZVdzojfK1ow==
-
 "@floating-ui/core@^1.2.6":
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.2.6.tgz#d21ace437cc919cdd8f1640302fa8851e65e75c0"
@@ -73,6 +68,15 @@
   integrity sha512-mfsf6JNPlDV6xKDYRVCN4jnfH1VtjJfe6QI1y/BVVEpIbvovNhqXVf9sLy2lvYrnxCHYkUF73JNXz402gMCuig==
   dependencies:
     react ">= 17"
+
+"@jtmdias/react-a11y-tools@1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@jtmdias/react-a11y-tools/-/react-a11y-tools-1.5.2.tgz#08404e8cdd6bd817f7173e4d62aa4b74cc018a8f"
+  integrity sha512-NgCnI2IBq+7ZhxTnOMhPmE52ciiCs5Pr4Sk3G77T6fx/wDO5Ki3K2k0/9zgK1FA9Asp2lOthAxUZLSmPtegiww==
+  dependencies:
+    "@jtmdias/js-utilities" "^1.2.0"
+    react "17.0.2"
+    react-dom "17.0.2"
 
 "@juggle/resize-observer@^3.3.1":
   version "3.4.0"
@@ -537,7 +541,7 @@ ariakit-utils@0.17.0-next.27:
   resolved "https://registry.yarnpkg.com/ariakit-utils/-/ariakit-utils-0.17.0-next.27.tgz#c9971d41526f5f8afa9e8ae7596d15ed22b2f977"
   integrity sha512-IcjtuHl7FZP5mGrpvTSXqPUj+jRuIuBHlJAlxr3y4pxRgYpsYVpyZOClU3yrOoG7KUVApfmJjPOGWy00y+Gi+Q==
 
-ariakit@^2.0.0-next.43:
+ariakit@^2.0.0-next.44:
   version "2.0.0-next.44"
   resolved "https://registry.yarnpkg.com/ariakit/-/ariakit-2.0.0-next.44.tgz#2a37b0f111754b6dc06083289e36767a3d46d480"
   integrity sha512-vWWS+2HUFz4Nii1lXP3QHMa+fxr9vbu4p/sGmD/b80+JfVtW8OicAUSR4FXnyMwX2nVy+77DN6eAw3/LbuzX1g==
@@ -2145,6 +2149,15 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
+react-dom@17.0.2:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
+  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    scheduler "^0.20.2"
+
 react-dom@18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -2182,6 +2195,14 @@ react-use@^17.4.0:
     throttle-debounce "^3.0.1"
     ts-easing "^0.2.0"
     tslib "^2.1.0"
+
+react@17.0.2:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
+  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 react@18.2.0, "react@>= 17":
   version "18.2.0"
@@ -2292,6 +2313,14 @@ sass@^1.56.0:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
     source-map-js ">=0.6.2 <2.0.0"
+
+scheduler@^0.20.2:
+  version "0.20.2"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
+  integrity sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 scheduler@^0.23.0:
   version "0.23.0"
@@ -2650,3 +2679,10 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@^4.3.8:
+  version "4.3.8"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.3.8.tgz#37113df8e9e1421b0be1b2dca02b49b76210e7c4"
+  integrity sha512-4h28KCkHg5ii/wcFFJ5Fp+k1J3gJoasaIbppdgZFO4BPJnsNxL0mQXBSFgOgAdCdBj35aDTPvdAJReTMntFPGg==
+  dependencies:
+    use-sync-external-store "1.2.0"

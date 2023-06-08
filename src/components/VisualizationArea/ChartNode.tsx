@@ -29,7 +29,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
         case KEY.ARROW_LEFT:
         case KEY.ARROW_RIGHT:
           node.data.isExpanded = !node.data.isExpanded;
-          console.log("keyboard on node: ", node);
+
           forceUpdate();
           break;
 
@@ -42,7 +42,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
 
   const handleOnClick = useCallback(() => {
     node.data.isExpanded = !node.data.isExpanded;
-    console.log("clicked on node: ", node);
+
     forceUpdate();
   }, [forceUpdate, node]);
 

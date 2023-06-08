@@ -1,20 +1,20 @@
 import { Group } from "@visx/group";
-import { Cluster, hierarchy, Tree } from "@visx/hierarchy";
+import { Tree } from "@visx/hierarchy";
 import { useUpdate } from "react-use";
 import { Zoom } from "@visx/zoom";
 import { LinkVertical } from "@visx/shape";
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import styles from "./index.module.scss";
-import { makeId } from "@feedzai/react-a11y-tools";
+import { makeId } from "@jtmdias/react-a11y-tools";
 import ChartNode from "./ChartNode";
 import { getRootHierarchy } from "./helpers";
 import CircleTemplate from "./CircleTemplate";
-import { SharedStateArtists } from "@/containers/SharedResultsNetwork/types";
 import ZoomToolbar from "./ZoomToolbar";
-import { useCallback } from "react";
+import ArtistDialogDetails from "./ArtistDialog";
+import { ChartNodes } from "@/containers/store/types";
 
 export interface Props {
-  items: SharedStateArtists;
+  items: ChartNodes;
   width: number;
   height: number;
   margin?: { top: number; right: number; bottom: number; left: number };
@@ -36,7 +36,7 @@ const INITIAL_TRANSFORM = {
   skewY: 0,
 };
 
-export type TreeNode = SharedStateArtists;
+export type TreeNode = ChartNodes;
 
 export default function Chart({
   items,
@@ -47,8 +47,6 @@ export default function Chart({
   const forceUpdate = useUpdate();
   const sizeWidth = totalWidth - margin.left - margin.right;
   const sizeHeight = totalHeight - margin.top - margin.bottom;
-
-  const onClear = () => console.log("clear");
 
   /**
    * Renders the lines that connect each chart node
@@ -73,6 +71,7 @@ export default function Chart({
   function renderChartNodes(tree: HierarchyPointNode<TreeNode>) {
     return tree.descendants().map((node, key) => {
       const id = makeId("raider-chart-node", key);
+
       return <ChartNode key={id} id={id} node={node} forceUpdate={forceUpdate} />;
     });
   }
@@ -128,9 +127,14 @@ export default function Chart({
                 {(tree) => (
                   <Group
                     id="node-group-tree"
+                    className={styles.chart__node}
                     top={margin.top}
                     left={margin.left}
-                    transform={zoom.toString()}
+                    style={
+                      {
+                        "--node-transform-zoom": zoom.toString(),
+                      } as React.CSSProperties
+                    }
                   >
                     <>
                       {renderChartLines(tree)}
@@ -147,6 +151,8 @@ export default function Chart({
               onCenter={zoom.center}
               onReset={zoom.reset}
             />
+
+            <ArtistDialogDetails />
           </>
         );
       }}

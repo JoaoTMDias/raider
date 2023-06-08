@@ -1,32 +1,29 @@
-import { useSharedChosenResults } from "@/containers";
-import { FALLBACK_IMAGE, filterImagesBySize } from "@/helpers";
+import { filterImagesBySize } from "@/helpers";
 import { SpotifyArtistItem, SpotifySearchResults } from "@/typings/spotify";
-import { callIfExists, makeId } from "@feedzai/react-a11y-tools";
+import { makeId } from "@jtmdias/react-a11y-tools";
 import { ComboboxItem } from "ariakit/combobox";
 
 import Image from "next/image";
 import { useCallback } from "react";
 import styles from "./index.module.scss";
 import { SearchResultsProps } from "./types";
+import { callIfExists } from "@jtmdias/js-utilities";
+import { useRaiderStore } from "@/containers/store";
 
 /**
  * Displays the results from the search performed on the input
  */
 function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.Element {
-  const { dispatch } = useSharedChosenResults();
-
+  const setSearchResults = useRaiderStore((state) => state.setSearchResults);
   const isGenre = category === "genre";
   const hasData = Array.isArray(query.data);
 
   const handleOnSelect = useCallback(
     (item: string | SpotifyArtistItem) => {
       callIfExists(onSelect, item);
-      dispatch({
-        type: "SET_CHOSEN_RESULT",
-        payload: item,
-      });
+      callIfExists(setSearchResults, item);
     },
-    [dispatch, onSelect]
+    [setSearchResults, onSelect]
   );
 
   const renderItems = (results: SpotifySearchResults["items"]) => {
