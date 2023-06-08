@@ -115,7 +115,7 @@ export default function Chart({
               <CircleTemplate />
               <Tree
                 root={getRootHierarchy(items, (stateEntry) => {
-                  if (stateEntry.isExpanded) {
+                  if (!stateEntry.isExpanded) {
                     return null;
                   }
 
