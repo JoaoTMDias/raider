@@ -10,7 +10,7 @@ import ChartNode from "./ChartNode";
 import { getRootHierarchy } from "./helpers";
 import CircleTemplate from "./CircleTemplate";
 import ZoomToolbar from "./ZoomToolbar";
-import ArtistDialogDetails from "./ArtistDialog";
+import ArtistDialog from "./ArtistDialog";
 import { ChartNodes } from "@/containers/store/types";
 
 export interface Props {
@@ -152,7 +152,7 @@ export default function Chart({
               onReset={zoom.reset}
             />
 
-            <ArtistDialogDetails />
+            <ArtistDialog />
           </>
         );
       }}

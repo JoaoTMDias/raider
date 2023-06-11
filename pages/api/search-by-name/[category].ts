@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { searchSpotifyByName } from '@/services/spotify';
+import { searchSpotifyByName } from '@/services';
 import { getSession } from 'next-auth/react';
 import { SpotifyArtistItem, SpotifyResponse, SpotifySearchResponse, SpotifySearchResults } from '@/typings/spotify';
 import { Category } from '@/components/SearchField/types';

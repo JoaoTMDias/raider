@@ -28,7 +28,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
         case KEY.SPACE:
         case KEY.ARROW_LEFT:
         case KEY.ARROW_RIGHT:
-          node.data.isExpanded = !node.data.isExpanded;
+          node.data.isExpanded = isRoot ? !node.data.isExpanded : node.data.isExpanded;
 
           forceUpdate();
           break;
@@ -37,14 +37,14 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
           break;
       }
     },
-    [forceUpdate, node]
+    [forceUpdate, node, isRoot]
   );
 
   const handleOnClick = useCallback(() => {
-    node.data.isExpanded = !node.data.isExpanded;
+    node.data.isExpanded = isRoot ? !node.data.isExpanded : node.data.isExpanded;
 
     forceUpdate();
-  }, [forceUpdate, node]);
+  }, [forceUpdate, node, isRoot]);
 
   const pictureProps = {
     imageUrl: filterImagesBySize(node.data.node?.images),

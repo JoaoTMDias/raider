@@ -1,6 +1,6 @@
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
+const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
+const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+const basic = Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString('base64');
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 const SPOTIFY_API_ENDPOINT = "https://api.spotify.com/v1";
 const SPOTIFY_SEARCH_ENDPOINT = `${SPOTIFY_API_ENDPOINT}/search`;
@@ -35,8 +35,6 @@ export async function getRelatedArtistsById(artistId: string, refresh_token: str
 
   return fetch(`${SPOTIFY_API_ENDPOINT}/artists/${artistId}/related-artists`, requestOptions);
 };
-
-
 
 export async function searchSpotifyByName(name: string, refresh_token: string) {
   const { access_token } = await getAccessToken(refresh_token);
