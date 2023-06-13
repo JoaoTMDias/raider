@@ -1,22 +1,29 @@
 import Image from "next/image";
 import styles from "./index.module.scss";
 import { useCallback, useRef, useState } from "react";
+import { ArtistDetailsTrack } from "./types";
 
 type PlayStatus = "paused" | "playing";
 
-export function ArtistSong() {
+export function ArtistSong({ id, cover, source, name, href }: ArtistDetailsTrack) {
   const [playingStatus, setPlayingStatus] = useState<PlayStatus>("paused");
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const handleOnClick = useCallback(() => {
-    if (audioRef.current) {
-      const nextStatus: PlayStatus = playingStatus === "paused" ? "playing" : "paused";
+  const handleOnClickOnPlayer = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.preventDefault();
+      event.stopPropagation();
 
-      setPlayingStatus(nextStatus);
+      if (audioRef.current) {
+        const nextStatus: PlayStatus = playingStatus === "paused" ? "playing" : "paused";
 
-      nextStatus === "playing" ? audioRef.current.play() : audioRef.current.pause();
-    }
-  }, [playingStatus]);
+        setPlayingStatus(nextStatus);
+
+        nextStatus === "playing" ? audioRef.current.play() : audioRef.current.pause();
+      }
+    },
+    [playingStatus]
+  );
 
   function renderPlayingStatusIcon() {
     return playingStatus === "paused" ? (
@@ -33,31 +40,24 @@ export function ArtistSong() {
   }
 
   return (
-    <li className={styles.popularTracks__item}>
+    <li id={id} className={styles.popularTracks__item}>
       <button
         className={styles.popularTracks__action}
         type="button"
-        onClick={handleOnClick}
+        onClick={handleOnClickOnPlayer}
+        aria-pressed={playingStatus === "playing"}
         aria-label={playingStatus === "paused" ? "Play" : "Pause"}
       >
         <svg role="img" height="24" width="24" aria-hidden="true" viewBox="0 0 24 24">
           {renderPlayingStatusIcon()}
         </svg>
+        <Image src={cover.url ?? ""} width={cover.width} height={cover.height} alt="" />
+        <span>{name}</span>
+        <audio ref={audioRef}>
+          <source src={source} type="audio/mpeg"></source>
+          Your browser does not support the audio element.
+        </audio>
       </button>
-      <Image
-        src="https://i.scdn.co/image/ab67616d0000485131ce63f1e36e1a164510cdb5"
-        width="64"
-        height="64"
-        alt=""
-      />
-      <a href="https://open.spotify.com/album/6Z8BYH27wINoUk4QMUx7gh">Linoleum</a>
-      <audio ref={audioRef}>
-        <source
-          src="https://p.scdn.co/mp3-preview/24a34752afcf058ffe4a1148bbc24f5020b8f6c7?cid=0b297fa8a249464ba34f5861d4140e58"
-          type="audio/mpeg"
-        ></source>
-        Your browser does not support the audio element.
-      </audio>
     </li>
   );
 }

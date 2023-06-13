@@ -10,7 +10,6 @@ import ChartNode from "./ChartNode";
 import { getRootHierarchy } from "./helpers";
 import CircleTemplate from "./CircleTemplate";
 import ZoomToolbar from "./ZoomToolbar";
-import ArtistDialog from "./ArtistDialog";
 import { ChartNodes } from "@/containers/store/types";
 
 export interface Props {
@@ -70,7 +69,7 @@ export default function Chart({
    */
   function renderChartNodes(tree: HierarchyPointNode<TreeNode>) {
     return tree.descendants().map((node, key) => {
-      const id = makeId("raider-chart-node", key);
+      const id = node.data.node?.id ?? makeId("raider-chart-node", key);
 
       return <ChartNode key={id} id={id} node={node} forceUpdate={forceUpdate} />;
     });
@@ -115,10 +114,6 @@ export default function Chart({
               <CircleTemplate />
               <Tree
                 root={getRootHierarchy(items, (stateEntry) => {
-                  if (!stateEntry.isExpanded) {
-                    return null;
-                  }
-
                   return stateEntry.relatedNodes;
                 })}
                 size={[sizeWidth, sizeHeight]}
@@ -151,8 +146,6 @@ export default function Chart({
               onCenter={zoom.center}
               onReset={zoom.reset}
             />
-
-            <ArtistDialog />
           </>
         );
       }}

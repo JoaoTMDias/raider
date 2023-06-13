@@ -17,7 +17,6 @@ export const useRaiderStore = create<RaiderStore>((set) => {
       nodes: {
         ...state.nodes,
         node: artist,
-        isExpanded: true,
         relatedNodes,
       }
     }))

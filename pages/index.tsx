@@ -1,4 +1,5 @@
 import { Header, VisualizationArea } from "@/components";
+import ArtistDetails from "@/components/VisualizationArea/ArtistDetails";
 
 function Home() {
   return (
@@ -7,6 +8,7 @@ function Home() {
 
       <main className="main">
         <VisualizationArea />
+        <ArtistDetails />
       </main>
     </>
   );

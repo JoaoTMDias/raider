@@ -1,8 +1,7 @@
 main {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 2fr clamp(23rem, 30%, 35rem);
+  grid-gap: 2rem;
   padding: 1rem;
   position: relative;
   background-color: var(--main-background-color);
@@ -10,6 +9,12 @@ main {
   height: calc(100vh - 3.75rem);
   max-height: calc(100vh - 3.75rem);
   border-radius: 0.5rem;
+}
+
+.visualization-area {
+  position: relative;
+  border-radius: 2rem;
+  overflow: hidden;
 }
 
 [data-backdrop] {

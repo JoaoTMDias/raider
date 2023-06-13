@@ -52,6 +52,5 @@ export const INITIAL_ARTIST: SpotifyArtistItem = {
 
 export const INITIAL_NODES_STATE: ChartNodes = {
   node: INITIAL_ARTIST,
-  isExpanded: true,
   relatedNodes: []
 }

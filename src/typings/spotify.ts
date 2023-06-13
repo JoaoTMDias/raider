@@ -78,3 +78,76 @@ export interface SpotifySearchResults {
 export interface SpotifyRelatedArtistsResults {
   items: SpotifyArtistItem[]
 }
+
+
+export interface SpotifyArtistTopTracks {
+  tracks?: SpotifyArtistTrack[];
+}
+
+export interface SpotifyArtistTrack {
+  album?:         Album;
+  artists?:       Artist[];
+  disc_number?:   number;
+  duration_ms?:   number;
+  explicit?:      boolean;
+  external_ids?:  ExternalIDS;
+  external_urls?: ExternalUrls;
+  href?:          string;
+  id?:            string;
+  is_playable?:   boolean;
+  name?:          string;
+  popularity?:    number;
+  preview_url?:   string;
+  track_number?:  number;
+  type?:          TrackType;
+  uri?:           string;
+  is_local?:      boolean;
+}
+
+export interface Album {
+  album_type?:             AlbumTypeEnum;
+  total_tracks?:           number;
+  external_urls?:          ExternalUrls;
+  href?:                   string;
+  id?:                     string;
+  images?:                 Image[];
+  name?:                   string;
+  release_date?:           string;
+  release_date_precision?: ReleaseDatePrecision;
+  type?:                   AlbumTypeEnum;
+  uri?:                    string;
+  artists?:                Artist[];
+  is_playable?:            boolean;
+}
+
+export type AlbumTypeEnum = "album";
+
+export interface Artist {
+  external_urls?: ExternalUrls;
+  href?:          string;
+  id?:            string;
+  name?:          string;
+  type?:          ArtistType;
+  uri?:           string;
+}
+
+export interface ExternalUrls {
+  spotify?: string;
+}
+
+export type ArtistType = "artist";
+
+export interface Image {
+  url?:    string;
+  height?: number;
+  width?:  number;
+}
+
+export type ReleaseDatePrecision = "year" | "day";
+
+export interface ExternalIDS {
+  isrc?: string;
+}
+
+export type TrackType = "track";
+

@@ -2,7 +2,6 @@ import { SpotifyArtistItem } from "@/typings/spotify";
 
 export interface ChartNodes {
   node?: SpotifyArtistItem;
-  isExpanded?: boolean;
   relatedNodes?: ChartNodes[];
 }
 

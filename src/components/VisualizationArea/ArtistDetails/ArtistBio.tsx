@@ -27,17 +27,17 @@ export function ArtistBio({ description }: { description: string }) {
   const buttonText = expanded ? "Collapse" : "Expand";
 
   return (
-    <div className={styles.artistDialog__bio}>
+    <div className={styles.artistDetails__bio}>
       <h2 className="sr-only">Biography</h2>
       <p
-        className={styles.artistDialog__bio__text}
+        className={styles.artistDetails__bio__text}
         data-testid="dialog-bio"
         data-expanded={expanded}
         onClick={onClickOnParagraph}
       >
         {description}
       </p>
-      <button type="button" onClick={onClick} className={styles.artistDialog__bio__toggle}>
+      <button type="button" onClick={onClick} className={styles.artistDetails__bio__toggle}>
         {buttonText}
       </button>
     </div>

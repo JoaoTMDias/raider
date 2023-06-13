@@ -15,7 +15,7 @@ export function getRootHierarchy<T extends TreeNode>(
 
 export async function getRelatedArtists(
   id?: string,
-  limit: number = 20
+  limit: number = 12
 ): Promise<ChartNodes[] | undefined> {
   let response: ChartNodes[] = [];
 
@@ -29,7 +29,6 @@ export async function getRelatedArtists(
         ? items.slice(0, limit).map((artistItem) => {
             return {
               node: artistItem,
-              isExpanded: true,
               relatedNodes: [],
             } as ChartNodes;
           })

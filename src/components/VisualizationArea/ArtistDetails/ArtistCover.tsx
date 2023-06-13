@@ -20,9 +20,9 @@ export function ArtistCover({ name = "", listeners = 0, cover }: ArtistCoverProp
   );
 
   return (
-    <section className={styles.artistDialog__cover}>
-      <div className={styles.artistDialog__cover__heading}>
-        <DialogHeading className={styles.artistDialog__cover__title} data-testid="dialog-title">
+    <section className={styles.artistDetails__cover}>
+      <div className={styles.artistDetails__cover__heading}>
+        <DialogHeading className={styles.artistDetails__cover__title} data-testid="dialog-title">
           {name}
         </DialogHeading>
         {activeListeners && (
@@ -31,7 +31,7 @@ export function ArtistCover({ name = "", listeners = 0, cover }: ArtistCoverProp
       </div>
       {cover && (
         <Image
-          className={styles.artistDialog__cover__image}
+          className={styles.artistDetails__cover__image}
           src={cover.url}
           width={cover.width}
           height={cover.height}

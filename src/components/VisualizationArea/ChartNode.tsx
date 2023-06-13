@@ -26,10 +26,19 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
       switch (event.key) {
         case KEY.ENTER:
         case KEY.SPACE:
-        case KEY.ARROW_LEFT:
-        case KEY.ARROW_RIGHT:
-          node.data.isExpanded = isRoot ? !node.data.isExpanded : node.data.isExpanded;
+          console.log("fetch current artist details: ", id);
+          forceUpdate();
+          break;
 
+        case KEY.ARROW_LEFT:
+        case KEY.ARROW_UP:
+          console.log("select previous artist: ", id);
+          forceUpdate();
+          break;
+
+        case KEY.ARROW_RIGHT:
+        case KEY.ARROW_DOWN:
+          console.log("select next artist: ", id);
           forceUpdate();
           break;
 
@@ -37,14 +46,12 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
           break;
       }
     },
-    [forceUpdate, node, isRoot]
+    [forceUpdate, id]
   );
 
   const handleOnClick = useCallback(() => {
-    node.data.isExpanded = isRoot ? !node.data.isExpanded : node.data.isExpanded;
-
     forceUpdate();
-  }, [forceUpdate, node, isRoot]);
+  }, [forceUpdate]);
 
   const pictureProps = {
     imageUrl: filterImagesBySize(node.data.node?.images),
@@ -57,7 +64,6 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
       className={styles.node}
       role="button"
       aria-labelledby={id}
-      aria-expanded={!node.data.isExpanded}
       tabIndex={0}
       top={top}
       left={left}

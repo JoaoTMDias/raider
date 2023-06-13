@@ -33,7 +33,22 @@ export async function getRelatedArtistsById(artistId: string, refresh_token: str
     },
   };
 
-  return fetch(`${SPOTIFY_API_ENDPOINT}/artists/${artistId}/related-artists`, requestOptions);
+  return fetch(`${SPOTIFY_RELATED_ARTISTS_ENDPOINT}${artistId}/related-artists`, requestOptions);
+};
+
+
+
+export async function getPopularTracksByArtistId(artistId: string, refresh_token: string) {
+  const { access_token } = await getAccessToken(refresh_token);
+  const requestOptions: RequestInit = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${access_token}`,
+    },
+  };
+
+  return fetch(`${SPOTIFY_RELATED_ARTISTS_ENDPOINT}${artistId}/top-tracks?market=${SPOTIFY_SEARCH_MARKET}`, requestOptions);
 };
 
 export async function searchSpotifyByName(name: string, refresh_token: string) {
