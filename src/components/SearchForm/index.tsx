@@ -9,10 +9,12 @@ function SearchForm(): JSX.Element {
 
   return (
     <form
+      id="search-form"
       className={styles.search}
       role="search"
       aria-labelledby="search-form-title"
       onSubmit={onSubmitSearch}
+      tabIndex={-1}
     >
       <h2 id="search-form-title" className="sr-only">
         Music Search Form

@@ -5,7 +5,7 @@ import { Zoom } from "@visx/zoom";
 import { LinkVertical } from "@visx/shape";
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import styles from "./index.module.scss";
-import { makeId } from "@jtmdias/react-a11y-tools";
+import { makeId, RoverProvider } from "@jtmdias/react-a11y-tools";
 import ChartNode from "./ChartNode";
 import { getRootHierarchy } from "./helpers";
 import CircleTemplate from "./CircleTemplate";
@@ -76,79 +76,81 @@ export default function Chart({
   }
 
   return (
-    <Zoom<SVGSVGElement>
-      width={totalWidth}
-      height={totalHeight}
-      scaleXMin={1 / 2}
-      scaleXMax={4}
-      scaleYMin={1 / 2}
-      scaleYMax={4}
-      initialTransformMatrix={INITIAL_TRANSFORM}
-    >
-      {(zoom) => {
-        function handleOnZoom(type: "in" | "out") {
-          switch (type) {
-            case "in":
-              zoom.scale({ scaleX: 1.2, scaleY: 1.2 });
-              break;
+    <RoverProvider direction="both">
+      <Zoom<SVGSVGElement>
+        width={totalWidth}
+        height={totalHeight}
+        scaleXMin={1 / 2}
+        scaleXMax={4}
+        scaleYMin={1 / 2}
+        scaleYMax={4}
+        initialTransformMatrix={INITIAL_TRANSFORM}
+      >
+        {(zoom) => {
+          function handleOnZoom(type: "in" | "out") {
+            switch (type) {
+              case "in":
+                zoom.scale({ scaleX: 1.2, scaleY: 1.2 });
+                break;
 
-            case "out":
-              zoom.scale({ scaleX: 0.8, scaleY: 0.8 });
-              break;
+              case "out":
+                zoom.scale({ scaleX: 0.8, scaleY: 0.8 });
+                break;
 
-            default:
-              break;
+              default:
+                break;
+            }
           }
-        }
 
-        return (
-          <>
-            <svg
-              className={styles.chart}
-              xmlns="http://www.w3.org/2000/svg"
-              width={totalWidth}
-              height={totalHeight}
-              style={{ cursor: zoom.isDragging ? "grabbing" : "grab", touchAction: "none" }}
-              ref={zoom.containerRef}
-            >
-              <CircleTemplate />
-              <Tree
-                root={getRootHierarchy(items, (stateEntry) => {
-                  return stateEntry.relatedNodes;
-                })}
-                size={[sizeWidth, sizeHeight]}
-                separation={(a, b) => (a.parent === b.parent ? 1 : 0.5) / a.depth}
+          return (
+            <>
+              <svg
+                className={styles.chart}
+                xmlns="http://www.w3.org/2000/svg"
+                width={totalWidth}
+                height={totalHeight}
+                style={{ cursor: zoom.isDragging ? "grabbing" : "grab", touchAction: "none" }}
+                ref={zoom.containerRef}
               >
-                {(tree) => (
-                  <Group
-                    id="node-group-tree"
-                    className={styles.chart__node}
-                    top={margin.top}
-                    left={margin.left}
-                    style={
-                      {
-                        "--node-transform-zoom": zoom.toString(),
-                      } as React.CSSProperties
-                    }
-                  >
-                    <>
-                      {renderChartLines(tree)}
-                      {renderChartNodes(tree)}
-                    </>
-                  </Group>
-                )}
-              </Tree>
-            </svg>
+                <CircleTemplate />
+                <Tree
+                  root={getRootHierarchy(items, (stateEntry) => {
+                    return stateEntry.relatedNodes;
+                  })}
+                  size={[sizeWidth, sizeHeight]}
+                  separation={(a, b) => (a.parent === b.parent ? 1 : 0.5) / a.depth}
+                >
+                  {(tree) => (
+                    <Group
+                      id="node-group-tree"
+                      className={styles.chart__node}
+                      top={margin.top}
+                      left={margin.left}
+                      style={
+                        {
+                          "--node-transform-zoom": zoom.toString(),
+                        } as React.CSSProperties
+                      }
+                    >
+                      <>
+                        {renderChartLines(tree)}
+                        {renderChartNodes(tree)}
+                      </>
+                    </Group>
+                  )}
+                </Tree>
+              </svg>
 
-            <ZoomToolbar
-              onZoom={handleOnZoom}
-              onClear={zoom.clear}
-              onCenter={zoom.center}
-              onReset={zoom.reset}
-            />
-          </>
-        );
-      }}
-    </Zoom>
+              <ZoomToolbar
+                onZoom={handleOnZoom}
+                onClear={zoom.clear}
+                onCenter={zoom.center}
+                onReset={zoom.reset}
+              />
+            </>
+          );
+        }}
+      </Zoom>
+    </RoverProvider>
   );
 }

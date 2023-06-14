@@ -16,7 +16,7 @@ function UserComboBox() {
   }
 
   return (
-    <nav className={styles.user} aria-label="User Session">
+    <nav id="authentication" className={styles.user} tabIndex={-1} aria-label="User Session">
       {content}
     </nav>
   );

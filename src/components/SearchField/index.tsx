@@ -15,7 +15,7 @@ function SearchField() {
   );
 
   return (
-    <div className={styles.search__container}>
+    <label className={styles.search__container}>
       <svg
         className={styles.search__icon}
         xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@ function SearchField() {
       <SearchInput category={category} />
       <CategoryType category={category} onSelectCategory={onSelectCategory} />
       <input className="sr-only" type="submit" value="Search" />
-    </div>
+    </label>
   );
 }
 

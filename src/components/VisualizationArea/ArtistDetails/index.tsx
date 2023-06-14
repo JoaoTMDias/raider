@@ -40,7 +40,12 @@ function ArtistDetails() {
 
   if (isSuccess && data) {
     return (
-      <aside className={styles.artistDetails__wrapper} data-testid="dialog">
+      <aside
+        id="artist-details"
+        className={styles.artistDetails__wrapper}
+        tabIndex={-1}
+        data-testid="dialog"
+      >
         <ArtistCover name={data.name ?? ""} listeners={data.listeners ?? 0} cover={data.cover} />
         <section className={styles.artistDetails__content}>
           <h2 className="sr-only">Metadata</h2>

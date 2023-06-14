@@ -2,10 +2,11 @@ import { Group } from "@visx/group";
 import ArtistPicture from "./ArtistPicture";
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import { TreeNode } from "./Chart";
-import { KeyboardEvent, memo, useCallback } from "react";
+import { KeyboardEvent, memo, useCallback, useRef } from "react";
 import { filterImagesBySize } from "@/helpers";
 import { KEY } from "@jtmdias/js-utilities";
 import styles from "./index.module.scss";
+import { useFocus, useRover } from "@jtmdias/react-a11y-tools";
 
 interface Props {
   id: string;
@@ -14,6 +15,12 @@ interface Props {
 }
 
 function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
+  const nodeRef = useRef(null);
+
+  const [tabIndex, focused, handleOnRoverKeyUp, handleOnRoverClick] = useRover(nodeRef, false);
+
+  useFocus(nodeRef, focused);
+
   const width = 32;
   const height = 32;
   const isRoot = node.depth === 0;
@@ -24,34 +31,29 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
   const handleOnKeyUp = useCallback(
     (event: KeyboardEvent<SVGGElement>) => {
       switch (event.key) {
+        case KEY.HOME:
+        case KEY.END:
         case KEY.ENTER:
         case KEY.SPACE:
-          console.log("fetch current artist details: ", id);
-          forceUpdate();
-          break;
-
         case KEY.ARROW_LEFT:
         case KEY.ARROW_UP:
-          console.log("select previous artist: ", id);
-          forceUpdate();
-          break;
-
         case KEY.ARROW_RIGHT:
         case KEY.ARROW_DOWN:
-          console.log("select next artist: ", id);
           forceUpdate();
+          handleOnRoverKeyUp(event);
           break;
 
         default:
           break;
       }
     },
-    [forceUpdate, id]
+    [forceUpdate, handleOnRoverKeyUp]
   );
 
   const handleOnClick = useCallback(() => {
+    handleOnRoverClick();
     forceUpdate();
-  }, [forceUpdate]);
+  }, [forceUpdate, handleOnRoverClick]);
 
   const pictureProps = {
     imageUrl: filterImagesBySize(node.data.node?.images),
@@ -59,14 +61,20 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
     height,
   };
 
+  const ariaExpanded = focused ?? undefined;
+
   return (
     <Group
+      innerRef={nodeRef}
       className={styles.node}
       role="button"
-      aria-labelledby={id}
-      tabIndex={0}
       top={top}
       left={left}
+      aria-labelledby={id}
+      aria-expanded={ariaExpanded}
+      aria-controls="artist-details"
+      aria-owns="artist-details"
+      tabIndex={tabIndex}
       onKeyUp={handleOnKeyUp}
       onClick={handleOnClick}
     >

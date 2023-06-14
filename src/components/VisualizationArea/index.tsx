@@ -9,7 +9,7 @@ function VisualizationArea() {
     !isNil(currentArtist) && isObject(currentArtist) && !isEmpty(currentArtist);
 
   return hasCurrentArtist ? (
-    <div className="visualization-area">
+    <div id="main-content" className="visualization-area" tabIndex={-1}>
       <ChartBackground />
       <ResultsNetwork artist={currentArtist} />
     </div>
