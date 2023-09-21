@@ -69,10 +69,10 @@
   dependencies:
     react ">= 17"
 
-"@jtmdias/react-a11y-tools@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@jtmdias/react-a11y-tools/-/react-a11y-tools-1.5.2.tgz#08404e8cdd6bd817f7173e4d62aa4b74cc018a8f"
-  integrity sha512-NgCnI2IBq+7ZhxTnOMhPmE52ciiCs5Pr4Sk3G77T6fx/wDO5Ki3K2k0/9zgK1FA9Asp2lOthAxUZLSmPtegiww==
+"@jtmdias/react-a11y-tools@1.5.4":
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@jtmdias/react-a11y-tools/-/react-a11y-tools-1.5.4.tgz#de44d42c13a8b34d10f7d64d118ad8516312091c"
+  integrity sha512-vsmXfpzgxPF8C7GbdRXxD4R/u+RYKpqvV1kWf2ah1FHfut9O/lCOGyIsENmdoYRGhKGY2z0rvPWfT/UZp34gGg==
   dependencies:
     "@jtmdias/js-utilities" "^1.2.0"
     react "17.0.2"
@@ -1807,7 +1807,7 @@ lodash@^4.17.21:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-loose-envify@^1.1.0, loose-envify@^1.4.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -2170,6 +2170,13 @@ react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-roving-tabindex@^3.2.0:
+  version "3.2.0"
+  resolved "https://artifacts-we1.farfetch.net/artifactory/api/npm/npm-public/react-roving-tabindex/-/react-roving-tabindex-3.2.0.tgz#fb21d365fe5fe9b345cd4228f6b17b1207fd7cd2"
+  integrity sha512-WY5d46Y/QuS2zgXs4MgYJlmi3uIyq7M9UD4l3SWim8ClnyV1L3r84brxElLxEBXdKuWFUbll9mOBpxfcDZsCVQ==
+  dependencies:
+    warning "^4.0.3"
 
 react-universal-interface@^0.6.2:
   version "0.6.2"
@@ -2619,6 +2626,13 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+warning@^4.0.3:
+  version "4.0.3"
+  resolved "https://artifacts-we1.farfetch.net/artifactory/api/npm/npm-public/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
+  dependencies:
+    loose-envify "^1.0.0"
 
 which-boxed-primitive@^1.0.2:
   version "1.0.2"

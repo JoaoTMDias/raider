@@ -45,7 +45,6 @@ function ResultsNetwork({ artist }: Props) {
     const hasNewData = data && !isPreviousData;
 
     if (hasNewData) {
-      console.log("passou");
       updateRelatedArtists(artist, data);
     }
   }, [artist, data, updateRelatedArtists, isSuccess, isPreviousData]);

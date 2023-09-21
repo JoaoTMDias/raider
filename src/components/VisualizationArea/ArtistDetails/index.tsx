@@ -3,6 +3,7 @@ import useArtistDetailsData from "./useArtistDetailsData";
 import { ArtistCover } from "./ArtistCover";
 import { ArtistSong } from "./ArtistSong";
 import { ArtistBio } from "./ArtistBio";
+import { makeId } from "@jtmdias/react-a11y-tools";
 
 function ArtistDetails() {
   const { data, isSuccess } = useArtistDetailsData();
@@ -55,16 +56,20 @@ function ArtistDetails() {
             <h2>Popular tracks</h2>
             {data.popularTracks && (
               <ol className={styles.popularTracks}>
-                {data.popularTracks?.map((popularTrack) => (
-                  <ArtistSong
-                    key={popularTrack.id}
-                    id={popularTrack.id}
-                    name={popularTrack.name}
-                    source={popularTrack.source}
-                    cover={popularTrack.cover}
-                    href={popularTrack.href}
-                  />
-                ))}
+                {data.popularTracks?.map((popularTrack, index) => {
+                  const id = makeId("artist-song", popularTrack.id, index);
+
+                  return (
+                    <ArtistSong
+                      key={id}
+                      id={id}
+                      name={popularTrack.name}
+                      source={popularTrack.source}
+                      cover={popularTrack.cover}
+                      href={popularTrack.href}
+                    />
+                  );
+                })}
               </ol>
             )}
           </div>

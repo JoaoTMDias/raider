@@ -51,17 +51,19 @@ export default function Chart({
    * Renders the lines that connect each chart node
    */
   function renderChartLines(tree: HierarchyPointNode<TreeNode>) {
-    return tree
-      .links()
-      .map((link, i) => (
+    return tree.links().map((link, i) => {
+      const key = makeId("chart-line", i);
+
+      return (
         <LinkVertical
-          key={i}
+          key={key}
           data={link}
           stroke="var(--raider-viz-stroke)"
           strokeWidth="2"
           fill="none"
         />
-      ));
+      );
+    });
   }
 
   /**
@@ -69,88 +71,91 @@ export default function Chart({
    */
   function renderChartNodes(tree: HierarchyPointNode<TreeNode>) {
     return tree.descendants().map((node, key) => {
-      const id = node.data.node?.id ?? makeId("raider-chart-node", key);
+      const id =
+        makeId("raider-chart-node", node.data.node?.id) ?? makeId("raider-chart-node", key);
 
       return <ChartNode key={id} id={id} node={node} forceUpdate={forceUpdate} />;
     });
   }
 
   return (
-    <RoverProvider direction="both">
-      <Zoom<SVGSVGElement>
-        width={totalWidth}
-        height={totalHeight}
-        scaleXMin={1 / 2}
-        scaleXMax={4}
-        scaleYMin={1 / 2}
-        scaleYMax={4}
-        initialTransformMatrix={INITIAL_TRANSFORM}
-      >
-        {(zoom) => {
-          function handleOnZoom(type: "in" | "out") {
-            switch (type) {
-              case "in":
-                zoom.scale({ scaleX: 1.2, scaleY: 1.2 });
-                break;
+    <Zoom<SVGSVGElement>
+      width={totalWidth}
+      height={totalHeight}
+      scaleXMin={1 / 2}
+      scaleXMax={4}
+      scaleYMin={1 / 2}
+      scaleYMax={4}
+      initialTransformMatrix={INITIAL_TRANSFORM}
+    >
+      {(zoom) => {
+        function handleOnZoom(type: "in" | "out") {
+          switch (type) {
+            case "in":
+              zoom.scale({ scaleX: 1.2, scaleY: 1.2 });
+              break;
 
-              case "out":
-                zoom.scale({ scaleX: 0.8, scaleY: 0.8 });
-                break;
+            case "out":
+              zoom.scale({ scaleX: 0.8, scaleY: 0.8 });
+              break;
 
-              default:
-                break;
-            }
+            default:
+              break;
           }
+        }
 
-          return (
-            <>
-              <svg
-                className={styles.chart}
-                xmlns="http://www.w3.org/2000/svg"
-                width={totalWidth}
-                height={totalHeight}
-                style={{ cursor: zoom.isDragging ? "grabbing" : "grab", touchAction: "none" }}
-                ref={zoom.containerRef}
+        return (
+          <>
+            <svg
+              className={styles.chart}
+              xmlns="http://www.w3.org/2000/svg"
+              width={totalWidth}
+              height={totalHeight}
+              style={{ cursor: zoom.isDragging ? "grabbing" : "grab", touchAction: "none" }}
+              ref={zoom.containerRef}
+            >
+              <CircleTemplate />
+              <Tree
+                root={getRootHierarchy(items, (stateEntry) => {
+                  return stateEntry.relatedNodes;
+                })}
+                size={[sizeWidth, sizeHeight]}
+                separation={(a, b) => (a.parent === b.parent ? 1 : 0.5) / a.depth}
               >
-                <CircleTemplate />
-                <Tree
-                  root={getRootHierarchy(items, (stateEntry) => {
-                    return stateEntry.relatedNodes;
-                  })}
-                  size={[sizeWidth, sizeHeight]}
-                  separation={(a, b) => (a.parent === b.parent ? 1 : 0.5) / a.depth}
-                >
-                  {(tree) => (
-                    <Group
-                      id="node-group-tree"
-                      className={styles.chart__node}
-                      top={margin.top}
-                      left={margin.left}
-                      style={
-                        {
-                          "--node-transform-zoom": zoom.toString(),
-                        } as React.CSSProperties
-                      }
+                {(tree) => (
+                  <Group
+                    id="node-group-tree"
+                    className={styles.chart__node}
+                    top={margin.top}
+                    left={margin.left}
+                    style={
+                      {
+                        "--node-transform-zoom": zoom.toString(),
+                      } as React.CSSProperties
+                    }
+                  >
+                    <RoverProvider
+                      options={{
+                        direction: "both",
+                      }}
                     >
-                      <>
-                        {renderChartLines(tree)}
-                        {renderChartNodes(tree)}
-                      </>
-                    </Group>
-                  )}
-                </Tree>
-              </svg>
+                      {renderChartLines(tree)}
+                      {renderChartNodes(tree)}
+                    </RoverProvider>
+                  </Group>
+                )}
+              </Tree>
+            </svg>
 
-              <ZoomToolbar
-                onZoom={handleOnZoom}
-                onClear={zoom.clear}
-                onCenter={zoom.center}
-                onReset={zoom.reset}
-              />
-            </>
-          );
-        }}
-      </Zoom>
-    </RoverProvider>
+            <ZoomToolbar
+              onZoom={handleOnZoom}
+              onClear={zoom.clear}
+              onCenter={zoom.center}
+              onReset={zoom.reset}
+            />
+          </>
+        );
+      }}
+    </Zoom>
   );
 }

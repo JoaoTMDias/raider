@@ -6,7 +6,8 @@ import { KeyboardEvent, memo, useCallback, useRef } from "react";
 import { filterImagesBySize } from "@/helpers";
 import { KEY } from "@jtmdias/js-utilities";
 import styles from "./index.module.scss";
-import { useFocus, useRover } from "@jtmdias/react-a11y-tools";
+import { useRover, useFocus } from "@jtmdias/react-a11y-tools";
+import { useRaiderStore } from "@/containers";
 
 interface Props {
   id: string;
@@ -14,8 +15,10 @@ interface Props {
   forceUpdate: () => void;
 }
 
-function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
-  const nodeRef = useRef(null);
+function ChartNode({ id, node, forceUpdate }: Props): JSX.Element | null {
+  const currentArtist = useRaiderStore((state) => state.currentArtist);
+
+  const nodeRef = useRef<SVGGElement>(null);
 
   const [tabIndex, focused, handleOnRoverKeyUp, handleOnRoverClick] = useRover(nodeRef, false);
 
@@ -61,7 +64,11 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element {
     height,
   };
 
-  const ariaExpanded = focused ?? undefined;
+  const ariaExpanded = currentArtist.name === node.data.node?.name;
+
+  if (!node) {
+    return null;
+  }
 
   return (
     <Group
