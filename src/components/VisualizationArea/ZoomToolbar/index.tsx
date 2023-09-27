@@ -7,6 +7,7 @@ import { IconClear } from "./icon-clear";
 import { IconPlus } from "./icon-plus";
 import { IconMinus } from "./icon-minus";
 import { HTMLProps } from "react";
+import { useKey } from "react-use";
 
 interface ToolbarButtonProps extends HTMLProps<HTMLElement> {
   children: React.ReactNode;
@@ -42,22 +43,28 @@ function ZoomToolbar({ onZoom, onCenter, onReset, onClear }: ZoomToolbarProps) {
     focusLoop: true,
   });
 
+  useKey("+", () => onZoom("in"));
+  useKey("-", () => onZoom("in"));
+  useKey("m", () => onCenter());
+  useKey("r", () => onReset());
+  useKey("c", () => onClear());
+
   return (
     <Toolbar state={toolbar} className={styles.toolbar}>
-      <ToolbarButton onClick={() => onZoom("in")} description="Zoom In">
+      <ToolbarButton onClick={() => onZoom("in")} description="Zoom In (+)">
         <IconPlus />
       </ToolbarButton>
-      <ToolbarButton onClick={() => onZoom("out")} description="Zoom Out">
+      <ToolbarButton onClick={() => onZoom("out")} description="Zoom Out (-)">
         <IconMinus />
       </ToolbarButton>
       <ToolbarSeparator className="separator" />
-      <ToolbarButton onClick={onCenter} description="Center layout">
+      <ToolbarButton onClick={onCenter} description="Center layout (m)">
         <IconCenter />
       </ToolbarButton>
-      <ToolbarButton onClick={onReset} description="Reset layout">
+      <ToolbarButton onClick={onReset} description="Reset layout (r)">
         <IconReset />
       </ToolbarButton>
-      <ToolbarButton onClick={onClear} description="Clear layout">
+      <ToolbarButton onClick={onClear} description="Clear layout (c)">
         <IconClear />
       </ToolbarButton>
     </Toolbar>

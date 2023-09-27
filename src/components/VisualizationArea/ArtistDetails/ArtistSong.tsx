@@ -47,6 +47,7 @@ export function ArtistSong({ id, cover, source, name, href }: ArtistDetailsTrack
         onClick={handleOnClickOnPlayer}
         aria-pressed={playingStatus === "playing"}
         aria-label={playingStatus === "paused" ? "Play" : "Pause"}
+        data-playing-status={playingStatus}
       >
         <svg role="img" height="24" width="24" aria-hidden="true" viewBox="0 0 24 24">
           {renderPlayingStatusIcon()}

@@ -16,11 +16,16 @@ interface Props {
 }
 
 function ChartNode({ id, node, forceUpdate }: Props): JSX.Element | null {
-  const currentArtist = useRaiderStore((state) => state.currentArtist);
+  const { featuredArtist, setFeaturedArtist } = useRaiderStore((state) => ({
+    featuredArtist: state.featuredArtist,
+    setFeaturedArtist: state.setFeaturedArtist,
+  }));
 
   const nodeRef = useRef<SVGGElement>(null);
 
   const [tabIndex, focused, handleOnRoverKeyUp, handleOnRoverClick] = useRover(nodeRef, false);
+
+  const ariaExpanded = featuredArtist?.name === node.data.node?.name;
 
   useFocus(nodeRef, focused);
 
@@ -49,22 +54,29 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element | null {
         default:
           break;
       }
+
+      if ((event.key === KEY.ENTER || event.key === KEY.SPACE) && node.data.node && !ariaExpanded) {
+        setFeaturedArtist?.(node.data.node);
+      }
     },
-    [forceUpdate, handleOnRoverKeyUp]
+    [ariaExpanded, forceUpdate, handleOnRoverKeyUp, node.data.node, setFeaturedArtist]
   );
 
   const handleOnClick = useCallback(() => {
     handleOnRoverClick();
+
     forceUpdate();
-  }, [forceUpdate, handleOnRoverClick]);
+
+    if (node.data.node && !ariaExpanded) {
+      setFeaturedArtist?.(node.data.node);
+    }
+  }, [ariaExpanded, forceUpdate, handleOnRoverClick, node.data.node, setFeaturedArtist]);
 
   const pictureProps = {
     imageUrl: filterImagesBySize(node.data.node?.images),
     width,
     height,
   };
-
-  const ariaExpanded = currentArtist.name === node.data.node?.name;
 
   if (!node) {
     return null;

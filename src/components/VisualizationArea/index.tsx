@@ -4,14 +4,13 @@ import { useRaiderStore } from "@/containers/store";
 import { isEmpty, isNil, isObject } from "@jtmdias/js-utilities";
 
 function VisualizationArea() {
-  const currentArtist = useRaiderStore((state) => state.currentArtist);
-  const hasCurrentArtist =
-    !isNil(currentArtist) && isObject(currentArtist) && !isEmpty(currentArtist);
+  const artist = useRaiderStore((state) => state.nodes.node);
+  const hasCurrentArtist = !isNil(artist) && isObject(artist) && !isEmpty(artist);
 
   return hasCurrentArtist ? (
     <div id="main-content" className="visualization-area" tabIndex={-1}>
       <ChartBackground />
-      <ResultsNetwork artist={currentArtist} />
+      <ResultsNetwork artist={artist} />
     </div>
   ) : null;
 }

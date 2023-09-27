@@ -16,7 +16,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         <Layout>
           <Component {...pageProps} />
         </Layout>
-        {__DEV__ && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>
     </SessionProvider>
   );

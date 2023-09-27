@@ -2,7 +2,7 @@ import styles from "./index.module.scss";
 import { useRaiderStore } from "@/containers/store";
 
 function ChartBackground(): JSX.Element {
-  const itemImage = useRaiderStore((state) => state.currentArtist.images);
+  const itemImage = useRaiderStore((state) => state.nodes.node?.images);
 
   const image = itemImage && itemImage[0]?.url;
 

@@ -6,10 +6,20 @@ import { RaiderStore } from './types';
 export const useRaiderStore = create<RaiderStore>((set) => {
   return {
     currentArtist: INITIAL_ARTIST,
+    featuredArtist: INITIAL_ARTIST,
     nodes: INITIAL_NODES_STATE,
-    setSearchResults: (artist) => set(() => ({
-      currentArtist: artist,
+    setSearchResults: (artist) => set((state) => ({
+      nodes: {
+        ...state.nodes,
+        node: artist,
+      },
     })),
+    setFeaturedArtist: (artist) => set((state) => {
+      return {
+        ...state,
+        featuredArtist: artist,
+      };
+    }),
     resetCurrentArtist: () => set(() => ({
       currentArtist: INITIAL_ARTIST,
     })),
@@ -18,7 +28,8 @@ export const useRaiderStore = create<RaiderStore>((set) => {
         ...state.nodes,
         node: artist,
         relatedNodes,
-      }
+      },
+      featuredArtist: artist,
     }))
   }
 })

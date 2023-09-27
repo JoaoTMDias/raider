@@ -76,13 +76,13 @@ async function getArtistDetails(
 }
 
 function useArtistDetailsData() {
-  const currentArtist = useRaiderStore((state) => state.currentArtist);
-  const PREVIOUS_CURRENT_ARTIST = usePrevious(currentArtist.name);
-  const SHOULD_FETCH = !isNil(currentArtist) && !isNil(currentArtist.name) && PREVIOUS_CURRENT_ARTIST !== currentArtist.name;
+  const featuredArtist = useRaiderStore((state) => state.featuredArtist);
+  const PREVIOUS_CURRENT_ARTIST = usePrevious(featuredArtist.name);
+  const SHOULD_FETCH = !isNil(featuredArtist) && !isNil(featuredArtist.name) && PREVIOUS_CURRENT_ARTIST !== featuredArtist.name;
 
   const { data, refetch, ...query } = useQuery<ArtistDetails | undefined>(
-    ["search-artist-details-by-name", currentArtist.id],
-    () => getArtistDetails(currentArtist),
+    ["search-artist-details-by-name", featuredArtist.id],
+    () => getArtistDetails(featuredArtist),
     { enabled: false, networkMode: "offlineFirst" }
   );
 

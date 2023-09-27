@@ -19,13 +19,25 @@
   outline-color: transparent;
 }
 
-/* Hides the scrollbar */
-::-webkit-scrollbar-track {
-  background-color: transparent;
+*::-webkit-scrollbar {
+  width: 0.6rem;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: transparent;
+*::-webkit-scrollbar-track {
+  background-color: var(--raider-text-color-faded);
+  border-color: var(--raider-text-color-faded);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 0.6rem;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--raider-text-color-label);
+  border-radius: 0.6rem;
+
+  &:hover {
+    background-color: var(--raider-text-color);
+  }
 }
 
 /**
@@ -35,6 +47,7 @@
 */
 [tabindex="-1"]:focus {
   outline: none !important;
+  -webkit-user-select: none;
   user-select: none;
   pointer-events: none;
 }
