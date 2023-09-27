@@ -96,6 +96,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element | null {
       tabIndex={tabIndex}
       onKeyUp={handleOnKeyUp}
       onClick={handleOnClick}
+      data-test="chart-node"
     >
       <circle className={styles.node__background} cx="0" cy="0" r="40" />
       <ArtistPicture {...pictureProps} />
@@ -114,6 +115,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element | null {
             ? "var(--raider-selected-item)"
             : "var(--raider-text-color)"
         }
+        data-test="chart-node-name"
       >
         {node.data.node?.name}
       </text>

@@ -30,17 +30,19 @@ export function ArtistSong({ id, cover, source, name, href }: ArtistDetailsTrack
       <path
         fill="currentColor"
         d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"
+        data-test="artist-song-icon-pause"
       />
     ) : (
       <path
         fill="currentColor"
         d="M5.7 3a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7H5.7zm10 0a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7h-2.6z"
+        data-test="artist-song-icon-play"
       />
     );
   }
 
   return (
-    <li id={id} className={styles.popularTracks__item}>
+    <li id={id} className={styles.popularTracks__item} data-test="artist-song">
       <button
         className={styles.popularTracks__action}
         type="button"
@@ -48,13 +50,27 @@ export function ArtistSong({ id, cover, source, name, href }: ArtistDetailsTrack
         aria-pressed={playingStatus === "playing"}
         aria-label={playingStatus === "paused" ? "Play" : "Pause"}
         data-playing-status={playingStatus}
+        data-test="artist-song-button"
       >
-        <svg role="img" height="24" width="24" aria-hidden="true" viewBox="0 0 24 24">
+        <svg
+          role="img"
+          height="24"
+          width="24"
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          data-test="artist-song-icon"
+        >
           {renderPlayingStatusIcon()}
         </svg>
-        <Image src={cover.url ?? ""} width={cover.width} height={cover.height} alt="" />
-        <span>{name}</span>
-        <audio ref={audioRef}>
+        <Image
+          src={cover.url ?? ""}
+          width={cover.width}
+          height={cover.height}
+          alt=""
+          data-test="artist-song-cover"
+        />
+        <span data-test="artist-song-name">{name}</span>
+        <audio ref={audioRef} data-test="artist-song-player">
           <source src={source} type="audio/mpeg"></source>
           Your browser does not support the audio element.
         </audio>

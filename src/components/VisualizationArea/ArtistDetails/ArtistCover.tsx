@@ -1,7 +1,7 @@
 import { DialogHeading } from "ariakit/dialog";
 import Image from "next/image";
 import styles from "./index.module.scss";
-import { isString } from "@jtmdias/js-utilities";
+import { isEmpty, isNil, isString } from "@jtmdias/js-utilities";
 import { SpotifyArtistImage } from "@/typings/spotify";
 
 interface ArtistCoverProps {
@@ -29,10 +29,10 @@ export function ArtistCover({ name = "", listeners = 0, cover }: ArtistCoverProp
           <p data-testid="dialog-listeners">{`${activeListeners} listeners (Last.fm)`}</p>
         )}
       </div>
-      {cover && (
+      {!isNil(cover) && !isEmpty(cover) && (
         <Image
           className={styles.artistDetails__cover__image}
-          src={cover.url}
+          src={cover.url as string}
           width={cover.width}
           height={cover.height}
           alt=""

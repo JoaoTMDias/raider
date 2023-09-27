@@ -61,6 +61,7 @@ export default function Chart({
           stroke="var(--raider-viz-stroke)"
           strokeWidth="2"
           fill="none"
+          data-test="chart-line"
         />
       );
     });
@@ -113,6 +114,7 @@ export default function Chart({
               height={totalHeight}
               style={{ cursor: zoom.isDragging ? "grabbing" : "grab", touchAction: "none" }}
               ref={zoom.containerRef}
+              data-test="chart"
             >
               <CircleTemplate />
               <Tree
@@ -133,6 +135,7 @@ export default function Chart({
                         "--node-transform-zoom": zoom.toString(),
                       } as React.CSSProperties
                     }
+                    data-test="chart-group"
                   >
                     <RoverProvider
                       options={{

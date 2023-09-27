@@ -15,7 +15,7 @@ export function ArtistBio({ description }: { description: string }) {
   );
 
   const onClickOnParagraph = useCallback(
-    (event: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
+    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -27,17 +27,27 @@ export function ArtistBio({ description }: { description: string }) {
   const buttonText = expanded ? "Collapse" : "Expand";
 
   return (
-    <div className={styles.artistDetails__bio}>
-      <h2 className="sr-only">Biography</h2>
+    <div
+      className={styles.artistDetails__bio}
+      onClick={onClickOnParagraph}
+      data-testid="dialog-bio"
+    >
+      <h2 className="sr-only" data-testid="dialog-bio-title">
+        Biography
+      </h2>
       <p
         className={styles.artistDetails__bio__text}
-        data-testid="dialog-bio"
         data-expanded={expanded}
-        onClick={onClickOnParagraph}
+        data-testid="dialog-bio-description"
       >
         {description}
       </p>
-      <button type="button" onClick={onClick} className={styles.artistDetails__bio__toggle}>
+      <button
+        type="button"
+        onClick={onClick}
+        className={styles.artistDetails__bio__toggle}
+        data-testid="dialog-bio-button"
+      >
         {buttonText}
       </button>
     </div>
