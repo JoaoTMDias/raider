@@ -2,9 +2,9 @@ import { Group } from "@visx/group";
 import ArtistPicture from "./ArtistPicture";
 import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import { TreeNode } from "./Chart";
-import { KeyboardEvent, memo, useCallback, useRef } from "react";
+import { KeyboardEvent, memo, useCallback, useMemo, useRef } from "react";
 import { filterImagesBySize } from "@/helpers";
-import { KEY } from "@jtmdias/js-utilities";
+import { KEY, toggleDataAttribute } from "@jtmdias/js-utilities";
 import styles from "./index.module.scss";
 import { useRover, useFocus } from "@jtmdias/react-a11y-tools";
 import { useRaiderStore } from "@/containers";
@@ -13,9 +13,16 @@ interface Props {
   id: string;
   node: HierarchyPointNode<TreeNode>;
   forceUpdate: () => void;
+  index: number;
 }
 
-function ChartNode({ id, node, forceUpdate }: Props): JSX.Element | null {
+function isOdd(num: number): boolean {
+  return num % 2 === 0;
+}
+
+const NODE_OFFSET = 20;
+
+function ChartNode({ id, node, forceUpdate, index }: Props): JSX.Element | null {
   const { featuredArtist, setFeaturedArtist } = useRaiderStore((state) => ({
     featuredArtist: state.featuredArtist,
     setFeaturedArtist: state.setFeaturedArtist,
@@ -35,6 +42,8 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element | null {
   const isParent = !!node.children;
   const top = node.y;
   const left = node.x;
+
+  const SHOULD_OFFSET_NODE = useMemo(() => !!(!isParent && isOdd(index)), [index, isParent]);
 
   const handleOnKeyUp = useCallback(
     (event: KeyboardEvent<SVGGElement>) => {
@@ -87,7 +96,7 @@ function ChartNode({ id, node, forceUpdate }: Props): JSX.Element | null {
       innerRef={nodeRef}
       className={styles.node}
       role="button"
-      top={top}
+      top={SHOULD_OFFSET_NODE ? top + NODE_OFFSET : top - NODE_OFFSET}
       left={left}
       aria-labelledby={id}
       aria-expanded={ariaExpanded}

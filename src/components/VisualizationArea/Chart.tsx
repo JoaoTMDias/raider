@@ -75,7 +75,7 @@ export default function Chart({
       const id =
         makeId("raider-chart-node", node.data.node?.id) ?? makeId("raider-chart-node", key);
 
-      return <ChartNode key={id} id={id} node={node} forceUpdate={forceUpdate} />;
+      return <ChartNode key={id} id={id} node={node} forceUpdate={forceUpdate} index={key} />;
     });
   }
 
@@ -118,9 +118,7 @@ export default function Chart({
             >
               <CircleTemplate />
               <Tree
-                root={getRootHierarchy(items, (stateEntry) => {
-                  return stateEntry.relatedNodes;
-                })}
+                root={getRootHierarchy(items, (stateEntry) => stateEntry.relatedNodes)}
                 size={[sizeWidth, sizeHeight]}
                 separation={(a, b) => (a.parent === b.parent ? 1 : 0.5) / a.depth}
               >
