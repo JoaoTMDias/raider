@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "node",
+      "cypress",
+      "@testing-library/cypress",
+      "cypress-real-events",
+      "./cypress.d.ts"
+    ],
+    "jsx": "react-jsx"
+  }
+}

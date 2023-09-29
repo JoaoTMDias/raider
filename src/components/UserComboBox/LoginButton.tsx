@@ -14,7 +14,12 @@ function LoginButton({ onSignIn }: Props): JSX.Element {
   }, [onSignIn]);
 
   return (
-    <button type="button" className={styles.user__button} onClick={handleOnClick}>
+    <button
+      type="button"
+      className={styles.user__button}
+      onClick={handleOnClick}
+      data-testid="header-user-login"
+    >
       Login with Spotify
     </button>
   );

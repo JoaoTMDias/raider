@@ -9,14 +9,22 @@ function UserComboBox() {
 
   let content = <LoginButton />;
 
-  if (response) {
+  const HAS_SESSION = !!response;
+
+  if (HAS_SESSION) {
     const { session, token } = response as unknown as SpotifyResponse;
 
     content = <User img={session.user.image} name={session.user.name} username={token.sub} />;
   }
 
   return (
-    <nav id="authentication" className={styles.user} tabIndex={-1} aria-label="User Session">
+    <nav
+      id="authentication"
+      className={styles.user}
+      tabIndex={-1}
+      aria-label="User Session"
+      data-testid="header-authentication"
+    >
       {content}
     </nav>
   );

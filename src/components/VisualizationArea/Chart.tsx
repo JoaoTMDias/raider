@@ -105,6 +105,8 @@ export default function Chart({
           }
         }
 
+        const style = { cursor: zoom.isDragging ? "grabbing" : "grab", touchAction: "none" };
+
         return (
           <>
             <svg
@@ -112,7 +114,7 @@ export default function Chart({
               xmlns="http://www.w3.org/2000/svg"
               width={totalWidth}
               height={totalHeight}
-              style={{ cursor: zoom.isDragging ? "grabbing" : "grab", touchAction: "none" }}
+              style={style}
               ref={zoom.containerRef}
               data-test="chart"
             >

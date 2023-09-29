@@ -14,7 +14,7 @@ function User({ img, name }: Props): JSX.Element {
   };
 
   return (
-    <div className={styles["user-info"]}>
+    <div className={styles["user-info"]} data-testid="header-user">
       <div className={styles["user-info__profile"]}>
         <Image
           className={styles["user-info__profile__image"]}
@@ -23,13 +23,19 @@ function User({ img, name }: Props): JSX.Element {
           height="24"
           loading="lazy"
           alt=""
+          data-testid="header-user-image"
         />
-        <p>
+        <p data-testid="header-user-name">
           <span className="sr-only">Signed In on Spotify as</span>
-          {name}
+          <span>{name}</span>
         </p>
       </div>
-      <button type="button" className={styles["user__button"]} onClick={handleOnClick}>
+      <button
+        type="button"
+        className={styles["user__button"]}
+        onClick={handleOnClick}
+        data-testid="header-user-logout"
+      >
         Log out <span className="sr-only">of Spotify</span>
       </button>
     </div>
