@@ -1,0 +1,20 @@
+{
+  "session": {
+    "user": {
+      "name": "João",
+      "email": "contacto@joaodias.me",
+      "image": "https://i.scdn.co/image/ab67757000003b826575ec12d8d8b5b1b3aabbdf"
+    },
+    "expires": "2023-11-01T19:37:04.373Z"
+  },
+  "token": {
+    "name": "João",
+    "email": "contacto@joaodias.me",
+    "picture": "https://i.scdn.co/image/ab67757000003b826575ec12d8d8b5b1b3aabbdf",
+    "sub": "jtmdias",
+    "accessToken": "AQCMDoC-vxy4nQfYvrzqnoGqNhsxwiu6nLgSCHnBH9puKgTNzi53m66PnLOxJoujmULKoTPlR9Uq24-j6FqigssjpmEk3S1ImqcZ8_reNi4K96Ig3yMhnZNOIeO-hq6kxeQ",
+    "iat": 1695993882,
+    "exp": 1698585882,
+    "jti": "514f796f-e068-477f-8734-c51b1191deba"
+  }
+}

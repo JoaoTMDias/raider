@@ -30,15 +30,15 @@ export function ArtistBio({ description }: { description: string }) {
     <div
       className={styles.artistDetails__bio}
       onClick={onClickOnParagraph}
-      data-testid="dialog-bio"
+      data-testid="artist-details-bio"
     >
-      <h2 className="sr-only" data-testid="dialog-bio-title">
+      <h2 className="sr-only" data-testid="artist-details-bio-title">
         Biography
       </h2>
       <p
         className={styles.artistDetails__bio__text}
         data-expanded={expanded}
-        data-testid="dialog-bio-description"
+        data-testid="artist-details-bio-description"
       >
         {description}
       </p>
@@ -46,7 +46,7 @@ export function ArtistBio({ description }: { description: string }) {
         type="button"
         onClick={onClick}
         className={styles.artistDetails__bio__toggle}
-        data-testid="dialog-bio-button"
+        data-testid="artist-details-bio-button"
       >
         {buttonText}
       </button>

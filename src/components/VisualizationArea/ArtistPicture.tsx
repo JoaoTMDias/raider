@@ -24,7 +24,7 @@ function ArtistPicture({
       preserveAspectRatio="xMidYMid slice"
       onClick={onClick}
       clipPath="url(#artist-circle-clip)"
-      data-test="chart-node-artist-picture"
+      data-testid="chart-node-artist-picture"
     />
   );
 }

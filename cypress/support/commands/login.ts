@@ -12,10 +12,10 @@ Cypress.Commands.add("login", (username: string = Cypress.env("SPOTIFY_USERNAME"
       cy.get('input#login-password').click().type(password)
       cy.get('#login-button').click()
     });
-
-    cy.getCookie('next-auth.csrf-token').should("exist");
-    cy.getCookie('next-auth.session-token').should("exist");
-
-    cy.visit("/");
+  }, {
+    validate: () => {
+      cy.getCookie('next-auth.csrf-token').should("exist");
+      cy.getCookie('next-auth.session-token').should("exist");
+    },
   })
 });

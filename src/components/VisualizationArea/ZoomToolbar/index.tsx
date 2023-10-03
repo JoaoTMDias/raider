@@ -12,9 +12,15 @@ import { useKey } from "react-use";
 interface ToolbarButtonProps extends HTMLProps<HTMLElement> {
   children: React.ReactNode;
   description: string;
+  "data-testid": string;
 }
 
-function ToolbarButton({ children, description, onClick }: ToolbarButtonProps) {
+function ToolbarButton({
+  children,
+  description,
+  onClick,
+  "data-testid": dataTestId,
+}: ToolbarButtonProps) {
   const tooltip = useTooltipState({
     placement: "right",
     timeout: 250,
@@ -26,6 +32,7 @@ function ToolbarButton({ children, description, onClick }: ToolbarButtonProps) {
         className={styles.toolbar__button}
         state={tooltip}
         onClick={onClick}
+        data-testid={dataTestId}
       >
         {children}
       </TooltipAnchor>
@@ -50,21 +57,41 @@ function ZoomToolbar({ onZoom, onCenter, onReset, onClear }: ZoomToolbarProps) {
   useKey("c", () => onClear());
 
   return (
-    <Toolbar state={toolbar} className={styles.toolbar}>
-      <ToolbarButton onClick={() => onZoom("in")} description="Zoom In (+)">
+    <Toolbar state={toolbar} data-testid="chart-toolbar" className={styles.toolbar}>
+      <ToolbarButton
+        onClick={() => onZoom("in")}
+        description="Zoom In (+)"
+        data-testid="chart-toolbar-button-zoom-in"
+      >
         <IconPlus />
       </ToolbarButton>
-      <ToolbarButton onClick={() => onZoom("out")} description="Zoom Out (-)">
+      <ToolbarButton
+        onClick={() => onZoom("out")}
+        description="Zoom Out (-)"
+        data-testid="chart-toolbar-button-zoom-out"
+      >
         <IconMinus />
       </ToolbarButton>
       <ToolbarSeparator className="separator" />
-      <ToolbarButton onClick={onCenter} description="Center layout (m)">
+      <ToolbarButton
+        onClick={onCenter}
+        description="Center layout (m)"
+        data-testid="chart-toolbar-button-center"
+      >
         <IconCenter />
       </ToolbarButton>
-      <ToolbarButton onClick={onReset} description="Reset layout (r)">
+      <ToolbarButton
+        onClick={onReset}
+        description="Reset layout (r)"
+        data-testid="chart-toolbar-button-reset"
+      >
         <IconReset />
       </ToolbarButton>
-      <ToolbarButton onClick={onClear} description="Clear layout (c)">
+      <ToolbarButton
+        onClick={onClear}
+        description="Clear layout (c)"
+        data-testid="chart-toolbar-button-clear"
+      >
         <IconClear />
       </ToolbarButton>
     </Toolbar>

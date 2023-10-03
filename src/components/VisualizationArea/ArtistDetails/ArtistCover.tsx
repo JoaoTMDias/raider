@@ -22,11 +22,14 @@ export function ArtistCover({ name = "", listeners = 0, cover }: ArtistCoverProp
   return (
     <section className={styles.artistDetails__cover}>
       <div className={styles.artistDetails__cover__heading}>
-        <DialogHeading className={styles.artistDetails__cover__title} data-testid="dialog-title">
+        <DialogHeading
+          className={styles.artistDetails__cover__title}
+          data-testid="artist-details-title"
+        >
           {name}
         </DialogHeading>
         {activeListeners && (
-          <p data-testid="dialog-listeners">{`${activeListeners} listeners (Last.fm)`}</p>
+          <p data-testid="artist-details-listeners">{`${activeListeners} listeners (Last.fm)`}</p>
         )}
       </div>
       {!isNil(cover) && !isEmpty(cover) && (
@@ -36,7 +39,7 @@ export function ArtistCover({ name = "", listeners = 0, cover }: ArtistCoverProp
           width={cover.width}
           height={cover.height}
           alt=""
-          data-testid="dialog-cover"
+          data-testid="artist-details-cover"
         />
       )}
     </section>

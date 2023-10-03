@@ -13,9 +13,11 @@ export function getRootHierarchy<T extends TreeNode>(
   return hierarchy(data, children);
 }
 
+export const RELATED_ARTISTS_LIMIT = 12;
+
 export async function getRelatedArtists(
   id?: string,
-  limit: number = 12
+  limit: number = RELATED_ARTISTS_LIMIT
 ): Promise<ChartNodes[] | undefined> {
   let response: ChartNodes[] = [];
 

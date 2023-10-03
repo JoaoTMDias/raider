@@ -1,6 +1,8 @@
 import { mount } from 'cypress/react';
 import { RealHoverOptions } from 'cypress-real-events/commands/realHover';
 import { RealPressOptions } from 'cypress-real-events/commands/realPress';
+import { SetupEnvironmentEndpoints } from './support/commands/setup-environment/setup-environment.types';
+import { Interception } from 'cypress/types/net-stubbing';
 
 export interface TabOptions extends RealPressOptions {
   shift?: boolean;
@@ -9,6 +11,57 @@ export interface TabOptions extends RealPressOptions {
 declare global {
   namespace Cypress {
     interface Chainable {
+      /**
+       * Prepares the CR environment to be tested against when loading a page.
+       *
+       * It requires:
+       * 1. (optional) a starting url
+       * 2. (optional) an array of endpoints to be intercepted.
+       *
+       * @default pageUrL "/"
+       * @default endpoints undefined
+       *
+       * @example
+       *
+       * const endpoints: SetupEnvironmentEndpoints = [
+       *    {
+       *        method: 'GET',
+       *        url: `${Cypress.config('baseUrl')}/static/locales/en-US/common.json`,
+       *        response: 'fixtures:locales/en-US/common.json',
+       *        alias: 'common-languages',
+       *    },
+       *    {
+       *        method: 'POST',
+       *        url: `${Cypress.config('baseUrl')}/graphql`,
+       *        graphql: [
+       *            {
+       *                operationName: 'translation',
+       *                fixture: 'graqhql/queries/translation.json',
+       *                alias: 'queries-translation',
+       *            },
+       *            {
+       *                operationName: 'globalization',
+       *                fixture: 'graqhql/queries/globalization.json',
+       *                alias: 'queries-globalization',
+       *            },
+       *            {
+       *                operationName: 'Menu',
+       *               fixture: 'graqhql/queries/menu.json',
+       *                alias: 'queries-menu',
+       *            },
+       *        ],
+       *    },
+       * ];
+       *
+       * ...
+       *
+       * cy.setupEnvironment("/page-url", endpoints);
+       */
+      setupEnvironment(
+          pageUrl?: string,
+          endpoints?: SetupEnvironmentEndpoints
+      ): Cypress.Chainable<Cypress.AUTWindow>;
+
       /**
        * Mounts a React component into the DOM.
        * @param jsx {React.ReactNode} The React component to mount.
@@ -77,7 +130,12 @@ declare global {
         shift?: boolean
       ): Cypress.Chainable<JQuery<HTMLElement>>;
 
-      login(username?: string, password?: string): void;
+      login(username?: string, password?: string): Cypress.Chainable<any>;
+
+      /**
+       * Waits for a number of aliases
+       */
+      waitForRequests(endpoints: SetupEnvironmentEndpoints): Cypress.Chainable<Interception[]>
     }
   }
 }

@@ -10,29 +10,29 @@ function ArtistDetails() {
 
   function renderMetadata() {
     return (
-      <dl className={styles.artistDetails__meta} data-testid="dialog-meta">
+      <dl className={styles.artistDetails__meta} data-testid="artist-details-meta">
         {data?.genres && (
           <div className={styles.artistDetails__meta__item}>
-            <dt data-testid="dialog-genre-label">Genres</dt>
-            <dd data-testid="dialog-genre-value">{data.genres}</dd>
+            <dt data-testid="artist-details-genre-label">Genres</dt>
+            <dd data-testid="artist-details-genre-value">{data.genres}</dd>
           </div>
         )}
         {data?.onTour && (
           <div className={styles.artistDetails__meta__item}>
-            <dt data-testid="dialog-tour-label">On Tour</dt>
-            <dd data-testid="dialog-tour-value">{data.onTour}</dd>
+            <dt data-testid="artist-details-tour-label">On Tour</dt>
+            <dd data-testid="artist-details-tour-value">{data.onTour}</dd>
           </div>
         )}
         {data?.popularityScore && (
           <div className={styles.artistDetails__meta__item}>
-            <dt data-testid="dialog-popularity-label">Popularity Score</dt>
-            <dd data-testid="dialog-popularity-label">{data.popularityScore}</dd>
+            <dt data-testid="artist-details-popularity-label">Popularity Score</dt>
+            <dd data-testid="artist-details-popularity-value">{data.popularityScore}</dd>
           </div>
         )}
         {data?.playCount && (
           <div className={styles.artistDetails__meta__item}>
-            <dt data-testid="dialog-playcount-label">Play Count</dt>
-            <dd data-testid="dialog-playcount-label">{data.playCount}</dd>
+            <dt data-testid="artist-details-playcount-label">Play Count</dt>
+            <dd data-testid="artist-details-playcount-value">{data.playCount}</dd>
           </div>
         )}
       </dl>
@@ -45,7 +45,7 @@ function ArtistDetails() {
         id="artist-details"
         className={styles.artistDetails__wrapper}
         tabIndex={-1}
-        data-testid="dialog"
+        data-testid="artist-details"
       >
         <ArtistCover name={data.name ?? ""} listeners={data.listeners ?? 0} cover={data.cover} />
         <section className={styles.artistDetails__content}>
