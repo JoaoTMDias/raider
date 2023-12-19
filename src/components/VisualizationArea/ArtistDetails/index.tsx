@@ -4,11 +4,22 @@ import { ArtistCover } from "./ArtistCover";
 import { ArtistSong } from "./ArtistSong";
 import { ArtistBio } from "./ArtistBio";
 import { makeId } from "@jtmdias/react-a11y-tools";
+import { Skeleton } from "@/components/Skeleton";
 
 function ArtistDetails() {
-  const { data, isSuccess } = useArtistDetailsData();
+  const { data, isFetching, isSuccess } = useArtistDetailsData();
+
+  const SHOW_CONTENT = !!(data && isSuccess && !isFetching);
 
   function renderMetadata() {
+    if (!SHOW_CONTENT) {
+      return (
+        <div className={styles.artistDetails__meta}>
+          <Skeleton width="424px" height="180px" hideBackground />
+        </div>
+      );
+    }
+
     return (
       <dl className={styles.artistDetails__meta} data-testid="artist-details-meta">
         {data?.genres && (
@@ -39,47 +50,52 @@ function ArtistDetails() {
     );
   }
 
-  if (isSuccess && data) {
-    return (
-      <aside
-        id="artist-details"
-        className={styles.artistDetails__wrapper}
-        tabIndex={-1}
-        data-testid="artist-details"
-      >
-        <ArtistCover name={data.name ?? ""} listeners={data.listeners ?? 0} cover={data.cover} />
-        <section className={styles.artistDetails__content}>
-          <h2 className="sr-only">Metadata</h2>
-          {renderMetadata()}
-          {data.bio && <ArtistBio description={data.bio} />}
-          <div className={styles.artistDetails__popular}>
-            <h2>Popular tracks</h2>
-            {data.popularTracks && (
-              <ol className={styles.popularTracks}>
-                {data.popularTracks?.map((popularTrack, index) => {
-                  const id = makeId("artist-song", popularTrack.id, index);
+  return (
+    <aside
+      id="artist-details"
+      className={styles.artistDetails__wrapper}
+      tabIndex={-1}
+      data-testid="artist-details"
+    >
+      <ArtistCover
+        name={data?.name ?? ""}
+        listeners={data?.listeners ?? 0}
+        cover={data?.cover}
+        isLoading={!SHOW_CONTENT}
+      />
+      <section className={styles.artistDetails__content}>
+        <h2 className="sr-only">Metadata</h2>
+        {renderMetadata()}
+        {SHOW_CONTENT && data.bio ? (
+          <ArtistBio description={data?.bio} />
+        ) : (
+          <Skeleton width="392px" height="136px" hideBackground />
+        )}
+        {SHOW_CONTENT && data.popularTracks ? (
+          <div className={styles.artistDetails__popular} data-testid="artist-details-tracks">
+            <h2 data-testid="artist-details-tracks-title">Popular tracks</h2>
+            <ol className={styles.popularTracks} data-testid="artist-details-tracks-list">
+              {data.popularTracks?.map((popularTrack, index) => {
+                const id = makeId("artist-song", popularTrack.id, index);
 
-                  return (
-                    <ArtistSong
-                      key={id}
-                      id={id}
-                      name={popularTrack.name}
-                      source={popularTrack.source}
-                      cover={popularTrack.cover}
-                      href={popularTrack.href}
-                    />
-                  );
-                })}
-              </ol>
-            )}
+                return (
+                  <ArtistSong
+                    key={id}
+                    id={id}
+                    name={popularTrack.name}
+                    source={popularTrack.source}
+                    cover={popularTrack.cover}
+                    href={popularTrack.href}
+                  />
+                );
+              })}
+            </ol>
           </div>
-        </section>
-        <div></div>
-      </aside>
-    );
-  }
-
-  return null;
+        ) : null}
+      </section>
+      <div></div>
+    </aside>
+  );
 }
 
 export default ArtistDetails;

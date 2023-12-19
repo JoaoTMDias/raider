@@ -62,6 +62,21 @@ const SELECTORS = {
       description: "artist-details-bio-description",
       button: "artist-details-bio-button",
     },
+    tracks: {
+      container: "artist-details-tracks",
+      title: "artist-details-tracks-title",
+      list: "artist-details-tracks-list",
+      song: {
+        container: "artist-details-song",
+        button: "artist-details-song-button",
+        icon: "artist-details-song-icon",
+        play: "artist-details-song-icon-play",
+        pause: "artist-details-song-icon-pause",
+        cover: "artist-details-song-icon-cover",
+        name: "artist-details-song-name",
+        audioElement: "artist-details-song-player",
+      },
+    },
   },
 } as const;
 
@@ -201,4 +216,12 @@ it("should render a chart with initial data and and details", () => {
         .and("have.attr", "data-expanded", "false");
       cy.findByTestId(SELECTORS.details.bio.button).should("exist").and("have.text", "Expand");
     });
+
+  // Should have the tracks section
+  // and each track should be paused
+  cy.findByTestId(SELECTORS.details.tracks.container).should("exist");
+  cy.findByTestId(SELECTORS.details.tracks.title)
+    .should("exist")
+    .and("have.text", "Popular tracks");
+  cy.findByTestId(SELECTORS.details.tracks.list).should("exist").and("not.be.empty");
 });

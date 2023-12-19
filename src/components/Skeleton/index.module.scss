@@ -1,0 +1,67 @@
+@keyframes Pulsate {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeleton {
+  --skeleton-border-radius: 0.5rem;
+  --skeleton-animation-duration: 2000ms;
+  --skeleton-animation-timing-function: ease-in-out;
+  --skeleton-animation-iteration-count: infinite;
+  --skeleton-animation-delay: 600ms;
+  --skeleton-width: 100%;
+  --skeleton-height: auto;
+
+  display: block;
+  background-color: #2a2a2a;
+  height: var(--skeleton-height);
+  font-size: 1em;
+  border-radius: var(--skeleton-border-radius);
+  width: var(--skeleton-width);
+
+  &[data-variant="circle"] {
+    --skeleton-border-radius: 50vw;
+  }
+
+  &[data-variant="rectangle"] {
+    --skeleton-border-radius: unset;
+  }
+
+  &[data-hide-background] {
+    background-color: transparent;
+  }
+
+  &:not(:empty) {
+    & > * {
+      visibility: hidden;
+    }
+
+    &:not([data-has-width]) {
+      max-width: -moz-fit-content;
+      max-width: fit-content;
+    }
+  }
+
+  &:empty::before {
+    content: "\u00a0";
+    visibility: hidden;
+  }
+
+  // Animation will only occur when the user does not have any
+  // prefers-reduced-motion setting applied (which is the browser's default)
+  @media (prefers-reduced-motion: no-preference) {
+    &[data-is-animated] {
+      animation-name: Pulsate;
+      animation-duration: var(--skeleton-animation-duration);
+      animation-timing-function: var(--skeleton-animation-timing-function);
+      animation-iteration-count: var(--skeleton-animation-iteration-count);
+      animation-delay: var(--skeleton-animation-delay);
+    }
+  }
+}
