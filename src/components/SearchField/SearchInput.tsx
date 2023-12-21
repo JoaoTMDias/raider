@@ -1,5 +1,5 @@
 import styles from "./index.module.scss";
-import { Combobox, ComboboxPopover, useComboboxState } from "ariakit/combobox";
+import * as Ariakit from "@ariakit/react";
 import SearchResults from "./SearchResults";
 import { SearchInputProps } from "./types";
 import { useCallback } from "react";
@@ -8,11 +8,6 @@ import { useSpotifySearch } from "@/hooks";
 
 function SearchInput({ category, onClear, onChange }: SearchInputProps): JSX.Element {
   const { searchTerm, setSearchTerm, query } = useSpotifySearch(category);
-  const combobox = useComboboxState({
-    gutter: 4,
-    sameWidth: true,
-    animated: true,
-  });
 
   const searchLabel = `Search for ${category}`;
   const searchPlaceholder = category === "artist" ? `Eg. Black Sabbath` : `Eg. Rock`;
@@ -28,8 +23,7 @@ function SearchInput({ category, onClear, onChange }: SearchInputProps): JSX.Ele
 
   const handleOnClear = useCallback(() => {
     callIfExists(onClear);
-    callIfExists(combobox.setValue, "");
-  }, [combobox.setValue, onClear]);
+  }, [onClear]);
 
   /**
    * Renders the Clear button on the input
@@ -55,22 +49,23 @@ function SearchInput({ category, onClear, onChange }: SearchInputProps): JSX.Ele
   }
 
   return (
-    <div className={styles.search__input} aria-label={searchLabel}>
-      <div className={styles.search__input__container}>
-        <Combobox
-          state={combobox}
-          className={styles.search__text}
-          placeholder={searchPlaceholder}
-          onChange={handleOnChangeInput}
-        />
-        {query && hasTextWritten ? (
-          <ComboboxPopover state={combobox} className={styles["search-results"]}>
-            <SearchResults category={category} query={query} />
-          </ComboboxPopover>
-        ) : null}
+    <Ariakit.ComboboxProvider animated>
+      <div className={styles.search__input} aria-label={searchLabel}>
+        <div className={styles.search__input__container}>
+          <Ariakit.Combobox
+            className={styles.search__text}
+            placeholder={searchPlaceholder}
+            onChange={handleOnChangeInput}
+          />
+          {query && hasTextWritten ? (
+            <Ariakit.ComboboxPopover gutter={4} sameWidth className={styles["search-results"]}>
+              <SearchResults category={category} query={query} />
+            </Ariakit.ComboboxPopover>
+          ) : null}
+        </div>
+        {hasTextWritten ? renderRemoveButton() : null}
       </div>
-      {hasTextWritten ? renderRemoveButton() : null}
-    </div>
+    </Ariakit.ComboboxProvider>
   );
 }
 

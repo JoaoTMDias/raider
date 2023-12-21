@@ -1,7 +1,8 @@
 import { filterImagesBySize } from "@/helpers";
 import { SpotifyArtistItem, SpotifySearchResults } from "@/typings/spotify";
 import { makeId } from "@jtmdias/react-a11y-tools";
-import { ComboboxItem } from "ariakit/combobox";
+import * as Ariakit from "@ariakit/react";
+
 
 import Image from "next/image";
 import { useCallback } from "react";
@@ -38,14 +39,14 @@ function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.E
 
       if (isGenre) {
         return (
-          <ComboboxItem
+          <Ariakit.ComboboxItem
             key={key}
             className={styles["search-results__item"]}
             value={item as string}
             onClick={onSelectItem}
           >
             <span className={styles["search-result__name"]}>{item as string}</span>
-          </ComboboxItem>
+          </Ariakit.ComboboxItem>
         );
       }
 
@@ -54,7 +55,7 @@ function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.E
       const img = filterImagesBySize(artistItem.images);
 
       return (
-        <ComboboxItem
+        <Ariakit.ComboboxItem
           key={key}
           className={styles["search-results__item"]}
           value={artistItem.name!}
@@ -62,7 +63,7 @@ function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.E
         >
           {img && <Image src={img} width="24" height="24" alt="" />}
           <span className={styles["search-result__name"]}>{artistItem.name}</span>
-        </ComboboxItem>
+        </Ariakit.ComboboxItem>
       );
     });
 

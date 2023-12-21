@@ -1,5 +1,4 @@
-import { useToolbarState, Toolbar, ToolbarItem, ToolbarSeparator } from "ariakit/toolbar";
-import { useTooltipState, TooltipAnchor, Tooltip } from "ariakit/tooltip";
+import * as Ariakit from "@ariakit/react";
 import styles from "./index.module.scss";
 import { IconCenter } from "./icon-center";
 import { IconReset } from "./icon-reset";
@@ -21,35 +20,27 @@ function ToolbarButton({
   onClick,
   "data-testid": dataTestId,
 }: ToolbarButtonProps) {
-  const tooltip = useTooltipState({
-    placement: "right",
-    timeout: 250,
-  });
   return (
     <>
-      <TooltipAnchor
-        as={ToolbarItem}
-        className={styles.toolbar__button}
-        state={tooltip}
-        onClick={onClick}
-        data-testid={dataTestId}
-      >
-        {children}
-      </TooltipAnchor>
+      <Ariakit.TooltipProvider placement="right" timeout={250}>
+        <Ariakit.TooltipAnchor
+          as={Ariakit.ToolbarItem}
+          className={styles.toolbar__button}
+          onClick={onClick}
+          data-testid={dataTestId}
+        >
+          {children}
+        </Ariakit.TooltipAnchor>
 
-      <Tooltip state={tooltip} className={styles.toolbar__description}>
-        {description}
-      </Tooltip>
+        <Ariakit.Tooltip  className={styles.toolbar__description}>
+          {description}
+        </Ariakit.Tooltip>
+      </Ariakit.TooltipProvider>
     </>
   );
 }
 
 function ZoomToolbar({ onZoom, onCenter, onReset, onClear }: ZoomToolbarProps) {
-  const toolbar = useToolbarState({
-    orientation: "vertical",
-    focusLoop: true,
-  });
-
   useKey("+", () => onZoom("in"));
   useKey("-", () => onZoom("in"));
   useKey("m", () => onCenter());
@@ -57,7 +48,7 @@ function ZoomToolbar({ onZoom, onCenter, onReset, onClear }: ZoomToolbarProps) {
   useKey("c", () => onClear());
 
   return (
-    <Toolbar state={toolbar} data-testid="chart-toolbar" className={styles.toolbar}>
+    <Ariakit.Toolbar orientation="vertical" focusLoop data-testid="chart-toolbar" className={styles.toolbar}>
       <ToolbarButton
         onClick={() => onZoom("in")}
         description="Zoom In (+)"
@@ -72,7 +63,7 @@ function ZoomToolbar({ onZoom, onCenter, onReset, onClear }: ZoomToolbarProps) {
       >
         <IconMinus />
       </ToolbarButton>
-      <ToolbarSeparator className="separator" />
+      <Ariakit.ToolbarSeparator className="separator" />
       <ToolbarButton
         onClick={onCenter}
         description="Center layout (m)"
@@ -94,7 +85,7 @@ function ZoomToolbar({ onZoom, onCenter, onReset, onClear }: ZoomToolbarProps) {
       >
         <IconClear />
       </ToolbarButton>
-    </Toolbar>
+    </Ariakit.Toolbar>
   );
 }
 

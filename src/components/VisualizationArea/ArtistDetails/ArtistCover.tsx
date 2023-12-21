@@ -1,4 +1,4 @@
-import { DialogHeading } from "ariakit/dialog";
+import * as Ariakit from "@ariakit/react";
 import Image from "next/image";
 import styles from "./index.module.scss";
 import { isString } from "@jtmdias/js-utilities";
@@ -34,12 +34,12 @@ export function ArtistCover({
     }
 
     return (
-      <DialogHeading
+      <Ariakit.DialogHeading
         className={styles.artistDetails__cover__title}
         data-testid="artist-details-title"
       >
         {name}
-      </DialogHeading>
+      </Ariakit.DialogHeading>
     );
   }
 
