@@ -37,3 +37,12 @@ next-env.d.ts
 
 # environment variables
 .env
+/.nyc_output
+/coverage
+/coverage-reports
+/playwright-report/
+/playwright/.cache/
+/reports
+/tests/config/environment-setup/storage/context.json
+/tests/results/
+junit.xml
