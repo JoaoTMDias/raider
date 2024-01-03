@@ -1,7 +1,7 @@
-import NextAuth from 'next-auth'
+import NextAuth, { AuthOptions } from 'next-auth'
 import SpotifyProvider from "next-auth/providers/spotify";
 
-export default NextAuth({
+const AUTH_OPTIONS: AuthOptions = {
   providers: [
     SpotifyProvider({
       clientId: process.env.SPOTIFY_CLIENT_ID!,
@@ -15,9 +15,15 @@ export default NextAuth({
       }
       return token;
     },
-    async session(session, user) {
+    async session({
+      user,
+      session,
+      token
+    }) {
       session.user = user;
       return session;
     },
   },
-})
+}
+
+export default NextAuth(AUTH_OPTIONS);

@@ -4,10 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "test:integration": "cypress open --e2e",
-    "test:integration-run": "cypress run --e2e",
-    "test:component": "cypress open --component",
-    "test:component-run": "cypress run --component",
+    "test:integration": "playwright test --ui",
+    "test:integration-run": "playwright test",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -31,6 +29,8 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.8.2",
+    "@playwright/test": "^1.40.1",
     "@testing-library/cypress": "^10.0.1",
     "@types/node": "20.10.5",
     "@types/react": "18.2.45",

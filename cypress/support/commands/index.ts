@@ -1,9 +1,0 @@
-import 'cypress-real-events';
-import '@testing-library/cypress/add-commands';
-import 'cypress-axe';
-import './setup-environment';
-import './wait-for-requests';
-import './unmount';
-import './hover';
-import './tab';
-import "./login";
