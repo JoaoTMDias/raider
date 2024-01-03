@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { BrowserContext, Cookie, expect } from '@playwright/test';
+import { BrowserContext, Cookie, expect, Locator } from '@playwright/test';
 import { DEFAULT_ENDPOINTS, SESSION_COOKIES } from '../constants';
 import { SetupEnvironmentEndpoints } from '../fixtures/types';
 
@@ -73,4 +73,21 @@ export async function setupCoverage(
             (window as any).collectIstanbulCoverage(JSON.stringify((window as any).__coverage__))
         );
     }
+}
+type WaitForRes = [locatorIndex: number, locator: Locator];
+
+export async function waitForOneOf(
+    locators: Locator[],
+): Promise<WaitForRes> {
+    const res = await Promise.race([
+        ...locators.map(async (locator, index): Promise<WaitForRes> => {
+            let timedOut = false;
+            await locator.waitFor({ state: 'visible' }).catch(() => timedOut = true);
+            return [timedOut ? -1 : index, locator];
+        }),
+    ]);
+    if (res[0] === -1) {
+        throw new Error('no locator visible before timeout');
+    }
+    return res;
 }

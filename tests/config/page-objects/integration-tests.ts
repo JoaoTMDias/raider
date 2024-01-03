@@ -199,6 +199,8 @@ class IntegrationTestsController {
 
         await this.page.goto(TARGET_URL);
 
+        await this.page.waitForLoadState('domcontentloaded');
+
         // The page should include the target url, meaning that the user is effectively logged in
         // and on the destination url.
         if (options.assertOnURL) {

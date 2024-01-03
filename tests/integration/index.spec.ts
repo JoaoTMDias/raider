@@ -4,6 +4,7 @@ import * as ARTIST_DETAILS from "../config/mocks/api/artist-details/black-sabbat
 import { INITIAL_ARTIST } from "@/containers/store/constants";
 import { readableStringList } from "@jtmdias/js-utilities";
 import { expect, test } from '../config';
+import { getRoutesToIntercept } from "tests/config/helpers";
 
 const SELECTORS = {
   header: {
@@ -83,16 +84,18 @@ const SELECTORS = {
 
 test.describe("Homepage", async () => {
   test.beforeEach(async ({ integrationTests }) => {
+    await integrationTests.interceptRoutes(getRoutesToIntercept());
     await integrationTests.goto("/");
   });
 
-  test("should login", async ({ page }) => {
-    await expect(page.getByTestId(SELECTORS.header.nav)).toBeVisible();
-    await expect(page.getByTestId(SELECTORS.header.login)).not.toBeVisible();
-    await expect(page.getByTestId(SELECTORS.header.user.container)).toBeVisible();
-    await expect(page.getByTestId(SELECTORS.header.user.image)).toBeVisible();
-    await expect(page.getByTestId(SELECTORS.header.user.name)).toBeVisible();
-    await expect(page.getByTestId(SELECTORS.header.user.logout)).toBeVisible();
+  test("should login", async ({ integrationTests }) => {
+    await expect(integrationTests.page.getByRole("button", { name: "Log out" })).toBeVisible();
+    await expect(integrationTests.page.getByTestId(SELECTORS.header.nav)).toBeVisible();
+    await expect(integrationTests.page.getByTestId(SELECTORS.header.login)).not.toBeVisible();
+    await expect(integrationTests.page.getByTestId(SELECTORS.header.user.container)).toBeVisible();
+    await expect(integrationTests.page.getByTestId(SELECTORS.header.user.image)).toBeVisible();
+    await expect(integrationTests.page.getByTestId(SELECTORS.header.user.name)).toBeVisible();
+    await expect(integrationTests.page.getByTestId(SELECTORS.header.user.logout)).toBeVisible();
   });
 
   test("should render a chart with initial data and and details", async ({ page }) => {
@@ -186,7 +189,7 @@ test.describe("Homepage", async () => {
     await expect(DETAILS.listeners).toBeVisible();
     await expect(DETAILS.cover).toBeVisible();
     await expect(DETAILS.title).toHaveText(ARTIST_DETAILS.artist.name);
-    await expect(DETAILS.title).toContainText(new Intl.NumberFormat("en-US", {
+    await expect(DETAILS.listeners).toContainText(new Intl.NumberFormat("en-US", {
       maximumSignificantDigits: 3,
     }).format(parseInt(ARTIST_DETAILS.artist.stats.listeners)));
 

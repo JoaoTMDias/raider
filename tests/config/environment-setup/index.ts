@@ -1,15 +1,23 @@
 import { PLAYWRIGHT_CONFIG } from '../../../playwright.config';
-import { getRoutesToIntercept, validateCookies } from '../helpers';
+import { validateCookies } from '../helpers';
 import { test as setup, expect } from '../index';
 
-const BASE_URL = PLAYWRIGHT_CONFIG.baseURL ?? "http%3A%2F%2Flocalhost%3A3000%2F";
-const AUTH_URL = `/api/auth/signin?callbackUrl=${encodeURI(BASE_URL)}`;
+const BASE_URL = PLAYWRIGHT_CONFIG.baseURL;
+const AUTH_URL = `/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F`;
+const SELECTORS = {
+  header: {
+    nav: "header-authentication",
+    login: "header-user-login",
+    user: {
+      container: "header-user",
+      image: "header-user-image",
+      name: "header-user-name",
+      logout: "header-user-logout",
+    },
+  },
+} as const;
 
 setup('Environment Setup', async ({ integrationTests, page }) => {
-  await setup.step('Mocking Routes', async () => {
-    await integrationTests.interceptRoutes(getRoutesToIntercept());
-  });
-
   await setup.step('Service Authentication', async () => {
     await page.goto(AUTH_URL);
 

@@ -63,10 +63,7 @@ const CONFIG: PlaywrightTestConfig = {
   reporter: [
     ['list', { printSteps: true }],
     [
-      'junit',
-      {
-        outputFile: './reports/junit-playwright.xml',
-      },
+      'html',
     ],
   ], // Reporter to use. See https://playwright.dev/docs/test-reporters
 
