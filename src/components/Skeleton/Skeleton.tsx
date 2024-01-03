@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { AnimatedSkeletonProps, SkeletonProps, Variant } from "./Skeleton.types";
+import { SkeletonProps, Variant } from "./Skeleton.types";
 import styles from "./index.module.scss";
 import { toggleDataAttribute } from "@jtmdias/js-utilities";
 
@@ -60,7 +60,7 @@ const Skeleton = forwardRef<HTMLSpanElement, SkeletonProps>(
     } as React.CSSProperties;
 
     if (isAnimated) {
-      const { duration, delay, iterationCount } = props as AnimatedSkeletonProps;
+      const { duration, delay, iterationCount } = props;
 
       STYLES_OVERRIDE = {
         ...STYLES_OVERRIDE,

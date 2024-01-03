@@ -57,14 +57,15 @@ async function getArtistDetails(
     const detailsResponse: LastFMResponse = await request.json();
 
     const count = detailsResponse?.artist?.stats?.playcount;
+    const listeners = detailsResponse?.artist?.stats?.listeners ? parseInt(detailsResponse?.artist?.stats?.listeners) : 0;
 
     result = {
       ...result,
       cover: artist?.images?.[0],
-      listeners: detailsResponse?.artist?.stats?.listeners ?? "0",
+      listeners,
       bio: isString(detailsResponse?.artist?.bio?.content)
-      ? detailsResponse?.artist?.bio?.content.split("Full Wikipedia article:")[0].split(` <a href="https://www.last.fm`)[0]
-      : undefined,
+        ? detailsResponse?.artist?.bio?.content.split("Full Wikipedia article:")[0].split(` <a href="https://www.last.fm`)[0]
+        : undefined,
       playCount: formatNumberWithCommas(
         count && isString(count) ? parseInt(count as string) : 0
       ),

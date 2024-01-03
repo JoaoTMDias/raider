@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { DependencyList, useEffect } from "react";
 import useTimeoutFn from "./useTimeoutFn";
 

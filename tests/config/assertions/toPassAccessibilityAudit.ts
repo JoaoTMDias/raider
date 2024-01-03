@@ -48,46 +48,44 @@ function logViolationsTable(violations: axe.Result[]) {
         };
 
         for (const data of Object.keys(TABLE_DATA)) {
-            console.table(TABLE_DATA[data]);
+            console.table(TABLE_DATA[data as "count" | "violationData"]);
         }
-    }
-}
-
-function toPassAccessibilityAudit(result: AxeAuditResult) {
-    try {
-        const IS_VIOLATIONS_ARRAY = Array.isArray(result);
-        const VIOLATIONS_ARRAY = IS_VIOLATIONS_ARRAY ? result : result.violations;
-        const LENGTH = VIOLATIONS_ARRAY.length;
-        const PASSES = !LENGTH;
-        const SUMMARY = summarize(VIOLATIONS_ARRAY);
-
-        logViolationsTable(VIOLATIONS_ARRAY);
-
-        if (PASSES) {
-            return {
-                pass: true,
-                message: () => '✅ There are no accessibility violations.',
-            };
-        }
-
-        return {
-            pass: PASSES,
-            message: () => `
-      ${this.utils.matcherHint('toPassAccessibilityAudit', undefined, undefined, this)}
-
-      Expected: 0 Violations.
-      Received: ${LENGTH} Violations.
-      Violations: ${SUMMARY}
-      `,
-        };
-    } catch (err) {
-        return {
-            pass: false,
-            message: () => (err as Error).message,
-        };
     }
 }
 
 export const expect = baseExpect.extend({
-    toPassAccessibilityAudit,
+    toPassAccessibilityAudit: function (result: AxeAuditResult) {
+        try {
+            const IS_VIOLATIONS_ARRAY = Array.isArray(result);
+            const VIOLATIONS_ARRAY = IS_VIOLATIONS_ARRAY ? result : result.violations;
+            const LENGTH = VIOLATIONS_ARRAY.length;
+            const PASSES = !LENGTH;
+            const SUMMARY = summarize(VIOLATIONS_ARRAY);
+
+            logViolationsTable(VIOLATIONS_ARRAY);
+
+            if (PASSES) {
+                return {
+                    pass: true,
+                    message: () => '✅ There are no accessibility violations.',
+                };
+            }
+
+            return {
+                pass: PASSES,
+                message: () => `
+          ${this.utils.matcherHint('toPassAccessibilityAudit', undefined, undefined, this)}
+
+          Expected: 0 Violations.
+          Received: ${LENGTH} Violations.
+          Violations: ${SUMMARY}
+          `,
+            };
+        } catch (err) {
+            return {
+                pass: false,
+                message: () => (err as Error).message,
+            };
+        }
+    },
 });
