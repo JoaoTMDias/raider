@@ -22,10 +22,14 @@ function ResultsNetwork({ artist }: Props) {
   const hasNewArtist = !!(artist.id !== previousArtistId);
 
   const { data, refetch, isError, isSuccess, isFetching, isPreviousData, isLoading } = useQuery(
-    ["related-artists"],
-    () => getRelatedArtists(artist.id),
+    ["related-artists", artist.name],
+    () => getRelatedArtists(artist.name),
     {
       enabled: false,
+      retry: 1,
+      onError: (error) => {
+        console.error('Failed to fetch related artists:', error);
+      },
     }
   );
   const hasItems = !isNil(items) && isObject(items) && !isEmpty(items);
@@ -61,7 +65,14 @@ function ResultsNetwork({ artist }: Props) {
         }
 
         if (isError) {
-          return <p>Error...</p>;
+          return (
+            <div style={{ padding: '2rem', color: '#fff', textAlign: 'center' }}>
+              <p>Unable to load related artists.</p>
+              <p style={{ marginTop: '1rem', fontSize: '0.9rem', opacity: 0.7 }}>
+                Please try logging out and back in.
+              </p>
+            </div>
+          );
         }
 
         return <Chart items={items} width={width} height={height} />;

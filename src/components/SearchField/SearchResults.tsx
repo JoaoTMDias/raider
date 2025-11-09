@@ -71,7 +71,11 @@ function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.E
   };
 
   if (query.isError) {
-    return <span className={styles["search-result__empty"]}>Error fetching data</span>;
+    return (
+      <span className={styles["search-result__empty"]}>
+        {isGenre ? "Error fetching genres" : "Unable to search. Please try logging out and back in."}
+      </span>
+    );
   }
 
   if (query.isFetching) {

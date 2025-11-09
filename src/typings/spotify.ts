@@ -79,6 +79,10 @@ export interface SpotifyRelatedArtistsResults {
   items: SpotifyArtistItem[]
 }
 
+export interface SpotifyRelatedArtistsResponse {
+  artists: SpotifyArtistItem[]
+}
+
 
 export interface SpotifyArtistTopTracks {
   tracks?: SpotifyArtistTrack[];

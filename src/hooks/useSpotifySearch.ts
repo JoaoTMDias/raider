@@ -19,11 +19,21 @@ async function getResultsByName(
   const hasTerms = hasName && hasCategory;
 
   if (hasTerms) {
-    const request = await fetch(encodeURI(`/api/search-by-name/${name}?type=${category}`));
-    const res = await request.json();
+    try {
+      const request = await fetch(encodeURI(`/api/search-by-name/${name}?type=${category}`));
 
-    if (Array.isArray(res.items)) {
-      response = res.items;
+      if (!request.ok) {
+        console.error(`Failed to search: ${request.status} ${request.statusText}`);
+        return response;
+      }
+
+      const res = await request.json();
+
+      if (Array.isArray(res.items)) {
+        response = res.items;
+      }
+    } catch (error) {
+      console.error('Error searching Spotify:', error);
     }
   }
 

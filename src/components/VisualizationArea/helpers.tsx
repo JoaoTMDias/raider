@@ -16,31 +16,40 @@ export function getRootHierarchy<T extends TreeNode>(
 export const RELATED_ARTISTS_LIMIT = 12;
 
 export async function getRelatedArtists(
-  id?: string,
+  artistName?: string,
   limit: number = RELATED_ARTISTS_LIMIT
-): Promise<ChartNodes[] | undefined> {
-  let response: ChartNodes[] = [];
+): Promise<ChartNodes[]> {
+  const defaultResponse: ChartNodes[] = [];
 
   try {
-    if (id) {
-      const request = await fetch(encodeURI(`/api/related-artists/${id}`));
-      const { items }: SpotifyRelatedArtistsResults = await request.json();
-      const hasResults = Array.isArray(items) && items.length > 0;
-
-      const relatedNodes = hasResults
-        ? items.slice(0, limit).map((artistItem) => {
-            return {
-              node: artistItem,
-              relatedNodes: [],
-            } as ChartNodes;
-          })
-        : undefined;
-
-      return relatedNodes;
+    if (!artistName) {
+      return defaultResponse;
     }
-  } catch (error) {
-    console.error(error);
-  }
 
-  return response;
+    const request = await fetch(encodeURI(`/api/related-artists/${artistName}`));
+
+    if (!request.ok) {
+      console.error(`Failed to fetch related artists: ${request.status} ${request.statusText}`);
+      return defaultResponse;
+    }
+
+    const { items }: SpotifyRelatedArtistsResults = await request.json();
+    const hasResults = Array.isArray(items) && items.length > 0;
+
+    if (!hasResults) {
+      return defaultResponse;
+    }
+
+    const relatedNodes = items.slice(0, limit).map((artistItem) => {
+      return {
+        node: artistItem,
+        relatedNodes: [],
+      } as ChartNodes;
+    });
+
+    return relatedNodes;
+  } catch (error) {
+    console.error('Error fetching related artists:', error);
+    return defaultResponse;
+  }
 }

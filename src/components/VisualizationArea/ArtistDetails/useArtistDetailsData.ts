@@ -26,51 +26,65 @@ async function getArtistDetails(
     popularityScore: artist.popularity ? `${artist.popularity}%` : undefined,
   }
 
-  if (artist.id) {
-    const request = await fetch(encodeURI(`/api/popular-tracks/${artist.id}`));
-    const tracksResponse: SpotifyArtistTopTracks = await request.json();
-    const { tracks } = tracksResponse;
-    const playableTracks = tracks?.filter((track) => Boolean(track.is_playable));
+  try {
+    if (artist.id) {
+      const request = await fetch(encodeURI(`/api/popular-tracks/${artist.id}`));
 
-    const artistsPopularTracks: ArtistDetails["popularTracks"] = playableTracks?.map((track) => {
-      return {
-        id: track.id,
-        cover: {
-          url: filterImagesBySize(track.album?.images),
-          height: 64,
-          width: 64,
-        },
-        source: track.preview_url,
-        name: track.name,
-        href: track.href
-      } as ArtistDetailsTrack
-    });
+      if (request.ok) {
+        const tracksResponse: SpotifyArtistTopTracks = await request.json();
+        const { tracks } = tracksResponse;
+        const playableTracks = tracks?.filter((track) => Boolean(track.is_playable));
 
-    result = {
-      ...result,
-      popularTracks: artistsPopularTracks
-    };
-  }
+        const artistsPopularTracks: ArtistDetails["popularTracks"] = playableTracks?.map((track) => {
+          return {
+            id: track.id,
+            cover: {
+              url: filterImagesBySize(track.album?.images),
+              height: 64,
+              width: 64,
+            },
+            source: track.preview_url,
+            name: track.name,
+            href: track.href
+          } as ArtistDetailsTrack
+        });
 
-  if (artist?.name) {
-    const request = await fetch(encodeURI(`/api/artist-details/${artist.name}`));
-    const detailsResponse: LastFMResponse = await request.json();
-
-    const count = detailsResponse?.artist?.stats?.playcount;
-    const listeners = detailsResponse?.artist?.stats?.listeners ? parseInt(detailsResponse?.artist?.stats?.listeners) : 0;
-
-    result = {
-      ...result,
-      cover: artist?.images?.[0],
-      listeners,
-      bio: isString(detailsResponse?.artist?.bio?.content)
-        ? detailsResponse?.artist?.bio?.content.split("Full Wikipedia article:")[0].split(` <a href="https://www.last.fm`)[0]
-        : undefined,
-      playCount: formatNumberWithCommas(
-        count && isString(count) ? parseInt(count as string) : 0
-      ),
-      onTour: detailsResponse?.artist?.ontour === "1" ? "Yes" : "No",
+        result = {
+          ...result,
+          popularTracks: artistsPopularTracks
+        };
+      } else {
+        console.error(`Failed to fetch popular tracks: ${request.status} ${request.statusText}`);
+      }
     }
+
+    if (artist?.name) {
+      const request = await fetch(encodeURI(`/api/artist-details/${artist.name}`));
+
+      if (request.ok) {
+        const detailsResponse: LastFMResponse = await request.json();
+
+        const count = detailsResponse?.artist?.stats?.playcount;
+        const listeners = detailsResponse?.artist?.stats?.listeners ? parseInt(detailsResponse?.artist?.stats?.listeners) : 0;
+
+        result = {
+          ...result,
+          cover: artist?.images?.[0],
+          listeners,
+          bio: isString(detailsResponse?.artist?.bio?.content)
+            ? detailsResponse?.artist?.bio?.content.split("Full Wikipedia article:")[0].split(` <a href="https://www.last.fm`)[0]
+            : undefined,
+          playCount: formatNumberWithCommas(
+            count && isString(count) ? parseInt(count as string) : 0
+          ),
+          onTour: detailsResponse?.artist?.ontour === "1" ? "Yes" : "No",
+        }
+      } else {
+        console.error(`Failed to fetch artist details: ${request.status} ${request.statusText}`);
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching artist details:', error);
   }
 
   return result;

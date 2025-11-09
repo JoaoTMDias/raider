@@ -60,3 +60,21 @@ export interface LastFMTag {
   name?: string;
   url?:  string;
 }
+
+export interface LastFMSimilarArtistsResponse {
+  similarartists?: {
+    artist?: LastFMSimilarArtist[];
+    "@attr"?: {
+      artist?: string;
+    };
+  };
+}
+
+export interface LastFMSimilarArtist {
+  name: string;
+  mbid?: string;
+  match?: string;
+  url?: string;
+  image?: LastFMImage[];
+  streamable?: string;
+}
