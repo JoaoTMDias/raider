@@ -16,6 +16,7 @@ function ArtistPicture({
   return (
     <image
       className={styles.artist__image}
+      href={imageUrl}
       xlinkHref={imageUrl}
       width={width}
       height={height}

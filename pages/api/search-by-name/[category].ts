@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getTopArtistsByTag, searchArtists } from "@/services";
+import { enrichArtistsWithDeezerImages, getTopArtistsByTag, searchArtists } from "@/services";
 import { ArtistItem, SearchResults } from "@/typings/artist";
 import { LastFMArtistMatch, LastFMImage } from "@/typings/last-fm";
 import { Category } from "@/components/SearchField/types";
+import { isPlaceholderImageUrl } from "@/helpers";
 
 function toArray<T>(value: T | T[] | undefined): T[] {
   if (!value) {
@@ -40,7 +41,7 @@ function mapLastFmArtistToSearchItem(artist: LastFMArtistMatch): ArtistItem {
     href: artist.url,
     externalUrl: artist.url,
     images: toArray(artist.image)
-      .filter((image) => !!image["#text"])
+      .filter((image) => !!image["#text"] && !isPlaceholderImageUrl(image["#text"]))
       .map((image) => mapLastFmImage(image)),
     followers: artist.listeners
       ? {
@@ -64,9 +65,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void>
       try {
         const response = await searchArtists(term);
         const artists = toArray(response.results?.artistmatches?.artist);
+        const mappedArtists = artists.map((artist) => mapLastFmArtistToSearchItem(artist));
+        const enrichedArtists = await enrichArtistsWithDeezerImages(mappedArtists);
 
         result = {
-          items: artists.map((artist) => mapLastFmArtistToSearchItem(artist)),
+          items: enrichedArtists,
         };
       } catch (error) {
         console.error("Error searching artists on Last.fm:", error);
@@ -78,9 +81,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void>
       try {
         const response = await getTopArtistsByTag(term, 30);
         const artists = toArray(response.topartists?.artist);
+        const mappedArtists = artists.map((artist) => mapLastFmArtistToSearchItem(artist));
+        const enrichedArtists = await enrichArtistsWithDeezerImages(mappedArtists);
 
         result = {
-          items: artists.map((artist) => mapLastFmArtistToSearchItem(artist)),
+          items: enrichedArtists,
         };
       } catch (error) {
         console.error("Error searching genres on Last.fm:", error);

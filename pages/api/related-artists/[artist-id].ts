@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSimilarArtists } from "@/services/last-fm";
+import { enrichArtistsWithDeezerImages } from "@/services/deezer";
 import { ArtistItem, RelatedArtistsResults } from "@/typings/artist";
 import { LastFMImage, LastFMSimilarArtist } from "@/typings/last-fm";
+import { isPlaceholderImageUrl } from "@/helpers";
 
 function mapLastFmImage(image: LastFMImage) {
   const sizeMap: Record<string, number> = {
@@ -30,7 +32,7 @@ function mapSimilarArtist(artist: LastFMSimilarArtist): ArtistItem {
     href: artist.url,
     externalUrl: artist.url,
     images: (artist.image ?? [])
-      .filter((image) => !!image["#text"])
+      .filter((image) => !!image["#text"] && !isPlaceholderImageUrl(image["#text"]))
       .map((image) => mapLastFmImage(image)),
   };
 }
@@ -49,9 +51,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void>
     const validArtists: ArtistItem[] = similarArtists
       .filter((artist) => !!artist.name)
       .map((artist) => mapSimilarArtist(artist));
+    const enrichedArtists = await enrichArtistsWithDeezerImages(validArtists);
 
     const result: RelatedArtistsResults = {
-      items: validArtists,
+      items: enrichedArtists,
     };
 
     return res.status(200).json(result);

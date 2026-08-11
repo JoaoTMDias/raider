@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { isString } from "@jtmdias/js-utilities";
 import { ArtistImage } from "@/typings/artist";
 import { Skeleton } from "@/components/Skeleton";
-import { FALLBACK_IMAGE } from "@/helpers";
+import { FALLBACK_IMAGE, isPlaceholderImageUrl } from "@/helpers";
 
 interface ArtistCoverProps {
   name: string;
@@ -66,10 +66,13 @@ export function ArtistCover({
       );
     }
 
+    const coverUrl =
+      cover?.url && !isPlaceholderImageUrl(cover.url) ? cover.url : FALLBACK_IMAGE;
+
     return (
       <Image
         className={styles.artistDetails__cover__image}
-        src={cover?.url || FALLBACK_IMAGE}
+        src={coverUrl}
         width={cover?.width ?? 440}
         height={cover?.height ?? 330}
         alt=""

@@ -1,9 +1,8 @@
 function CircleTemplate() {
   return (
     <defs data-testid="chart-circle-template">
-      <circle id="artist-circle" r="16" vectorEffect="non-scaling-stroke" />
       <clipPath id="artist-circle-clip">
-        <use xlinkHref="#artist-circle" />
+        <circle cx="0" cy="0" r="16" vectorEffect="non-scaling-stroke" />
       </clipPath>
     </defs>
   );

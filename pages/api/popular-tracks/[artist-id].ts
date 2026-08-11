@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getArtistTopTracks } from '@/services';
+import { enrichTrackWithDeezerCover } from '@/services/deezer';
 import { LastFMTopTrack } from '@/typings/last-fm';
-import { ArtistTopTracks } from '@/typings/artist';
+import { ArtistTopTracks, ArtistTrack } from '@/typings/artist';
+import { isPlaceholderImageUrl } from '@/helpers';
 
 function toTrackItem(track: LastFMTopTrack, index: number, artistName: string) {
   return {
@@ -12,7 +14,7 @@ function toTrackItem(track: LastFMTopTrack, index: number, artistName: string) {
     is_playable: false,
     album: {
       images: (track.image ?? [])
-        .filter((image) => !!image["#text"])
+        .filter((image) => !!image["#text"] && !isPlaceholderImageUrl(image["#text"]))
         .map((image) => ({
           url: image["#text"],
           height: 64,
@@ -33,9 +35,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void>
     const mappedTracks = tracks
       .filter((track) => !!track.name)
       .map((track, index) => toTrackItem(track, index, artistName));
+    const enrichedTracks: ArtistTrack[] = await Promise.all(
+      mappedTracks.map((track) => enrichTrackWithDeezerCover(track, artistName))
+    );
 
     const tracksResponse: ArtistTopTracks = {
-      tracks: mappedTracks,
+      tracks: enrichedTracks,
     };
 
     return res.status(200).json(tracksResponse);

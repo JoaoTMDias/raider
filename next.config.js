@@ -10,7 +10,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: "i.scdn.co",
+        hostname: 'i.scdn.co',
       },
       {
         protocol: 'https',
@@ -20,6 +20,16 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'lastfm-img.freetls.fastly.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn-images.dzcdn.net',
+      },
+    ],
+    domains: [
+      'i.scdn.co',
+      'lastfm.freetls.fastly.net',
+      'lastfm-img.freetls.fastly.net',
+      'cdn-images.dzcdn.net',
     ],
   },
 };
