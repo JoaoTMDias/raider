@@ -1,6 +1,6 @@
-@import "./variables";
-@import "./reset";
-@import "./layout";
+@use "./variables";
+@use "./reset";
+@use "./layout";
 
 :where(:root) {
   display: grid;

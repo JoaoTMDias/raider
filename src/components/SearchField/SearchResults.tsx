@@ -1,6 +1,6 @@
 import { filterImagesBySize } from "@/helpers";
-import { ArtistItem, SearchResults } from "@/typings/artist";
-import { makeId } from "@jtmdias/react-a11y-tools";
+import type { ArtistItem, SearchResults as ArtistSearchResults } from "@/typings/artist";
+import { makeId } from "@/helpers";
 import * as Ariakit from "@ariakit/react";
 
 
@@ -14,7 +14,7 @@ import { useRaiderStore } from "@/containers/store";
 /**
  * Displays the results from the search performed on the input
  */
-function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.Element {
+function SearchResults({ category, query, onSelect }: SearchResultsProps) {
   const setSearchResults = useRaiderStore((state) => state.setSearchResults);
   const isGenre = category === "genre";
   const hasData = Array.isArray(query.data);
@@ -30,7 +30,7 @@ function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.E
     [setSearchResults, onSelect]
   );
 
-  const renderItems = (results: SearchResults["items"]) => {
+  const renderItems = (results: ArtistSearchResults["items"]) => {
     const list = results.map((item, index) => {
       function onSelectItem() {
         handleOnSelect(results[index]);
@@ -88,12 +88,12 @@ function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.E
     return <span className={styles["search-result__empty"]}>Loading data...</span>;
   }
 
-  const hasResults = hasData && query.data.length > 0;
+  const hasResults = Array.isArray(query.data) && query.data.length > 0;
 
   if (!hasResults) {
     return <span className={styles["search-result__empty"]}>No results to display</span>;
   }
 
-  return renderItems(query.data as SearchResults["items"]);
+  return renderItems(query.data as ArtistSearchResults["items"]);
 }
 export default SearchResults;

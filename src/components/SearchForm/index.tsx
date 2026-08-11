@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { SearchField } from "@/components";
 import styles from "./index.module.scss";
 
-function SearchForm(): JSX.Element {
+function SearchForm() {
   const onSubmitSearch = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   }, []);

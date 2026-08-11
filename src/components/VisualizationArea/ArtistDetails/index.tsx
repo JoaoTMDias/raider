@@ -3,7 +3,7 @@ import useArtistDetailsData from "./useArtistDetailsData";
 import { ArtistCover } from "./ArtistCover";
 import { ArtistSong } from "./ArtistSong";
 import { ArtistBio } from "./ArtistBio";
-import { makeId } from "@jtmdias/react-a11y-tools";
+import { makeId } from "@/helpers";
 import { Skeleton } from "@/components/Skeleton";
 
 function ArtistDetails() {

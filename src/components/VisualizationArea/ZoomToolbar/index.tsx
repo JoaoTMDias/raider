@@ -24,7 +24,7 @@ function ToolbarButton({
     <>
       <Ariakit.TooltipProvider placement="right" timeout={250}>
         <Ariakit.TooltipAnchor
-          as={Ariakit.ToolbarItem}
+          render={<Ariakit.ToolbarItem />}
           className={styles.toolbar__button}
           onClick={onClick}
           data-testid={dataTestId}

@@ -1,3 +1,7 @@
+@use "./results";
+@use "./input";
+@use "./category";
+
 .search__container {
   --search-container-border-color: none;
   display: flex;
@@ -61,7 +65,3 @@
   position: relative;
   flex-grow: 1;
 }
-
-@import "./results";
-@import "./input";
-@import "./category";

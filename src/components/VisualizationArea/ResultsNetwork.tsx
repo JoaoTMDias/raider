@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { ParentSize } from "@visx/responsive";
 import { useEffect } from "react";
 import { usePrevious } from "react-use";
 import Chart from "./Chart";
@@ -14,24 +14,17 @@ interface Props {
 }
 
 function ResultsNetwork({ artist }: Props) {
-  const { items, updateRelatedArtists } = useRaiderStore((state) => ({
-    items: state.nodes,
-    updateRelatedArtists: state.updateRelatedArtists,
-  }));
+  const items = useRaiderStore((state) => state.nodes);
+  const updateRelatedArtists = useRaiderStore((state) => state.updateRelatedArtists);
   const previousArtistId = usePrevious(artist.id);
   const hasNewArtist = !!(artist.id !== previousArtistId);
 
-  const { data, refetch, isError, isSuccess, isFetching, isPreviousData, isLoading } = useQuery(
-    ["related-artists", artist.name],
-    () => getRelatedArtists(artist.name),
-    {
-      enabled: false,
-      retry: 1,
-      onError: (error) => {
-        console.error('Failed to fetch related artists:', error);
-      },
-    }
-  );
+  const { data, refetch, isError, isSuccess, isFetching, isPlaceholderData, isPending } = useQuery({
+    queryKey: ["related-artists", artist.name],
+    queryFn: () => getRelatedArtists(artist.name),
+    enabled: false,
+    retry: 1,
+  });
   const hasItems = !isNil(items) && isObject(items) && !isEmpty(items);
   const hasSubItems =
     hasItems &&
@@ -46,21 +39,27 @@ function ResultsNetwork({ artist }: Props) {
   }, [hasNewArtist, refetch]);
 
   useEffect(() => {
-    const hasNewData = data && !isPreviousData;
+    if (isError) {
+      console.error('Failed to fetch related artists');
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    const hasNewData = data && !isPlaceholderData;
 
     if (hasNewData) {
       updateRelatedArtists(artist, data);
     }
-  }, [artist, data, updateRelatedArtists, isSuccess, isPreviousData]);
+  }, [artist, data, updateRelatedArtists, isSuccess, isPlaceholderData]);
 
   return hasItems ? (
     <ParentSize className={styles.chart__container}>
-      {({ width, height }) => {
+      {({ width, height }: { width: number; height: number }) => {
         if (isFetching) {
           return <p>Fetching...</p>;
         }
 
-        if (isLoading) {
+        if (isPending) {
           return <p>Loading...</p>;
         }
 

@@ -5,7 +5,6 @@ const nextConfig = {
     defaultLocale: "en",
   },
   reactStrictMode: true,
-  swcMinify: true,
   images: {
     remotePatterns: [
       {
@@ -24,12 +23,6 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn-images.dzcdn.net',
       },
-    ],
-    domains: [
-      'i.scdn.co',
-      'lastfm.freetls.fastly.net',
-      'lastfm-img.freetls.fastly.net',
-      'cdn-images.dzcdn.net',
     ],
   },
 };

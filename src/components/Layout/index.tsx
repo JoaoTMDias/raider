@@ -5,7 +5,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-function Layout({ children }: Props): JSX.Element {
+function Layout({ children }: Props) {
   return (
     <OnlineStatusProvider>
       <Head>

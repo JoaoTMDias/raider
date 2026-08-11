@@ -8,7 +8,7 @@ interface Props {
   onSelectCategory: (category: Category) => void;
 }
 
-function CategoryType({ category, onSelectCategory }: Props): JSX.Element {
+function CategoryType({ category, onSelectCategory }: Props) {
   const handleOnChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       callIfExists(onSelectCategory, event.target.value as Category);

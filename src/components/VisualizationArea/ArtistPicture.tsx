@@ -12,7 +12,7 @@ function ArtistPicture({
   width = 32,
   height = 32,
   onClick,
-}: ArtistPictureProps): JSX.Element {
+}: ArtistPictureProps) {
   return (
     <image
       className={styles.artist__image}

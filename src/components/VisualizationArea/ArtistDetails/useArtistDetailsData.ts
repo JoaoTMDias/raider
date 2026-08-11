@@ -102,11 +102,12 @@ function useArtistDetailsData() {
   const PREVIOUS_CURRENT_ARTIST = usePrevious(featuredArtist.name);
   const SHOULD_FETCH = !isNil(featuredArtist) && !isNil(featuredArtist.name) && PREVIOUS_CURRENT_ARTIST !== featuredArtist.name;
 
-  const { data, refetch, ...query } = useQuery<ArtistDetails | undefined>(
-    ["search-artist-details-by-name", featuredArtist.id],
-    () => getArtistDetails(featuredArtist),
-    { enabled: false, networkMode: "offlineFirst" }
-  );
+  const { data, refetch, ...query } = useQuery<ArtistDetails | undefined>({
+    queryKey: ["search-artist-details-by-name", featuredArtist.id],
+    queryFn: () => getArtistDetails(featuredArtist),
+    enabled: false,
+    networkMode: "offlineFirst",
+  });
 
   useEffect(() => {
     if (SHOULD_FETCH) {

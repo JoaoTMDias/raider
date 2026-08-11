@@ -1,6 +1,6 @@
 import { Group } from "@visx/group";
 import ArtistPicture from "./ArtistPicture";
-import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
+import { HierarchyPointNode } from "@visx/hierarchy";
 import { TreeNode } from "./Chart";
 import { KeyboardEvent, memo, useCallback, useMemo, useRef } from "react";
 import { filterImagesBySize } from "@/helpers";
@@ -22,11 +22,9 @@ function isOdd(num: number): boolean {
 
 const NODE_OFFSET = 20;
 
-function ChartNode({ id, node, forceUpdate, index }: Props): JSX.Element | null {
-  const { featuredArtist, setFeaturedArtist } = useRaiderStore((state) => ({
-    featuredArtist: state.featuredArtist,
-    setFeaturedArtist: state.setFeaturedArtist,
-  }));
+function ChartNode({ id, node, forceUpdate, index }: Props) {
+  const featuredArtist = useRaiderStore((state) => state.featuredArtist);
+  const setFeaturedArtist = useRaiderStore((state) => state.setFeaturedArtist);
 
   const nodeRef = useRef<SVGGElement>(null);
 

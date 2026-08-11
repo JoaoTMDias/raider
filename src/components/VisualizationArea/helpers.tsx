@@ -1,5 +1,5 @@
 import { hierarchy } from "@visx/hierarchy";
-import { HierarchyNode } from "@visx/hierarchy/lib/types";
+import { HierarchyNode } from "@visx/hierarchy";
 import { TreeNode } from "./Chart";
 import { RelatedArtistsResults } from "@/typings/artist";
 import { ChartNodes } from "@/containers/store/types";

@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { callIfExists } from "@jtmdias/js-utilities";
 import { useArtistSearch } from "@/hooks";
 
-function SearchInput({ category, onClear, onChange }: SearchInputProps): JSX.Element {
+function SearchInput({ category, onClear, onChange }: SearchInputProps) {
   const { searchTerm, setSearchTerm, query } = useArtistSearch(category);
 
   const searchLabel = `Search for ${category}`;

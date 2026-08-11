@@ -52,10 +52,10 @@ function useArtistSearch(category: SearchCategory) {
     [inputValue]
   );
 
-  const query = useQuery<SearchResults["items"]>(
-    ["search-by-name", category, searchTerm],
-    () => getResultsByName(searchTerm, category),
-  );
+  const query = useQuery<SearchResults["items"]>({
+    queryKey: ["search-by-name", category, searchTerm],
+    queryFn: () => getResultsByName(searchTerm, category),
+  });
 
   return {
     searchTerm: inputValue,

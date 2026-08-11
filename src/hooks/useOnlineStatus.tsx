@@ -59,7 +59,7 @@ async function checkOnlineStatus(): Promise<boolean> {
 /**
  * Online Status Context Provider
  */
-export function OnlineStatusProvider({ children }: Props): JSX.Element {
+export function OnlineStatusProvider({ children }: Props): React.JSX.Element {
   const [onlineStatus, setOnlineStatus] = useState(true);
 
   const checkStatus = async () => {
