@@ -7,16 +7,6 @@ import { expect, test } from '../config';
 import { getRoutesToIntercept } from "tests/config/helpers";
 
 const SELECTORS = {
-  header: {
-    nav: "header-authentication",
-    login: "header-user-login",
-    user: {
-      container: "header-user",
-      image: "header-user-image",
-      name: "header-user-name",
-      logout: "header-user-logout",
-    },
-  },
   chart: {
     main: "chart",
     group: "chart-group",
@@ -86,16 +76,6 @@ test.describe("Homepage", async () => {
   test.beforeEach(async ({ integrationTests }) => {
     await integrationTests.interceptRoutes(getRoutesToIntercept());
     await integrationTests.goto("/");
-  });
-
-  test("should login", async ({ integrationTests }) => {
-    await expect(integrationTests.page.getByRole("button", { name: "Log out" })).toBeVisible();
-    await expect(integrationTests.page.getByTestId(SELECTORS.header.nav)).toBeVisible();
-    await expect(integrationTests.page.getByTestId(SELECTORS.header.login)).not.toBeVisible();
-    await expect(integrationTests.page.getByTestId(SELECTORS.header.user.container)).toBeVisible();
-    await expect(integrationTests.page.getByTestId(SELECTORS.header.user.image)).toBeVisible();
-    await expect(integrationTests.page.getByTestId(SELECTORS.header.user.name)).toBeVisible();
-    await expect(integrationTests.page.getByTestId(SELECTORS.header.user.logout)).toBeVisible();
   });
 
   test("should render a chart with initial data and and details", async ({ page }) => {

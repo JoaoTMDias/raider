@@ -2,10 +2,10 @@ import { SpotifyArtistImage } from "@/typings/spotify";
 
 export interface ArtistDetailsTrack {
   id: string;
-  cover: SpotifyArtistImage;
-  source: string;
+  cover?: SpotifyArtistImage;
+  source?: string;
   name: string;
-  href: string;
+  href?: string;
 }
 
 export interface ArtistDetails {

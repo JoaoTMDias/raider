@@ -78,3 +78,59 @@ export interface LastFMSimilarArtist {
   image?: LastFMImage[];
   streamable?: string;
 }
+
+export interface LastFMArtistSearchResponse {
+  results?: {
+    artistmatches?: {
+      artist?: LastFMArtistMatch[] | LastFMArtistMatch;
+    };
+  };
+}
+
+export interface LastFMArtistMatch {
+  name?: string;
+  mbid?: string;
+  url?: string;
+  listeners?: string;
+  image?: LastFMImage[];
+}
+
+export interface LastFMTopTracksResponse {
+  toptracks?: {
+    track?: LastFMTopTrack[] | LastFMTopTrack;
+  };
+}
+
+export interface LastFMTopTrack {
+  name?: string;
+  url?: string;
+  playcount?: string;
+  listeners?: string;
+  mbid?: string;
+  artist?: {
+    name?: string;
+    mbid?: string;
+    url?: string;
+  };
+  image?: LastFMImage[];
+}
+
+export interface LastFMTagSearchResponse {
+  results?: {
+    tagmatches?: {
+      tag?: LastFMTagMatch[] | LastFMTagMatch;
+    };
+  };
+}
+
+export interface LastFMTagMatch {
+  name?: string;
+  count?: string;
+  url?: string;
+}
+
+export interface LastFMTagTopArtistsResponse {
+  topartists?: {
+    artist?: LastFMArtistMatch[] | LastFMArtistMatch;
+  };
+}

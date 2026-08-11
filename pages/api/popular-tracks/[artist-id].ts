@@ -1,22 +1,42 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getPopularTracksByArtistId } from '@/services';
-import { getServerSession } from 'next-auth/next';
+import { getArtistTopTracks } from '@/services';
+import { LastFMTopTrack } from '@/typings/last-fm';
 import { SpotifyArtistTopTracks } from '@/typings/spotify';
-import { AUTH_OPTIONS } from '../auth/[...nextauth]';
+
+function toTrackItem(track: LastFMTopTrack, index: number, artistName: string) {
+  return {
+    id: track.mbid || `${encodeURIComponent(artistName.toLowerCase())}-${index}`,
+    name: track.name,
+    href: track.url,
+    preview_url: undefined,
+    is_playable: false,
+    album: {
+      images: (track.image ?? [])
+        .filter((image) => !!image["#text"])
+        .map((image) => ({
+          url: image["#text"],
+          height: 64,
+          width: 64,
+        })),
+    },
+  };
+}
 
 async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  const session = await getServerSession(req, res, AUTH_OPTIONS);
-
-  if (!session || !(session as any).accessToken) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
-  const sessionAccessToken = (session as any).accessToken;
   const artistId = req.query["artist-id"] as string;
+  const artistName = decodeURIComponent(artistId);
 
   try {
-    const response = await getPopularTracksByArtistId(artistId, sessionAccessToken);
-    const tracksResponse: SpotifyArtistTopTracks = await response.json();
+    const response = await getArtistTopTracks(artistName, 10);
+    const topTracks = response.toptracks?.track;
+    const tracks = Array.isArray(topTracks) ? topTracks : topTracks ? [topTracks] : [];
+    const mappedTracks = tracks
+      .filter((track) => !!track.name)
+      .map((track, index) => toTrackItem(track, index, artistName));
+
+    const tracksResponse: SpotifyArtistTopTracks = {
+      tracks: mappedTracks,
+    };
 
     return res.status(200).json(tracksResponse);
   } catch (error) {

@@ -12,7 +12,7 @@ async function getResultsByName(
   name: string,
   category: SearchCategory
 ): Promise<SpotifySearchResults["items"]> {
-  let response = [];
+  let response: SpotifySearchResults["items"] = [];
 
   const hasName = typeof name === "string" && name.length >= 1;
   const hasCategory = typeof category === "string" && category.length >= 1;
@@ -33,7 +33,7 @@ async function getResultsByName(
         response = res.items;
       }
     } catch (error) {
-      console.error('Error searching Spotify:', error);
+      console.error('Error searching Last.fm:', error);
     }
   }
 

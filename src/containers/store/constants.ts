@@ -21,7 +21,7 @@ export const INITIAL_ARTIST: SpotifyArtistItem = {
     "uk doom metal",
   ],
   href: "https://api.spotify.com/v1/artists/5M52tdBnJaKSvOpJGz8mfZ",
-  id: "5M52tdBnJaKSvOpJGz8mfZ",
+  id: "black-sabbath",
   images: [
     {
       height: 1333,

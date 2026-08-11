@@ -27,27 +27,27 @@ async function getArtistDetails(
   }
 
   try {
-    if (artist.id) {
-      const request = await fetch(encodeURI(`/api/popular-tracks/${artist.id}`));
+    if (artist.name) {
+      const request = await fetch(encodeURI(`/api/popular-tracks/${artist.name}`));
 
       if (request.ok) {
         const tracksResponse: SpotifyArtistTopTracks = await request.json();
         const { tracks } = tracksResponse;
-        const playableTracks = tracks?.filter((track) => Boolean(track.is_playable));
-
-        const artistsPopularTracks: ArtistDetails["popularTracks"] = playableTracks?.map((track) => {
+        const artistsPopularTracks: ArtistDetails["popularTracks"] = tracks?.map((track) => {
           return {
-            id: track.id,
-            cover: {
-              url: filterImagesBySize(track.album?.images),
-              height: 64,
-              width: 64,
-            },
-            source: track.preview_url,
-            name: track.name,
+            id: track.id || track.name || "",
+            cover: track.album?.images?.length
+              ? {
+                  url: filterImagesBySize(track.album?.images),
+                  height: 64,
+                  width: 64,
+                }
+              : undefined,
+            source: track.preview_url ?? undefined,
+            name: track.name || "",
             href: track.href
           } as ArtistDetailsTrack
-        });
+        }).filter((track) => !!track.name);
 
         result = {
           ...result,

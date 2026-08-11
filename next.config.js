@@ -7,7 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["i.scdn.co", "lastfm.freetls.fastly.net"],
+    domains: ["i.scdn.co", "lastfm.freetls.fastly.net", "lastfm-img.freetls.fastly.net"],
   },
 };
 

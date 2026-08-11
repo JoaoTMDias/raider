@@ -6,12 +6,6 @@ export const PLAYWRIGHT_CONFIG = {
   CI: !!process.env.CI,
   baseURL: "http://localhost:3000",
   storageState: path.join(__dirname, `tests/config/environment-setup/storage/context.json`),
-  auth: {
-    SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
-    SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
-    SPOTIFY_USERNAME: process.env.SPOTIFY_USERNAME,
-    SPOTIFY_PASSWORD: process.env.SPOTIFY_PASSWORD,
-  },
 } as const;
 
 /**

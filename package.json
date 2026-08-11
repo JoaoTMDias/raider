@@ -23,7 +23,6 @@
     "@visx/shape": "^3.5.0",
     "@visx/zoom": "^3.3.0",
     "next": "14.0.4",
-    "next-auth": "^4.24.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-use": "^17.4.0",

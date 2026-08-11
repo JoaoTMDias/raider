@@ -3,45 +3,11 @@ import { validateCookies } from '../helpers';
 import { test as setup, expect } from '../index';
 
 const BASE_URL = PLAYWRIGHT_CONFIG.baseURL;
-const AUTH_URL = `/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F`;
-const SELECTORS = {
-  header: {
-    nav: "header-authentication",
-    login: "header-user-login",
-    user: {
-      container: "header-user",
-      image: "header-user-image",
-      name: "header-user-name",
-      logout: "header-user-logout",
-    },
-  },
-} as const;
 
 setup('Environment Setup', async ({ integrationTests, page }) => {
-  await setup.step('Service Authentication', async () => {
-    await page.goto(AUTH_URL);
-
-    const SIGN_IN_BUTTON = page.getByText("Sign in with Spotify");
-    await expect(SIGN_IN_BUTTON).toBeVisible();
-
-    await SIGN_IN_BUTTON.click();
-
-    await page.waitForURL("https://accounts.spotify.com/**");
-
-    const ELEMENTS = {
-      USERNAME_INPUT: page.locator('input#login-username'),
-      PASSWORD_INPUT: page.locator('input#login-password'),
-      LOGIN_BUTTON: page.locator('#login-button'),
-    };
-
-    // Fill the username and password
-    await ELEMENTS.USERNAME_INPUT.click();
-    await ELEMENTS.USERNAME_INPUT.fill(PLAYWRIGHT_CONFIG.auth.SPOTIFY_USERNAME!);
-    await ELEMENTS.PASSWORD_INPUT.click();
-    await ELEMENTS.PASSWORD_INPUT.fill(PLAYWRIGHT_CONFIG.auth.SPOTIFY_PASSWORD!);
-
-    // Click on the login button
-    await ELEMENTS.LOGIN_BUTTON.click();
+  await setup.step('Application Warmup', async () => {
+    await page.goto(BASE_URL);
+    await expect(page).toHaveURL(/localhost:3000/);
   });
 
   await setup.step('Validating Cookies', async () => {
