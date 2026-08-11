@@ -1,10 +1,8 @@
-import { SpotifyArtistItem } from "@/typings/spotify";
+import { ArtistItem } from "@/typings/artist";
 import { ChartNodes } from "./types";
 
-export const INITIAL_ARTIST: SpotifyArtistItem = {
-  external_urls: {
-    spotify: "https://open.spotify.com/artist/5M52tdBnJaKSvOpJGz8mfZ",
-  },
+export const INITIAL_ARTIST: ArtistItem = {
+  externalUrl: "https://www.last.fm/music/Black+Sabbath",
   followers: {
     href: null,
     total: 6991951,
@@ -20,7 +18,7 @@ export const INITIAL_ARTIST: SpotifyArtistItem = {
     "stoner rock",
     "uk doom metal",
   ],
-  href: "https://api.spotify.com/v1/artists/5M52tdBnJaKSvOpJGz8mfZ",
+  href: "https://www.last.fm/music/Black+Sabbath",
   id: "black-sabbath",
   images: [
     {
@@ -46,8 +44,6 @@ export const INITIAL_ARTIST: SpotifyArtistItem = {
   ],
   name: "Black Sabbath",
   popularity: 73,
-  type: "artist",
-  uri: "spotify:artist:5M52tdBnJaKSvOpJGz8mfZ",
 };
 
 export const INITIAL_NODES_STATE: ChartNodes = {

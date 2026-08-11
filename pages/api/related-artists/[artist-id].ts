@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSimilarArtists } from "@/services/last-fm";
-import { SpotifySearchResults, SpotifyArtistItem } from "@/typings/spotify";
+import { ArtistItem, RelatedArtistsResults } from "@/typings/artist";
 import { LastFMImage, LastFMSimilarArtist } from "@/typings/last-fm";
 
 function mapLastFmImage(image: LastFMImage) {
@@ -21,21 +21,17 @@ function mapLastFmImage(image: LastFMImage) {
   };
 }
 
-function mapSimilarArtist(artist: LastFMSimilarArtist): SpotifyArtistItem {
+function mapSimilarArtist(artist: LastFMSimilarArtist): ArtistItem {
   const name = artist.name ?? "";
 
   return {
     id: encodeURIComponent(name.toLowerCase()),
     name,
     href: artist.url,
-    external_urls: {
-      spotify: artist.url,
-    },
+    externalUrl: artist.url,
     images: (artist.image ?? [])
       .filter((image) => !!image["#text"])
       .map((image) => mapLastFmImage(image)),
-    type: "artist",
-    uri: artist.url,
   };
 }
 
@@ -50,11 +46,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void>
       return res.status(200).json({ items: [] });
     }
 
-    const validArtists: SpotifyArtistItem[] = similarArtists
+    const validArtists: ArtistItem[] = similarArtists
       .filter((artist) => !!artist.name)
       .map((artist) => mapSimilarArtist(artist));
 
-    const result: SpotifySearchResults = {
+    const result: RelatedArtistsResults = {
       items: validArtists,
     };
 

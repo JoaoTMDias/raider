@@ -19,4 +19,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Notes
 
 - The app now uses Last.fm for artist discovery, related artists, artist details, and top tracks.
-- No Spotify login is required.
+- No third-party login is required.

@@ -4,10 +4,10 @@ import SearchResults from "./SearchResults";
 import { SearchInputProps } from "./types";
 import { useCallback } from "react";
 import { callIfExists } from "@jtmdias/js-utilities";
-import { useSpotifySearch } from "@/hooks";
+import { useArtistSearch } from "@/hooks";
 
 function SearchInput({ category, onClear, onChange }: SearchInputProps): JSX.Element {
-  const { searchTerm, setSearchTerm, query } = useSpotifySearch(category);
+  const { searchTerm, setSearchTerm, query } = useArtistSearch(category);
 
   const searchLabel = `Search for ${category}`;
   const searchPlaceholder = category === "artist" ? `Eg. Black Sabbath` : `Eg. Rock`;

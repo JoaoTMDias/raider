@@ -1,4 +1,4 @@
-import type { SearchCategory, SpotifySearchResults } from "@/typings/spotify";
+import type { SearchCategory, SearchResults } from "@/typings/artist";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useDebounce from "./useDebounce";
@@ -6,13 +6,13 @@ import useDebounce from "./useDebounce";
 const DEBOUNCE_VALUE = 250;
 
 /**
- * Fetches Artists by their name
+ * Fetches artists or genres by their name.
  */
 async function getResultsByName(
   name: string,
   category: SearchCategory
-): Promise<SpotifySearchResults["items"]> {
-  let response: SpotifySearchResults["items"] = [];
+): Promise<SearchResults["items"]> {
+  let response: SearchResults["items"] = [];
 
   const hasName = typeof name === "string" && name.length >= 1;
   const hasCategory = typeof category === "string" && category.length >= 1;
@@ -33,22 +33,17 @@ async function getResultsByName(
         response = res.items;
       }
     } catch (error) {
-      console.error('Error searching Last.fm:', error);
+      console.error("Error searching Last.fm:", error);
     }
   }
 
   return response;
 }
 
-function useSpotifySearch(category: SearchCategory) {
+function useArtistSearch(category: SearchCategory) {
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  /**
-   * This enables a waiting period between the last keystroke
-   * of the user on the input and the actual fetch, thus
-   * avoiding multiple fetches to the API.
-   */
   useDebounce(
     () => {
       setSearchTerm(inputValue);
@@ -57,16 +52,16 @@ function useSpotifySearch(category: SearchCategory) {
     [inputValue]
   );
 
-  const query = useQuery<SpotifySearchResults["items"]>(
-    ["search-artist-by-name", searchTerm],
+  const query = useQuery<SearchResults["items"]>(
+    ["search-by-name", category, searchTerm],
     () => getResultsByName(searchTerm, category),
   );
 
   return {
     searchTerm: inputValue,
     setSearchTerm: setInputValue,
-    query
+    query,
   };
 }
 
-export default useSpotifySearch;
+export default useArtistSearch;

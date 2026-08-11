@@ -7,10 +7,10 @@ import { getRelatedArtists } from "./helpers";
 import styles from "./index.module.scss";
 import { useRaiderStore } from "@/containers";
 import { isEmpty, isNil, isObject } from "@jtmdias/js-utilities";
-import { SpotifyArtistItem } from "@/typings/spotify";
+import { ArtistItem } from "@/typings/artist";
 
 interface Props {
-  artist: SpotifyArtistItem;
+  artist: ArtistItem;
 }
 
 function ResultsNetwork({ artist }: Props) {
@@ -68,9 +68,6 @@ function ResultsNetwork({ artist }: Props) {
           return (
             <div style={{ padding: '2rem', color: '#fff', textAlign: 'center' }}>
               <p>Unable to load related artists.</p>
-              <p style={{ marginTop: '1rem', fontSize: '0.9rem', opacity: 0.7 }}>
-                Please try logging out and back in.
-              </p>
             </div>
           );
         }

@@ -83,7 +83,6 @@ function ArtistDetails() {
                     key={id}
                     id={id}
                     name={popularTrack.name}
-                    source={popularTrack.source}
                     cover={popularTrack.cover}
                     href={popularTrack.href}
                   />

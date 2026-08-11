@@ -1,16 +1,16 @@
-import { SpotifyArtistItem } from "@/typings/spotify";
+import { ArtistItem } from "@/typings/artist";
 
 export interface ChartNodes {
-  node?: SpotifyArtistItem;
+  node?: ArtistItem;
   relatedNodes?: ChartNodes[];
 }
 
 export interface RaiderStore {
-  currentArtist: SpotifyArtistItem;
-  featuredArtist: SpotifyArtistItem;
+  currentArtist: ArtistItem;
+  featuredArtist: ArtistItem;
   nodes: ChartNodes;
-  setFeaturedArtist: (artist: SpotifyArtistItem) => void;
-  setSearchResults: (artist: SpotifyArtistItem) => void;
+  setFeaturedArtist: (artist: ArtistItem) => void;
+  setSearchResults: (artist: ArtistItem) => void;
   resetCurrentArtist: () => void;
-  updateRelatedArtists: (artist: SpotifyArtistItem, relatedNodes: ChartNodes[]) => void;
+  updateRelatedArtists: (artist: ArtistItem, relatedNodes: ChartNodes[]) => void;
 }

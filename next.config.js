@@ -7,7 +7,20 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["i.scdn.co", "lastfm.freetls.fastly.net", "lastfm-img.freetls.fastly.net"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: "i.scdn.co",
+      },
+      {
+        protocol: 'https',
+        hostname: 'lastfm.freetls.fastly.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lastfm-img.freetls.fastly.net',
+      },
+    ],
   },
 };
 

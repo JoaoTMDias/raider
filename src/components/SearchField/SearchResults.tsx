@@ -1,5 +1,5 @@
 import { filterImagesBySize } from "@/helpers";
-import { SpotifyArtistItem, SpotifySearchResults } from "@/typings/spotify";
+import { ArtistItem, SearchResults } from "@/typings/artist";
 import { makeId } from "@jtmdias/react-a11y-tools";
 import * as Ariakit from "@ariakit/react";
 
@@ -20,24 +20,26 @@ function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.E
   const hasData = Array.isArray(query.data);
 
   const handleOnSelect = useCallback(
-    (item: string | SpotifyArtistItem) => {
+    (item: string | ArtistItem) => {
       callIfExists(onSelect, item);
-      callIfExists(setSearchResults, item);
+
+      if (typeof item !== "string") {
+        callIfExists(setSearchResults, item);
+      }
     },
     [setSearchResults, onSelect]
   );
 
-  const renderItems = (results: SpotifySearchResults["items"]) => {
+  const renderItems = (results: SearchResults["items"]) => {
     const list = results.map((item, index) => {
       function onSelectItem() {
         handleOnSelect(results[index]);
       }
 
-      const key = isGenre
-        ? makeId(item as string, index)
-        : makeId((item as SpotifyArtistItem).name, index);
+      const isStringItem = typeof item === "string";
+      const key = isStringItem ? makeId(item, index) : makeId((item as ArtistItem).name, index);
 
-      if (isGenre) {
+      if (isStringItem) {
         return (
           <Ariakit.ComboboxItem
             key={key}
@@ -50,7 +52,7 @@ function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.E
         );
       }
 
-      const artistItem = item as SpotifyArtistItem;
+      const artistItem = item as ArtistItem;
 
       const img = filterImagesBySize(artistItem.images);
 
@@ -92,9 +94,6 @@ function SearchResults({ category, query, onSelect }: SearchResultsProps): JSX.E
     return <span className={styles["search-result__empty"]}>No results to display</span>;
   }
 
-  return renderItems(query.data as SpotifySearchResults["items"]);
+  return renderItems(query.data as SearchResults["items"]);
 }
-
-SearchResults.displayName = "SearchResults";
-
 export default SearchResults;

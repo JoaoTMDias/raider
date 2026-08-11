@@ -4,7 +4,7 @@ import { useRaiderStore } from "@/containers";
 import { isEmpty, isNil, isString, readableStringList, usePrevious } from "@jtmdias/js-utilities";
 import { formatNumberWithCommas } from "./ArtistCover";
 import { useEffect } from "react";
-import { SpotifyArtistItem, SpotifyArtistTopTracks } from "@/typings/spotify";
+import { ArtistItem, ArtistTopTracks } from "@/typings/artist";
 import { ArtistDetails, ArtistDetailsTrack } from "./types";
 import { filterImagesBySize } from "@/helpers";
 
@@ -13,7 +13,7 @@ import { filterImagesBySize } from "@/helpers";
  * Fetches Artists by their name
  */
 async function getArtistDetails(
-  artist?: SpotifyArtistItem,
+  artist?: ArtistItem,
 ): Promise<ArtistDetails | undefined> {
   if (isNil(artist)) {
     return Promise.resolve(undefined);
@@ -26,12 +26,20 @@ async function getArtistDetails(
     popularityScore: artist.popularity ? `${artist.popularity}%` : undefined,
   }
 
+  const sortedArtistImages = (artist.images ?? []).slice().sort((a, b) => {
+    const left = a.height ?? 0;
+    const right = b.height ?? 0;
+
+    return left - right;
+  });
+  const largestArtistImage = sortedArtistImages[sortedArtistImages.length - 1];
+
   try {
     if (artist.name) {
       const request = await fetch(encodeURI(`/api/popular-tracks/${artist.name}`));
 
       if (request.ok) {
-        const tracksResponse: SpotifyArtistTopTracks = await request.json();
+        const tracksResponse: ArtistTopTracks = await request.json();
         const { tracks } = tracksResponse;
         const artistsPopularTracks: ArtistDetails["popularTracks"] = tracks?.map((track) => {
           return {
@@ -43,7 +51,6 @@ async function getArtistDetails(
                   width: 64,
                 }
               : undefined,
-            source: track.preview_url ?? undefined,
             name: track.name || "",
             href: track.href
           } as ArtistDetailsTrack
@@ -69,7 +76,7 @@ async function getArtistDetails(
 
         result = {
           ...result,
-          cover: artist?.images?.[0],
+          cover: largestArtistImage,
           listeners,
           bio: isString(detailsResponse?.artist?.bio?.content)
             ? detailsResponse?.artist?.bio?.content.split("Full Wikipedia article:")[0].split(` <a href="https://www.last.fm`)[0]

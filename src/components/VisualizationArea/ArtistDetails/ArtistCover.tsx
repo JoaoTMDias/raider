@@ -2,13 +2,14 @@ import * as Ariakit from "@ariakit/react";
 import Image from "next/image";
 import styles from "./index.module.scss";
 import { isString } from "@jtmdias/js-utilities";
-import { SpotifyArtistImage } from "@/typings/spotify";
+import { ArtistImage } from "@/typings/artist";
 import { Skeleton } from "@/components/Skeleton";
+import { FALLBACK_IMAGE } from "@/helpers";
 
 interface ArtistCoverProps {
   name: string;
   listeners: string | number;
-  cover?: SpotifyArtistImage;
+  cover?: ArtistImage;
   isLoading?: Boolean;
 }
 
@@ -68,9 +69,9 @@ export function ArtistCover({
     return (
       <Image
         className={styles.artistDetails__cover__image}
-        src={cover?.url as string}
-        width={cover?.width}
-        height={cover?.height}
+        src={cover?.url || FALLBACK_IMAGE}
+        width={cover?.width ?? 440}
+        height={cover?.height ?? 330}
         alt=""
         data-testid="artist-details-cover"
       />

@@ -1,9 +1,8 @@
-import { SpotifyArtistImage } from "@/typings/spotify";
+import { ArtistImage } from "@/typings/artist";
 
 export interface ArtistDetailsTrack {
   id: string;
-  cover?: SpotifyArtistImage;
-  source?: string;
+  cover?: ArtistImage;
   name: string;
   href?: string;
 }
@@ -12,7 +11,7 @@ export interface ArtistDetails {
   id: string;
   name?: string;
   listeners?: number;
-  cover?: SpotifyArtistImage;
+  cover?: ArtistImage;
   bio?: string;
   genres?: string;
   playCount?: string;

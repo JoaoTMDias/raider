@@ -1,7 +1,7 @@
 import { hierarchy } from "@visx/hierarchy";
 import { HierarchyNode } from "@visx/hierarchy/lib/types";
 import { TreeNode } from "./Chart";
-import { SpotifyRelatedArtistsResults } from "@/typings/spotify";
+import { RelatedArtistsResults } from "@/typings/artist";
 import { ChartNodes } from "@/containers/store/types";
 
 type RootHierarchyCallback<T> = (item: T) => T[] | null | undefined;
@@ -33,7 +33,7 @@ export async function getRelatedArtists(
       return defaultResponse;
     }
 
-    const { items }: SpotifyRelatedArtistsResults = await request.json();
+    const { items }: RelatedArtistsResults = await request.json();
     const hasResults = Array.isArray(items) && items.length > 0;
 
     if (!hasResults) {

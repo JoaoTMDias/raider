@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { searchArtists, searchTags } from "@/services";
-import { SpotifyArtistItem, SpotifySearchResults } from "@/typings/spotify";
-import { LastFMArtistMatch, LastFMImage, LastFMTagMatch } from "@/typings/last-fm";
+import { getTopArtistsByTag, searchArtists } from "@/services";
+import { ArtistItem, SearchResults } from "@/typings/artist";
+import { LastFMArtistMatch, LastFMImage } from "@/typings/last-fm";
 import { Category } from "@/components/SearchField/types";
 
 function toArray<T>(value: T | T[] | undefined): T[] {
@@ -30,7 +30,7 @@ function mapLastFmImage(image: LastFMImage) {
   };
 }
 
-function mapLastFmArtistToSearchItem(artist: LastFMArtistMatch): SpotifyArtistItem {
+function mapLastFmArtistToSearchItem(artist: LastFMArtistMatch): ArtistItem {
   const name = artist.name ?? "";
   const id = encodeURIComponent(name.toLowerCase());
 
@@ -38,9 +38,7 @@ function mapLastFmArtistToSearchItem(artist: LastFMArtistMatch): SpotifyArtistIt
     id,
     name,
     href: artist.url,
-    external_urls: {
-      spotify: artist.url,
-    },
+    externalUrl: artist.url,
     images: toArray(artist.image)
       .filter((image) => !!image["#text"])
       .map((image) => mapLastFmImage(image)),
@@ -50,8 +48,6 @@ function mapLastFmArtistToSearchItem(artist: LastFMArtistMatch): SpotifyArtistIt
           total: parseInt(artist.listeners, 10),
         }
       : undefined,
-    type: "artist",
-    uri: artist.url,
   };
 }
 
@@ -59,7 +55,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void>
   const category = req.query["type"] as Category;
   const term = req.query["category"] as string;
 
-  let result: SpotifySearchResults = {
+  let result: SearchResults = {
     items: [],
   };
 
@@ -80,13 +76,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void>
 
     case "genre":
       try {
-        const response = await searchTags(term);
-        const tags = toArray(response.results?.tagmatches?.tag);
+        const response = await getTopArtistsByTag(term, 30);
+        const artists = toArray(response.topartists?.artist);
 
         result = {
-          items: tags
-            .map((tag: LastFMTagMatch) => tag.name)
-            .filter((tag): tag is string => typeof tag === "string" && tag.length > 0),
+          items: artists.map((artist) => mapLastFmArtistToSearchItem(artist)),
         };
       } catch (error) {
         console.error("Error searching genres on Last.fm:", error);

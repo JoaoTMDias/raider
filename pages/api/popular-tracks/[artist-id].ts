@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getArtistTopTracks } from '@/services';
 import { LastFMTopTrack } from '@/typings/last-fm';
-import { SpotifyArtistTopTracks } from '@/typings/spotify';
+import { ArtistTopTracks } from '@/typings/artist';
 
 function toTrackItem(track: LastFMTopTrack, index: number, artistName: string) {
   return {
@@ -34,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void>
       .filter((track) => !!track.name)
       .map((track, index) => toTrackItem(track, index, artistName));
 
-    const tracksResponse: SpotifyArtistTopTracks = {
+    const tracksResponse: ArtistTopTracks = {
       tracks: mappedTracks,
     };
 

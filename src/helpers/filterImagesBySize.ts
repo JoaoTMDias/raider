@@ -1,9 +1,9 @@
-import { SpotifyArtistImage } from "@/typings/spotify";
+import { ArtistImage } from "@/typings/artist";
 
 export const FALLBACK_IMAGE =
   "data:image/svg+xml;base64,PHN2ZwogICAgICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgICAgIHdpZHRoPSIyNCIKICAgICAgaGVpZ2h0PSIyNCIKICAgICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICAgPgogICAgICA8Y2lyY2xlIGZpbGw9IiMyYTJhMmEiIGN4PSIxMiIgY3k9IjEyIiByPSIxMiIgLz4KICAgIDwvc3ZnPg==";
 
-export function filterImagesBySize(images?: SpotifyArtistImage[]) {
+export function filterImagesBySize(images?: ArtistImage[]) {
   let result = FALLBACK_IMAGE;
 
   if (Array.isArray(images) && images.length >= 1) {
