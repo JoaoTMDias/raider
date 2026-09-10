@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { LastFMResponse } from "@/typings/last-fm";
 import { useRaiderStore } from "@/containers";
-import { isEmpty, isNil, isString, readableStringList, usePrevious } from "@jtmdias/js-utilities";
+import { isEmpty, isNil, isString, readableStringList } from "@jtmdias/js-utilities";
+import { usePrevious } from "@jtmdias/js-utilities/hooks";
 import { formatNumberWithCommas } from "./ArtistCover";
 import { useEffect } from "react";
 import { ArtistItem, ArtistTopTracks } from "@/typings/artist";
